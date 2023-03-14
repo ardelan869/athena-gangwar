@@ -1,0 +1,39 @@
+@font-face {
+    font-family: Akrobat-Black;
+    src: url(../fonts/Akrobat-Black.otf);
+}
+
+@font-face {
+    font-family: Akrobat-Bold;
+    src: url(../fonts/Akrobat-Bold.otf);
+}
+
+@font-face {
+    font-family: Akrobat-ExtraBold;
+    src: url(../fonts/Akrobat-ExtraBold.otf);
+}
+
+@font-face {
+    font-family: Akrobat-ExtraLight;
+    src: url(../fonts/Akrobat-ExtraLight.otf);
+}
+
+@font-face {
+    font-family: Akrobat-Light;
+    src: url(../fonts/Akrobat-Light.otf);
+}
+
+@font-face {
+    font-family: Akrobat-Regular;
+    src: url(../fonts/Akrobat-Regular.otf);
+}
+
+@font-face {
+    font-family: Akrobat-SemiBold;
+    src: url(../fonts/Akrobat-SemiBold.otf);
+}
+
+@font-face {
+    font-family: Akrobat-Thin;
+    src: url(../fonts/Akrobat-Thin.otf);
+}

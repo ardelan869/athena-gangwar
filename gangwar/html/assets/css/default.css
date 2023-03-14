@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: Akrobat-Regular;
+    user-select: none;
+    font-weight: 500;
+}
+
+body,
+html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.flex_centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex_row_align {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex_row_align_bottom {
+    display: flex;
+    align-items: flex-end;
+}
+
+.flex_row_centered {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex_column_centered {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flex_column_centered_h {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex_column_centered_v {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flex_column_space {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.font_light {
+    font-family: Akrobat-Light;
+    font-weight: 500;
+}
+
+.font_bold {
+    font-family: Akrobat-Bold;
+    font-weight: 800;
+}
+
+.font_10 {
+    font-size: 1vh;
+}
+
+.font_15 {
+    font-size: 1.4vh;
+}
+
+.font_25 {
+    font-size: 2.3vh;
+}
+
+.radius_50 {
+    border-radius: 50%;
+}
+
+.button_border_1 {
+    width: 100%;
+    height: 4.078vh;
+    background-color: rgba(255, 48, 48, 0.15);
+    border: .1vh solid rgba(255, 48, 48, 0.25);
+    border-radius: 0 0 1vh 1vh;
+    color: rgba(255, 255, 255, 0.5);
+    transition: .3s background-color, .3s color;
+}
+
+.button_border_1:hover {
+    background-color: rgba(255, 48, 48, .5);
+    cursor: pointer;
+    color: #FFF;
+}
+
+.grid_4 {
+    display: grid;
+    grid-template-columns: 25.394vh 25.394vh 25.394vh 25.394vh;
+    justify-items: center;
+}
+
+/* .grid_3_row {
+    display: grid;
+    justify-items: center;
+    grid-template-rows: ;
+} */
