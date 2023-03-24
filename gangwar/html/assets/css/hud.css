@@ -1,0 +1,149 @@
+.hud .top-left {
+    position: absolute;
+    margin: 3vh 2.315vh;
+    gap: 1.3vh;
+}
+
+.hud .top-left>svg {
+    width: 5.557vh;
+}
+
+.hud .top-left>svg #level {
+    text-anchor: middle;
+    fill: #FFF;
+}
+
+.hud .top-left>svg #level-progress {
+    stroke-dasharray: 157;
+    stroke-dashoffset: 100;
+    stroke-width: 6;
+    stroke: #FFF;
+    fill: none;
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+.hud .top-left>svg #level-bar {
+    stroke-width: 6;
+    stroke: #FFF;
+    stroke-opacity: .25;
+    fill: none;
+}
+
+.hud .top-left>div #xp-list {
+    gap: .5vh;
+}
+
+.hud .top-left>div #xp-list .xp {
+    gap: .4vh;
+}
+
+.hud .top-left>div #xp-list .xp>svg {
+    width: 1.482vh;
+    height: 1.482vh;
+    object-fit: contain;
+}
+
+.hud .top-left>div #xp-list .xp.add>span {
+    color: #A1F438;
+    text-shadow: 0 0 1vh currentColor;
+}
+
+.hud .top-left>div #xp-list .xp.subtract>span {
+    color: #F43838;
+    text-shadow: 0 0 1vh currentColor;
+}
+
+.hud .top-right {
+    position: absolute;
+    top: 4vh;
+    right: 5.335vh;
+    gap: 1.8vh;
+}
+
+.hud .top-right .blur {
+    position: absolute;
+    width: 24.168vh;
+    height: 14.815vh;
+    background: #000000;
+    filter: blur(7.2vh);
+    z-index: -1;
+}
+
+.hud .top-right>div {
+    gap: .5vh;
+}
+
+.hud .top-right>div>div.flex_row_align {
+    gap: .8vh;
+}
+
+.hud .top-right>img[logo] {
+    width: 7.408vh;
+    height: 7.408vh;
+    object-fit: contain;
+}
+
+.hud .notifications {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 4vh;
+}
+
+.hud .notifications .blur {
+    position: absolute;
+    width: 19.445vh;
+    height: 7.13vh;
+    background: #000000;
+    filter: blur(4vh);
+    z-index: -1;
+}
+
+.hud .notifications .notification>div.flex_row_align {
+    gap: .6vh;
+}
+
+.hud .notifications .notification>div.flex_row_align>img {
+    width: 1.8vh;
+    height: 1.8vh;
+    object-fit: contain;
+}
+
+.hud .notifications .notification>div.font_15 {
+    width: 20vh;
+}
+
+.hud .speedo {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 16.482vh;
+    height: 10.926vh;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.75) 0.01%, rgba(0, 0, 0, 0) 100%);
+    overflow: hidden;
+}
+
+.hud .speedo>h1 {
+    line-height: 4vh;
+}
+
+.hud .speedo .circle {
+    position: absolute;
+    border-radius: 10vh;
+}
+
+.hud .speedo .circle[big] {
+    width: 20vh;
+    height: 14.353vh;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(9.6vh);
+}
+
+.hud .speedo .circle[small] {
+    width: 18.149vh;
+    height: 13.056vh;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(10vh);
+}

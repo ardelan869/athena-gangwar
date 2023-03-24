@@ -1,0 +1,129 @@
+.faction_container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: url(../img/bg_pattern_faction.png), linear-gradient(107.56deg, #071015 0%, #000000 100%);
+    background-size: 100vw;
+    gap: 4.9vh;
+}
+
+.faction_container .title {
+    margin-top: 3.7vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.faction_container .title>img {
+    width: 13.902vh;
+    height: 13.902vh;
+}
+
+.faction_container .title>h2 {
+    letter-spacing: 0.16em;
+}
+
+.faction_container .factions {
+    width: 117.038vh;
+    height: 61.76vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.faction_container .factions .grid_4 {
+    gap: 2vh 5.16vh;
+}
+
+.faction_container .factions .faction {
+    width: 25.394vh;
+    height: 28.916vh;
+}
+
+.faction_container .factions .faction>div {
+    width: calc(100% - .1vh);
+    height: 24.175vh;
+    border-radius: 2vh 2vh 0 0;
+    background: url(../img/bg_faction_faction.png) padding-box,
+        linear-gradient(180deg, rgba(255, 48, 48, 0.75) 0%, rgba(0, 0, 0, 0) 100%) border-box;
+    background-size: contain;
+    border: .1vh solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .3vh;
+}
+
+.faction_container .factions .faction>div .faction_logo {
+    position: relative;
+    width: 15vh;
+    height: 15vh;
+    margin: 2vh auto;
+    margin-bottom: 1vh;
+}
+
+.faction_container .factions .faction>div .faction_logo .blur {
+    position: absolute;
+    width: 15vh;
+    height: 15vh;
+    filter: blur(.5vh);
+    object-fit: contain;
+    z-index: 0;
+}
+
+.faction_container .factions .faction>div .faction_logo>img:not(.blur) {
+    width: 9.824vh;
+    height: 9.824vh;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.faction_container .factions .faction>div .label {
+    height: 2.595vh;
+    background: rgba(255, 48, 48, 0.25);
+    border: .1vh solid;
+    border-radius: 1.4vh;
+    color: #FF3030;
+    font-size: 1.1vh !important;
+    text-align: center;
+    line-height: 2.595vh;
+    padding: 0 2vh;
+    margin-left: 1vh;
+}
+
+.faction_container .factions .faction .faction_info {
+    gap: .4vh;
+    margin-left: 1.5vh;
+}
+
+.faction_container .factions .faction .faction_info .flex_row_align_bottom {
+    line-height: .5vh;
+    gap: .4vh;
+}
+
+.faction_container .factions .faction>div>div .circle {
+    width: 1.8vh;
+    height: 1.8vh;
+    background: rgba(255, 48, 48, 0.25);
+    border: .1vh solid rgba(255, 48, 48, 0.25);
+}
+
+.faction_container .factions .faction>div>div .circle .inner {
+    width: 1.1vh;
+    height: 1.1vh;
+    background: #FF3030;
+}
+
+.faction_container .faction_clothing .clothing {
+    width: 25.371vh;
+    height: 41.019vh;
+}
+
+.faction_container .faction_clothing .clothing>div {
+    width: calc(100% - .1vh);
+    height: 36vh;
+    border-radius: 2vh 2vh 0 0;
+    background: url(../img/bg_faction_clothing.png) padding-box,
+        linear-gradient(180deg, rgba(255, 48, 48, 0.75) 0%, rgba(0, 0, 0, 0) 100%) border-box;
+    background-size: contain;
+    border: .1vh solid transparent;
+}

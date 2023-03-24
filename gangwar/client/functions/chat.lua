@@ -1,13 +1,11 @@
-RegisterNetEvent('core:addChatMessage')
-AddEventHandler('core:addChatMessage', function(msg)
+RegisterNetEvent('core:addChatMessage', function(msg)
     SendNUIMessage({
         action = 'addChatMessage',
         msg = msg
     })
 end)
 
-RegisterNetEvent('__cfx_internal:serverPrint')
-AddEventHandler('__cfx_internal:serverPrint', function(msg)
+RegisterNetEvent('__cfx_internal:serverPrint', function(msg)
     print(msg)
     SendNUIMessage({
         action = 'addChatMessage',

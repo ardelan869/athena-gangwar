@@ -37,3 +37,94 @@
     font-family: Akrobat-Thin;
     src: url(../fonts/Akrobat-Thin.otf);
 }
+
+@font-face {
+    font-family: Shlapak;
+    src: url(../fonts/Shlapak.otf);
+}
+
+.akr {
+    font-family: Akrobat-Regular;
+    font-weight: 500;
+}
+
+.akr_light {
+    font-family: Akrobat-Light;
+    font-weight: 500;
+}
+
+.akr_semi {
+    font-family: Akrobat-SemiBold;
+    font-weight: 500;
+}
+
+.akr_bold {
+    font-family: Akrobat-Bold;
+    font-weight: 800;
+}
+
+.akr_xbold {
+    font-family: Akrobat-ExtraBold;
+    font-weight: 800;
+}
+
+.shl {
+    font-family: Shlapak;
+    font-weight: 400;
+}
+
+.font_10 {
+    font-size: 1vh;
+}
+
+.font_15 {
+    font-size: 1.39vh;
+}
+
+.font_20 {
+    font-size: 1.853vh;
+}
+
+.font_25 {
+    font-size: 2.315vh;
+}
+
+.font_36 {
+    font-size: 3.334vh;
+}
+
+.font_50 {
+    font-size: 4.63vh;
+}
+
+.font_white_15 {
+    color: rgba(255, 255, 255, .15);
+}
+
+.font_white_25 {
+    color: rgba(255, 255, 255, .25);
+}
+
+.font_white_5 {
+    color: rgba(255, 255, 255, .5);
+}
+
+.font_glow_10 {
+    text-shadow: 0 0 1vh rgba(255,255,255,.5);
+}
+
+.font_glow_5 {
+    text-shadow: 0 0 .5vh rgba(255,255,255,.5);
+}
+
+.font_glow_15 {
+    text-shadow: 0 0 1.334vh rgba(255,255,255,.5);
+}
+
+.double_font .akr_xbold {
+    position: absolute;
+}
+
+.double_font_2 .shl {
+    position: absolute;
+}

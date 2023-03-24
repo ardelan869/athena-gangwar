@@ -2,8 +2,8 @@
     margin: 0;
     padding: 0;
     color: white;
-    font-family: Akrobat-Regular;
     user-select: none;
+    font-family: Akrobat-Regular;
     font-weight: 500;
 }
 
@@ -12,10 +12,15 @@ html {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    /* background: rgb(145, 60, 60); */
 }
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .flex_centered {
@@ -28,6 +33,11 @@ html {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.flex_row_align_top {
+    display: flex;
+    align-items: flex-start;
 }
 
 .flex_row_align_bottom {
@@ -68,44 +78,23 @@ html {
     align-items: flex-start;
 }
 
-.font_light {
-    font-family: Akrobat-Light;
-    font-weight: 500;
-}
-
-.font_bold {
-    font-family: Akrobat-Bold;
-    font-weight: 800;
-}
-
-.font_10 {
-    font-size: 1vh;
-}
-
-.font_15 {
-    font-size: 1.4vh;
-}
-
-.font_25 {
-    font-size: 2.3vh;
-}
-
-.radius_50 {
+.radius_50,
+.gradient_circle {
     border-radius: 50%;
 }
 
 .button_border_1 {
     width: 100%;
     height: 4.078vh;
-    background-color: rgba(255, 48, 48, 0.15);
-    border: .1vh solid rgba(255, 48, 48, 0.25);
+    background-color: var(--bg);
+    border: .1vh solid var(--border);
     border-radius: 0 0 1vh 1vh;
     color: rgba(255, 255, 255, 0.5);
     transition: .3s background-color, .3s color;
 }
 
 .button_border_1:hover {
-    background-color: rgba(255, 48, 48, .5);
+    background-color: var(--hover);
     cursor: pointer;
     color: #FFF;
 }
@@ -116,8 +105,16 @@ html {
     justify-items: center;
 }
 
-/* .grid_3_row {
-    display: grid;
-    justify-items: center;
-    grid-template-rows: ;
-} */
+.gradient_circle {
+    width: 2.316vh;
+    height: 2.316vh;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 150%) padding-box,
+    linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%) border-box;
+    border: .05vh inset solid transparent;
+}
+
+.gradient_circle>svg {
+    width: 1.2vh;
+    height: 1.2vh;
+    object-fit: contain;
+}

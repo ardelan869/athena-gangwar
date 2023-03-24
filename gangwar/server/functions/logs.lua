@@ -48,7 +48,7 @@ AddEventHandler('core:killedPlayer', function(killer)
         id.live,
         id.xbl,
         id.ip
-))
+    ))
 end)
 
 function ExtractIdentifiers(src)
