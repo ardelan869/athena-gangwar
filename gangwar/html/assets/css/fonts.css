@@ -77,6 +77,10 @@
     font-size: 1vh;
 }
 
+.font_12 {
+    font-size: 1.18vh;
+}
+
 .font_15 {
     font-size: 1.39vh;
 }
@@ -91,6 +95,10 @@
 
 .font_36 {
     font-size: 3.334vh;
+}
+
+.font_46 {
+    font-size: 4.26vh;
 }
 
 .font_50 {
@@ -121,7 +129,7 @@
     text-shadow: 0 0 1.334vh rgba(255,255,255,.5);
 }
 
-.double_font .akr_xbold {
+.double_font>[class*="akr_"] {
     position: absolute;
 }
 

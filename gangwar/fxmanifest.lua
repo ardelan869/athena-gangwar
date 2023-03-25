@@ -11,19 +11,26 @@ files {
     'html/**/**/**/*.*',
 }
 
-shared_script 'config/sh_config.lua'
+shared_script 'shared/*.lua'
 
-server_scripts{
+server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'config/sv_config.lua',
+    'jsons/cachedidentifier.json',
+    'jsons/bans.json',
+    'server/utils/functions.lua',
+    'server/utils/player.lua',
+    'server/utils/commands.lua',
     'server/main.lua',
-    'server/functions/utils.lua',
-    'server/functions/players.lua',
-    'server/functions/logs.lua',
 }
 
-client_scripts{
-    'config/cl_config.lua',
-    'client/*.*',
-    'client/**/*.*'
+client_scripts {
+    'client/config.lua',
+    'client/utils/ipl.lua',
+    'client/utils/death.lua',
+    'client/utils/functions.lua',
+    'client/utils/events.lua',
+    'client/utils/nuicb.lua',
+    'client/utils/commands.lua',
+    'client/utils/xmenu.lua',
+    'client/main.lua',
 }

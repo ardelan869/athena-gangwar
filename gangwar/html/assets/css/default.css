@@ -12,7 +12,14 @@ html {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+}
+
+html {
     /* background: rgb(145, 60, 60); */
+}
+
+:root {
+    --faction-bg: linear-gradient(107.56deg, #071015 0%, #000000 100%);
 }
 
 ::-webkit-scrollbar {
@@ -59,6 +66,13 @@ html {
     justify-content: center;
 }
 
+.flex_column_centered_r {
+    display: flex;
+    align-items: center;
+    flex-direction: column-reverse;
+    justify-content: center;
+}
+
 .flex_column_centered_h {
     display: flex;
     flex-direction: column;
@@ -79,24 +93,40 @@ html {
 }
 
 .radius_50,
-.gradient_circle {
+.gradient_circle,
+.point {
     border-radius: 50%;
 }
 
 .button_border_1 {
     width: 100%;
     height: 4.078vh;
-    background-color: var(--bg);
+    background: var(--bg);
     border: .1vh solid var(--border);
     border-radius: 0 0 1vh 1vh;
     color: rgba(255, 255, 255, 0.5);
-    transition: .3s background-color, .3s color;
+    transition: .3s color;
 }
 
 .button_border_1:hover {
-    background-color: var(--hover);
+    background: var(--hover);
+    border: .1vh solid var(--border-hover);
     cursor: pointer;
     color: #FFF;
+}
+
+.label {
+    height: 2.595vh;
+    background: var(--label-bg);
+    border: .1vh solid;
+    border-radius: 1.4vh;
+    color: #FF3030;
+    color: var(--label-color);
+    font-size: 1.1vh !important;
+    text-align: center;
+    line-height: 2.595vh;
+    padding: 0 2vh;
+    margin-left: 1vh;
 }
 
 .grid_4 {
@@ -105,16 +135,101 @@ html {
     justify-items: center;
 }
 
+.grid_3_row {
+    display: grid;
+    grid-template-columns: 25.38vh 25.38vh 25.38vh;
+    gap: 5.6vh;
+}
+
 .gradient_circle {
+    position: relative;
     width: 2.316vh;
     height: 2.316vh;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 150%) padding-box,
-    linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%) border-box;
-    border: .05vh inset solid transparent;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 150%);
+}
+
+.gradient_circle::before {
+    content: "";
+    position: absolute;
+    width: 2.32vh;
+    height: 2.32vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: .09vh;
+    background: linear-gradient(135deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%) ;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    border-radius: inherit;
 }
 
 .gradient_circle>svg {
     width: 1.2vh;
     height: 1.2vh;
     object-fit: contain;
+}
+
+.animation-toLeft {
+    opacity: .5;
+    margin-left: -30vh;
+    animation: toLeft .3s forwards;
+}
+
+.animation-toTop {
+    margin-top: 2vh;
+    animation: toTop .3s forwards;
+}
+
+@keyframes toLeft {
+    100% {
+        opacity: 1;
+        margin-left: 0vh;
+    }
+}
+
+@keyframes toTop {
+    100% {
+        margin-top: 0vh;
+    }
+}
+
+.point {
+    background: #FFF;
+}
+
+.point.l {
+    width: .8vh;
+    height: .8vh;
+}
+
+.point.m {
+    width: .6vh;
+    height: .6vh;
+}
+
+.point.s {
+    width: .4vh;
+    height: .4vh;
+}
+
+.svg_circle>text {
+    text-anchor: middle;
+    fill: #FFF;
+}
+
+.svg_circle circle[bar] {
+    stroke-width: 6;
+    stroke: #FFF;
+    stroke-opacity: .25;
+    fill: none;
+}
+
+.svg_circle circle[prog] {
+    stroke-dasharray: 157;
+    stroke-dashoffset: 157;
+    stroke-width: 6;
+    stroke: #FFF;
+    fill: none;
+    transform: rotate(-90deg);
+    transform-origin: center;
 }

@@ -2,7 +2,7 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background: url(../img/bg_pattern_faction.png), linear-gradient(107.56deg, #071015 0%, #000000 100%);
+    background: url(../img/bg_pattern_faction.png), var(--faction-bg);
     background-size: 100vw;
     gap: 4.9vh;
 }
@@ -44,7 +44,7 @@
     height: 24.175vh;
     border-radius: 2vh 2vh 0 0;
     background: url(../img/bg_faction_faction.png) padding-box,
-        linear-gradient(180deg, rgba(255, 48, 48, 0.75) 0%, rgba(0, 0, 0, 0) 100%) border-box;
+        linear-gradient(180deg, var(--img-border) 0%, rgba(0, 0, 0, 0) 100%) border-box;
     background-size: contain;
     border: .1vh solid transparent;
     display: flex;
@@ -77,19 +77,6 @@
     z-index: 1;
 }
 
-.faction_container .factions .faction>div .label {
-    height: 2.595vh;
-    background: rgba(255, 48, 48, 0.25);
-    border: .1vh solid;
-    border-radius: 1.4vh;
-    color: #FF3030;
-    font-size: 1.1vh !important;
-    text-align: center;
-    line-height: 2.595vh;
-    padding: 0 2vh;
-    margin-left: 1vh;
-}
-
 .faction_container .factions .faction .faction_info {
     gap: .4vh;
     margin-left: 1.5vh;
@@ -103,14 +90,14 @@
 .faction_container .factions .faction>div>div .circle {
     width: 1.8vh;
     height: 1.8vh;
-    background: rgba(255, 48, 48, 0.25);
-    border: .1vh solid rgba(255, 48, 48, 0.25);
+    background: var(--circle-bg);
+    border: .1vh solid var(--circle-border);
 }
 
 .faction_container .factions .faction>div>div .circle .inner {
     width: 1.1vh;
     height: 1.1vh;
-    background: #FF3030;
+    background: var(--circle-fill);
 }
 
 .faction_container .faction_clothing .clothing {
@@ -123,7 +110,14 @@
     height: 36vh;
     border-radius: 2vh 2vh 0 0;
     background: url(../img/bg_faction_clothing.png) padding-box,
-        linear-gradient(180deg, rgba(255, 48, 48, 0.75) 0%, rgba(0, 0, 0, 0) 100%) border-box;
+        linear-gradient(180deg, var(--img-border) 0%, rgba(0, 0, 0, 0) 100%) border-box;
     background-size: contain;
     border: .1vh solid transparent;
+    gap: 3vh;
+}
+
+.faction_container .faction_clothing .clothing>div>img {
+    margin-top: 6.7vh;
+    width: 9vh;
+    object-fit: contain;
 }
