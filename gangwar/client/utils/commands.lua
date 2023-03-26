@@ -51,6 +51,46 @@ RegisterCommand('revive', function()
     end
 end)
 
-RegisterCommand('kill', function()
-    SetEntityHealth(ATH.PlayerData.ped, 0)
+local maskOff = false
+RegisterCommand('mask', function()
+    maskOff = not maskOff
+    if maskOff then
+        SetPedComponentVariation(ATH.PlayerData.ped, 1, 0, 0, 0)
+    else
+        local mask = nil
+        for _, i in pairs(ATH.PlayerData.clothes) do
+            if i.componentId == 1 then mask = i end
+        end
+        SetPedComponentVariation(ATH.PlayerData.ped, 1, mask.drawableId, mask.textureId, 0)
+    end
 end)
+RegisterKeyMapping('mask', 'Toggle Mask', 'keyboard', 'M')
+
+RegisterCommand('team', function()
+    ATH.PlayerData.forceHud = true
+    SendNUIMessage({
+        action = 'ToggleHUD',
+        bool = false
+    })
+    SendNUIMessage({
+        action = 'ToggleFraction',
+        bool = true
+    })
+    SetNuiFocus(true, true)
+end)
+RegisterKeyMapping('team', 'Switch Team', 'keyboard', 'F1')
+
+RegisterCommand('coords', function()
+    local c = GetEntityCoords(PlayerPedId())
+    local coords = tostring(vector4(c.x,c.y,c.z,GetEntityHeading(PlayerPedId())))
+    SendNUIMessage({action='CopyCoords',coords=coords})
+    ATH.AddNotify('Koordinaten kopiert ('..coords..')')
+end, false)
+RegisterKeyMapping('coords', 'Copy Coords', 'keyboard', 'G')
+
+RegisterCommand('chat', function()
+    if IsNuiFocused() then return end
+    SetNuiFocus(true, true)
+    SendNUIMessage({action='OpenChat'})
+end, false)
+RegisterKeyMapping('chat', 'Open Chat', 'keyboard', 'T')

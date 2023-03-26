@@ -72,6 +72,7 @@
 
 .hud .right {
     position: absolute;
+    align-items: flex-end;
     top: 50%;
     transform: translateY(-50%);
     right: 2vh;
@@ -232,6 +233,32 @@
 
 .hud .quest_wrapper .quests .flex_row_align>h1 {
     width: 18vh;
+}
+
+.hud .chat_wrapper {
+    position: absolute;
+    align-items: flex-end;
+    right: 1.33vh;
+    bottom: 4.335vh;
+    gap: .9vh;
+}
+
+.hud .chat_wrapper .messages {
+    width: 41.667vh;
+    align-items: flex-start;
+    gap: .7vh;
+}
+
+.hud .chat_wrapper .chat {
+    width: 38.669vh;
+    height: 4.63vh;
+    background: rgba(0, 0, 0, 0.75);
+    background-image: url(../img/icons/send.svg);
+    background-repeat: no-repeat;
+    background-size: 2.5vh;
+    background-position: 95% center;
+    border-radius: .5vh;
+    padding: 0 1.5vh;
 }
 
 .hitmarker {

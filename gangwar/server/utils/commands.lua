@@ -21,6 +21,10 @@ ATH.AddCommand('save', Config.Perms['all'], function(s, args)
     end
 end)
 
+ATH.AddCommand('saveall', Config.Perms['all'], function(s, args)
+    ATH.SavePlayers()
+end)
+
 ATH.AddCommand('setrank', Config.Perms['all'], function(s, args)
     local target = tonumber(args[1])
     local Player = ATH.GetPlayer(target)
@@ -31,10 +35,15 @@ end)
 
 ATH.AddCommand('bring', Config.Perms['all'], function(s, args)
     local target = tonumber(args[1])
-    local Player = ATH.GetPlayer(s)
-    local Target = ATH.GetPlayer(target)
-    if Player and Target then
-        Target.SetCoords(Player.GetCoords())
+    if GetPlayerPing(target) > 0 then
+        SetEntityCoords(GetPlayerPed(target), GetEntityCoords(GetPlayerPed(s)))
+    end
+end)
+
+ATH.AddCommand('goto', Config.Perms['all'], function(s, args)
+    local target = tonumber(args[1])
+    if GetPlayerPing(target) > 0 then
+        SetEntityCoords(GetPlayerPed(s), GetEntityCoords(GetPlayerPed(target)))
     end
 end)
 

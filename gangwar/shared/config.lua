@@ -1,5 +1,9 @@
 Config = {
     Debug = true,
+    ChatColors = {
+        ['admin'] = '#908b8b',
+        ['user'] = '#FFF'
+    },
     Perms = {
         ['ban'] = {
             ['admin'] = true,

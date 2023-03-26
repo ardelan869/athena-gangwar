@@ -1,21 +1,69 @@
 var team = undefined
+var firstTime = true
+var level = 0
+const messages = []
+var messageIndex = -1
 
 window.onload = () => {
     window.addEventListener('keydown', e => {
         switch (e.keyCode) {
             case 27:
-                $('.faction_container').fadeOut(300)
+                if (!firstTime) {
+                    $('.faction_container').fadeOut(300)
+                    $.post(`https://${GetParentResourceName()}/close`)
+                    setTimeout(() => {
+                        $('.factions').show()
+                        $('.faction_clothing').hide()
+                    }, 300)
+                }
+            break
+        }
+    })
+    document.getElementById('chat').addEventListener('keydown', e => {
+        switch (e.keyCode) {
+            case 27:
                 $.post(`https://${GetParentResourceName()}/close`)
+                $('.chat').hide()
                 setTimeout(() => {
-                    $('.factions').show()
-                    $('.faction_clothing').hide()
-                }, 300)
+                    if ($('.chat').css('display') == 'none') $('.messages').hide();
+                }, 3500)
+            break
+            case 13:
+                const message = $('.chat').val()
+                if (message.length > 1) {
+                    $.post(`https://${GetParentResourceName()}/chat`, JSON.stringify({
+                        message:message
+                    }))
+                    messages.push(message)
+                }
+                $('.chat').val('').hide()
+                setTimeout(() => {
+                    if ($('.chat').css('display') == 'none') $('.messages').hide();
+                }, 3500)
+            break
+            case 38: // up
+                if (messages[0] && messageIndex != messages.length-1) {
+                    messageIndex++
+                    $('.chat').val(messages[(messages.length-1)-messageIndex])
+                }
+            break
+            case 40: // down
+                if (messages[0] && messageIndex-1 > -1) {
+                    messageIndex--
+                    $('.chat').val(messages[(messages.length-1)-messageIndex])
+                } else {
+                    messageIndex = -1
+                    $('.chat').val('')
+                }
             break
         }
     })
     window.addEventListener('message', e => {
         var i = e.data
         switch (i.action) {
+            case 'UpdateTeamCount':
+                $(`#${i.team}_count`).text(i.count)
+            break
             case 'AppendFrak':
                 const html = $(`<div class="faction flex_column_space grid_item">
                     <div style="--img-border: ${i.color.img_border};">
@@ -36,7 +84,7 @@ window.onload = () => {
                                 <div class="inner radius_50"></div>
                             </div>
                             <div class="flex_row_align_bottom">
-                                <div class="font_15 akr_bold">${i.player}</div>
+                                <div class="font_15 akr_bold" id="${i.name}_count">0</div>
                                 <div class="font_10 akr_light">SPIELER ONLINE</div>
                             </div>
                         </div>
@@ -143,33 +191,75 @@ window.onload = () => {
             case 'Bar':
                 $('.progressbar').show()
                 const prog = $('#progress')
-				prog.stop().css('width', 0).animate({width: '100%'},
-				{
+                if (i.time == 0) {
+                    prog.stop()
+                    $('#percent').text('ABBGEBROCHEN')
+                    prog.css({
+                        background: '#FF3030',
+                        boxShadow: '0 0 1vh #FF3030'
+                    })
+                    $('.progressbar').fadeOut(550)
+                    setTimeout(() => {
+                        prog.css('width', 0)
+                        $('#percent').text('')
+                    }, 550)
+                } else prog.stop().css({
+                    width: 0,
+                    background: '#FFF',
+                    boxShadow: '0 0 1vh rgba(255, 255, 255, 1)'
+                }).animate({width: '100%'}, {
 					duration: i.time,
 					progress: (event, progress) => $('#percent').text(`${Math.floor(progress*100)} %`),
 					complete: () => {
                         prog.stop()
-                        $('.progressbar').fadeOut(400)
+                        $('#percent').text('FERTIG')
+                        prog.css({
+                            background: '#A1F438',
+                            boxShadow: '0 0 1vh #A1F438'
+                        })
+                        $('.progressbar').fadeOut(550)
                         setTimeout(() => {
                             prog.css('width', 0)
                             $('#percent').text('')
-                        }, 400)
+                        }, 550)
 					}
-				})
+				});
             break
             case 'SetId':
                 $('#playerId').text(`#${i.id}`)
+                $('#level').text(i.level)
+                $('#xp').html(`${i.xp}<font class="font_white_5 font_15 akr_xbold">/${i.needed}XP</font>`)
+                setSVG((i.xp/i.needed) * 100, '#level-progress')
+                level = i.level
             break
             case 'ShowHitmarker':
                 $('#crosshair, #damage').show()
-                $('#damage').text(i.damage)
+                if (i.deadly) {
+                    $('#damage').text('KILL')
+                    $('#crosshair > path, #damage').css({
+                        color: '#F00',
+                        fill: '#F00'
+                    })
+                } else $('#damage').text(i.damage)
                 setTimeout(() => {
                     $('#crosshair').hide()
+                    $('#crosshair > path, #damage').css({
+                        color: '#FFF',
+                        fill: '#FFF'
+                    })
                     setTimeout(() => $('#damage').hide(), 100)
-                }, 200);
+                }, 250);
             break
             case 'AddXPFeed':
-                // type: subtract, add
+                if (level && i.level != level) {
+                    var sound = new Audio('assets/audio/levelup.mp3')
+                    sound.volume = 1
+                    sound.play()
+                }
+                level = i.level
+                $('#level').text(i.level)
+                $('#xp').html(`${i.xp}<font class="font_white_5 font_15 akr_xbold">/${i.needed}XP</font>`)
+                setSVG((i.xp/i.needed) * 100, '#level-progress')
                 const prefix = {
                     ['subtract']: '-',
                     ['add']: '+',
@@ -199,6 +289,25 @@ window.onload = () => {
             case 'UpdatePlayers':
                 $('#players').text(i.players)
             break
+            case 'SetStats':
+                $('#kills').text(i.kills)
+                $('#deaths').text(i.deaths)
+                var kd = i.kills / i.deaths
+                if (typeof kd != 'number') kd = i.kills;
+                $('#kd').text(kd.toFixed(2))
+            break
+            case 'AddMessage':
+                const message = $(`<div class="message akr_semi font_20">
+                    [<font style="color: ${i.color};">${_U(i.rank)}</font>] [${i.id}] ${i.name}: ${i.text}
+                </div>`).appendTo('.messages')
+                setTimeout(() => {
+                    if ($('.chat').css('display') == 'none') $('.messages').hide();
+                }, 3500)
+            break
+            case 'OpenChat':
+                $('.chat, .messages').show()
+                $('.chat').focus()
+            break
         }
     })
     setInterval(() => {
@@ -206,6 +315,10 @@ window.onload = () => {
         $('#time').text(`${addZero(date.getHours())}:${addZero(date.getMinutes())}`)
         $('#date').text(`${addZero(date.getDate())}.${addZero(date.getMonth()+1)}.${date.getFullYear()}`)
     }, 500)
+}
+
+const _U = s => {
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 const addZero = int => {
@@ -227,11 +340,11 @@ const SelectFaction = name => {
     $.post(`https://${GetParentResourceName()}/FetchClothing`, JSON.stringify({
         team: name
     })).then(cb => {
-        for (var i = 1; i <= cb.clothes.length; i++) {
+        for (var i = 0; i < cb.clothes.length; i++) {
             window.postMessage({
                 action: 'AppendClothing',
-                label: `OUTFIT ${i}`,
-                index: i,
+                label: `OUTFIT ${i+1}`,
+                index: i+1,
                 color: cb.color
             })
         }
@@ -239,6 +352,7 @@ const SelectFaction = name => {
 }
 
 const SelectClothing = id => {
+    firstTime = false
     $('.faction_container').fadeOut(300)
     $.post(`https://${GetParentResourceName()}/SelectClothing`, JSON.stringify({
         id: id,
@@ -246,6 +360,12 @@ const SelectClothing = id => {
     }))
     setTimeout(() => {
         $('.factions').show()
-        $('.faction_clothing').hide()
+        $('.faction_clothing').hide().empty()
     }, 300)
+}
+
+const setSVG = (percent, src) => {
+	var progressCircle = document.querySelector(src);
+	const circumference = progressCircle.r.baseVal.value * 2 * Math.PI;
+	progressCircle.style.strokeDashoffset = circumference - (percent / 100) * circumference;
 }

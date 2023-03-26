@@ -1,6 +1,11 @@
 ATH = {}
 ATH.Resource = GetCurrentResourceName()
 
+toPlus = function(int)
+	local str = tostring(int)
+	return tonumber(str:sub(2))
+end
+
 table.merge = function(t1, t2)
 	local t = t1
 	for i, v in pairs(t2) do
@@ -43,6 +48,36 @@ math.round = function(value, numDecimalPlaces)
 		return math.floor((value * power) + 0.5) / (power)
 	else
 		return math.floor(value + 0.5)
+	end
+end
+
+table.dump = function(t, nb)
+	if nb == nil then
+		nb = 0
+	end
+
+	if type(t) == 'table' then
+		local s = ''
+		for i = 1, nb + 1, 1 do
+			s = s .. "    "
+		end
+
+		s = '{\n'
+		for k,v in pairs(t) do
+			if type(k) ~= 'number' then k = '"'..k..'"' end
+			for i = 1, nb, 1 do
+				s = s .. "    "
+			end
+			s = s .. '['..k..'] = ' .. table.dump(v, nb + 1) .. ',\n'
+		end
+
+		for i = 1, nb, 1 do
+			s = s .. "    "
+		end
+
+		return s .. '}'
+	else
+		return tostring(t)
 	end
 end
 

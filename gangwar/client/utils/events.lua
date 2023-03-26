@@ -1,3 +1,5 @@
+On('__cfx_internal:serverPrint', print)
+
 On('ath:UpdateLoadout', function(loadout)
     ATH.PlayerData.loadout = loadout
 end)
@@ -6,18 +8,13 @@ On('ath:UpdateRank', function(rank)
     ATH.PlayerData.rank = rank
 end)
 
-On('__cfx_internal:serverPrint', print)
-
-On('ath:ShowHitmarker', function(damage)
+On('ath:ShowHitmarker', function(damage, deadly)
     SendNUIMessage({
         action='ShowHitmarker',
-        damage=damage
+        damage=damage,
+        deadly=deadly
     })
 end)
-
-On('ath:AddNotify', ATH.AddNotify)
-
-On('ath:AddAnnounce', ATH.AddAnnounce)
 
 On('ath:UpdatePlayers', function(players)
     SendNUIMessage({
@@ -25,6 +22,34 @@ On('ath:UpdatePlayers', function(players)
         players = players
     })
 end)
+
+On('ath:UpdateStats', function(data)
+    ATH.PlayerData.kills = data.kills
+    ATH.PlayerData.deaths = data.deaths
+    SendNUIMessage({
+        action='SetStats',
+        kills=data.kills,
+        deaths=data.deaths,
+    })
+end)
+
+On('ath:SetXP', function(xp, t)
+    ATH.PlayerData.xp = xp
+    local level, needed = ATH.GetLevel(xp)
+    SendNUIMessage({
+        action = 'AddXPFeed',
+        type = string.find(tostring(Levels.On[t]), '-') and 'subtract' or 'add',
+        amount = string.find(tostring(Levels.On[t]), '-') and toPlus(Levels.On[t]) or Levels.On[t],
+        reason = t,
+        xp = xp,
+        needed = needed,
+        level = level
+    })
+end)
+
+On('ath:AddNotify', ATH.AddNotify)
+
+On('ath:AddAnnounce', ATH.AddAnnounce)
 
 On('ath:SpawnCar', function(model)
     if Config.Perms['all'][ATH.PlayerData.rank] then
@@ -67,10 +92,18 @@ On('ath:SpawnCar', function(model)
     end
 end)
 
--- AddEventHandler('gameEventTriggered', function(name, args)
---     if name == 'CEventNetworkEntityDamage' then
---         local isDeadly = args[6]
---         local weaponHash = args[7]
---     end
---     print(json.encode({name, args}))
--- end)
+On('ath:UpdateTeams', function(teams)
+    ATH.Teams = teams
+    ATH.UpdateTeamCount()
+end)
+
+On('ath:SendMessage', function(data)
+    SendNUIMessage({
+        action='AddMessage',
+        color=data.color,
+        rank=data.rank,
+        id=data.id,
+        name=data.name,
+        text=data.msg
+    })
+end)

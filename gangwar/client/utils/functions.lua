@@ -100,7 +100,7 @@ end
 
 ATH.RevivePed = function(ped)
     local ped = ped or ATH.PlayerData.ped
-    local coords = GetEntityCoords(ped)
+    local coords = Teams[ATH.PlayerData.team].spawn
     local heading = GetEntityHeading(ped)
     NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
     SetPlayerInvincible(PlayerId(), false)
@@ -108,9 +108,24 @@ ATH.RevivePed = function(ped)
     ClearPedBloodDamage(ped)
     ResurrectPed(ped)
     SetEntityHealth(ped, 200)
+    SetPedArmour(ped, 100)
     TriggerEvent('ath:OnPlayerRevive')
     TriggerServerEvent('ath:OnPlayerRevive')
     ATH.PlayerData.isDead = false
+    CreateThread(function()
+        while not IsControlJustPressed(0, 32) and
+            not IsControlJustPressed(0, 33) and
+            not IsControlJustPressed(0, 34) and
+            not IsControlJustPressed(0, 35)
+        do
+            SetLocalPlayerAsGhost(true)
+            SetGhostedEntityAlpha(128)
+            SetEntityAlpha(PlayerPedId(), 128, false)
+            Wait()
+        end
+        ResetEntityAlpha(PlayerPedId())
+        SetLocalPlayerAsGhost(false)
+    end)
 end
 
 ATH.AddBlip = function(p, sprite, colour, scale, name)
@@ -239,4 +254,24 @@ ATH.HelpNotify = function(msg)
     AddTextEntry('I_LOVE_CATS', msg)
     BeginTextCommandDisplayHelp('I_LOVE_CATS')
     EndTextCommandDisplayHelp(0, false, true, -1)
+end
+
+ATH.GetLevel = function(xp)
+    for i=1, table.length(Levels.List) do
+        local needed = Levels.List[i]
+        if xp >= needed and (Levels.List[i+1] ~= nil and (Levels.List[i+1] > xp)) then
+            return i, Levels.List[i+1]
+        end
+    end
+    return 0, Levels.List[1]
+end
+
+ATH.UpdateTeamCount = function()
+    for team, count in pairs(ATH.Teams) do
+        SendNUIMessage({
+            action = 'UpdateTeamCount',
+            team = team,
+            count = count
+        })
+    end
 end

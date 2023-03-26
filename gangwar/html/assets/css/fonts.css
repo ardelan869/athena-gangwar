@@ -109,7 +109,8 @@
     color: rgba(255, 255, 255, .15);
 }
 
-.font_white_25 {
+.font_white_25,
+::placeholder {
     color: rgba(255, 255, 255, .25);
 }
 

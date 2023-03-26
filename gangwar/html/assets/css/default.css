@@ -18,6 +18,12 @@ html {
     /* background: rgb(145, 60, 60); */
 }
 
+input,
+button {
+    outline: none;
+    border: none;
+}
+
 :root {
     --faction-bg: linear-gradient(107.56deg, #071015 0%, #000000 100%);
 }

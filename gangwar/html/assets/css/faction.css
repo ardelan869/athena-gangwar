@@ -65,8 +65,9 @@
     position: absolute;
     width: 15vh;
     height: 15vh;
-    filter: blur(.5vh);
+    filter: blur(1vh);
     object-fit: contain;
+    opacity: .75;
     z-index: 0;
 }
 

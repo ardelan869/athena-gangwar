@@ -1,14 +1,51 @@
-function CreatePlayer(identifier, source, loadout, name, rank)
+function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp)
 	local player = {}
 	player.identifier = identifier
 	player.source = source
 	player.name = name or false
 	player.loadout = loadout or {}
 	player.rank = rank or 'user'
+	player.kills = kills or 0
+	player.deaths = deaths or 0
+	player.xp = xp or 0
 	ATH.CachedIdentifiers[player.source] = ATH.GetAllIdentifiers(player.source)
 
 	player.Emit = function(event, ...)
 		TriggerClientEvent(event, player.source, ...)
+	end
+
+	player.GetXP = function()
+		return player.xp
+	end
+
+	player.AddXP = function(t)
+		local xp = Levels.On[t]
+		player.xp = player.xp + xp
+		player.Emit('ath:SetXP', player.xp, t)
+		return player.xp
+	end
+
+	player.RemoveXP = function(t)
+		local xp = Levels.On[t]
+		player.xp = player.xp - toPlus(xp)
+		player.Emit('ath:SetXP', player.xp, t)
+		return player.xp
+	end
+
+	player.AddKill = function()
+		player.kills = player.kills + 1
+	end
+
+	player.GetKills = function()
+		return player.kills
+	end
+
+	player.AddDeath = function()
+		player.deaths = player.deaths + 1
+	end
+
+	player.GetDeaths = function()
+		return player.deaths
 	end
 
 	player.AddNotify = function(text, title, time, icon)

@@ -6,7 +6,7 @@ CreateThread(function()
             Wait(500)
             EmitNet('ath:PlayerReady')
             Emit('ath:PlayerReady')
-            break
+            return
         end
     end
 end)
@@ -17,13 +17,13 @@ local AppendTeams = function()
         msg.action = 'AppendFrak'
         SendNUIMessage(msg)
     end
+    ATH.UpdateTeamCount()
     SendNUIMessage({
         action = 'ToggleHUD',
         bool = false
     })
     SendNUIMessage({
         action = 'ToggleFraction',
-        which = '.factions',
         bool = true
     })
     SetNuiFocus(true, true)
@@ -36,14 +36,11 @@ local CreateDefaultPed = function()
     end
     firstspawn = true
     SetPlayerModel(PlayerId(), defaultModel)
-    for i = 0, 19 do
-        SetPedComponentVariation(PlayerPedId(), 0, i, 0, 0)
-    end
     SetModelAsNoLongerNeeded(defaultModel)
     SetEntityCoordsNoOffset(PlayerPedId(), vector3(-1.5, 19.2501, 71.1215))
     SetEntityHeading(PlayerPedId(), 0.0)
     ShutdownLoadingScreen()
-    FreezeEntityPosition(PlayerPedId(), false)
+    FreezeEntityPosition(PlayerPedId(), true)
     AppendTeams()
     DoScreenFadeIn(1000)
     ResurrectPed(PlayerPedId())
@@ -67,34 +64,64 @@ local AddWeapons = function(loadout)
     end
 end 
 
-On('ath:PlayerJoined', function(data)
-    ATH.PlayerData = data
-    ATH.PlayerData.ped = nil
-    ATH.PlayerData.isSpawned = false
-    ATH.PlayerData.playerId = nil
-    ATH.PlayerData.isDead = false
-    ATH.PlayerData.isDuty = false
-    ATH.PlayerData.skin = false
+On('ath:PlayerJoined', function(data, teams)
+    ATH.Teams = teams
+    ATH.PlayerData = {
+        identifier = data.identifier,
+        source = data.source,
+        name = data.name,
+        loadout = data.loadout,
+        rank = data.rank,
+        kills = data.kills,
+        deaths = data.deaths,
+        xp = data.xp,
+        name = data.name,
+        ped = nil,
+        isSpawned = false,
+        playerId = nil,
+        isDead = false,
+        isDuty = false
+    }
 
-    CreateDefaultPed(data.coords)
+    CreateDefaultPed()
     SetEntityHealth(ATH.PlayerData.ped, 200)
     SetPedArmour(ATH.PlayerData.ped, 100)
     AddWeapons(ATH.PlayerData.loadout)
     NetworkSetFriendlyFireOption(true)
+    SetPlayerInvincible(ATH.PlayerData.playerId, false)
 
     while not ATH.PlayerData.isSpawned do Wait() end
-
-    SetEntityVisible(PlayerPedId(), true, false)
-    SetLocalPlayerAsGhost(false)
-    SetEntityInvincible(PlayerPedId(), false)
-
+    local level, needed = ATH.GetLevel(data.xp)
     SendNUIMessage({
         action='SetId',
-        id=GetPlayerServerId(ATH.PlayerData.playerId)
+        id=data.source,
+        xp=data.xp,
+        level=level,
+        needed=needed
+    })
+    SendNUIMessage({
+        action='SetStats',
+        kills=data.kills,
+        deaths=data.deaths,
     })
 end)
 
 function StartLoops()
+    CreateThread(function()
+        while not IsControlJustPressed(0, 32) and
+            not IsControlJustPressed(0, 33) and
+            not IsControlJustPressed(0, 34) and
+            not IsControlJustPressed(0, 35)
+        do
+            SetLocalPlayerAsGhost(true)
+            SetGhostedEntityAlpha(128)
+            SetEntityAlpha(PlayerPedId(), 128, false)
+            Wait()
+        end
+        ResetEntityAlpha(PlayerPedId())
+        SetLocalPlayerAsGhost(false)
+    end)
+    FreezeEntityPosition(ATH.PlayerData.ped, false)
     ATH.LoadAnim('missarmenian2')
     SetPedConfigFlag(ATH.PlayerData.ped, 35, false) -- PutOnMotorcycleHelmet
     SetCanAttackFriendly(ATH.PlayerData.ped, true, false)
@@ -106,8 +133,6 @@ function StartLoops()
     StatSetInt(GetHashKey('MP0_LUNG_CAPACITY'), 100, true)
     StatSetInt(GetHashKey('MP0_STRENGTH'), 100, true)
     StatSetInt(GetHashKey('MP0_STAMINA'), 100, true)
-    ReplaceHudColourWithRgba(143, 255, 255, 255, 255)
-    ReplaceHudColourWithRgba(116, 255, 255, 255, 255)
     SetPedSuffersCriticalHits(ATH.PlayerData.ped, false)
     StartAudioScene('CHARACTER_CHANGE_IN_SKY_SCENE')
     for k=1,9 do
@@ -178,31 +203,31 @@ function StartLoops()
 
     CreateThread(function()
         while true do
-            Wait(100)
+            Wait(230)
             local __, weapon = GetCurrentPedWeapon(ATH.PlayerData.ped, 0)
             if ATH.PlayerData.currentWeapon ~= weapon then
                 ATH.PlayerData.currentWeapon = weapon
                 RefillAmmoInstantly(ATH.PlayerData.ped)
                 SetCurrentPedWeapon(ATH.PlayerData.ped, ATH.PlayerData.currentWeapon, true)
             end
-            SendNUIMessage({
-                action = 'ToggleHUD',
-                bool = not IsPauseMenuActive()
-            })
+            if not ATH.PlayerData.forceHud then
+                SendNUIMessage({
+                    action = 'ToggleHUD',
+                    bool = not IsPauseMenuActive()
+                })
+            end
         end
     end)
 
     CreateThread(function()
         while true do
-            Wait()
-            DisableControlAction(0, 140, true)
+            local sleep = 200
+            if IsPedArmed(ATH.PlayerData.ped, 6) then
+                sleep = 1
+                DisableControlAction(0, 140, true)
+                DisableControlAction(0, 142, true)
+            end
+            Wait(sleep)
         end
     end)
 end
-
-RegisterCommand('coords', function()
-    local c = GetEntityCoords(PlayerPedId())
-    local coords = tostring(vector4(c.x,c.y,c.z,GetEntityHeading(PlayerPedId())))
-    SendNUIMessage({action='CopyCoords',coords=coords})
-    ATH.AddNotify('Koordinaten kopiert ('..coords..')')
-end, false)

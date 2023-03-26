@@ -9,8 +9,8 @@
 	<link rel="stylesheet" href="assets/css/default.css">
 	<link rel="stylesheet" href="assets/css/hud.css">
 	<link rel="stylesheet" href="assets/css/faction.css">
-	<script async src="https://code.jquery.com/jquery-3.6.1.js"></script>
-	<script async src="assets/js/app.js"></script>
+	<script async defer="defer" src="https://code.jquery.com/jquery-3.6.1.js"></script>
+	<script async defer="defer" src="assets/js/app.js"></script>
 </head>
 
 <body>
@@ -40,7 +40,8 @@
 					<h1 class="shl font_36 font_white_15">LEVEL</h1>
 					<h2 class="akr_xbold font_25">LEVEL</h2>
 				</div>
-				<h1 class="akr_xbold font_25">0<font class="font_white_5 font_15 akr_xbold">/1500XP</font>
+				<h1 class="akr_xbold font_25" id="xp">
+					0<font class="font_white_5 font_15 akr_xbold">/1500XP</font>
 				</h1>
 				<div id="xp-list" class="flex_column_centered_v">
 				</div>
@@ -111,7 +112,7 @@
 		<div class="right flex_column_centered">
 			<div class="blur"></div>
 			<div class="flex_row_align">
-				<h1 class="akr_bold font_15">250</h1>
+				<h1 class="akr_bold font_15" id="kills">250</h1>
 				<div class="gradient_circle flex_row_centered">
 					<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path
@@ -121,7 +122,7 @@
 				</div>
 			</div>
 			<div class="flex_row_align">
-				<h1 class="akr_bold font_15">250</h1>
+				<h1 class="akr_bold font_15" id="deaths">250</h1>
 				<div class="gradient_circle flex_row_centered">
 					<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path
@@ -131,7 +132,7 @@
 				</div>
 			</div>
 			<div class="flex_row_align">
-				<h1 class="akr_bold font_15">250</h1>
+				<h1 class="akr_bold font_15" id="kd">250</h1>
 				<div class="gradient_circle flex_row_centered">
 					<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path
@@ -179,6 +180,12 @@
 					<h1 class="akr_semi font_15">TREFFE 1 ODER MEHRERE GEGNER MIT EINEM KOPFSCHUSS</h1>
 				</div>
 			</div>
+		</div>
+
+		<div class="chat_wrapper flex_column_centered">
+			<div class="messages flex_column_centered">
+			</div>
+			<input style="display: none;" id="chat" class="chat akr_xbold font_25" placeholder="EINGABE" type="text">
 		</div>
 	</div>
 

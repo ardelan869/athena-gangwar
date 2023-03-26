@@ -26,8 +26,8 @@ server_scripts {
 client_scripts {
     'client/config.lua',
     'client/utils/ipl.lua',
-    'client/utils/death.lua',
     'client/utils/functions.lua',
+    'client/utils/death.lua',
     'client/utils/events.lua',
     'client/utils/nuicb.lua',
     'client/utils/commands.lua',

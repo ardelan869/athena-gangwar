@@ -1,6 +1,7 @@
 ATH.Players = {}
 ATH.Banlist = {}
 ATH.CachedIdentifiers = {}
+ATH.Teams = {}
 
 CreateThread(function()
 	local start = os.time()
@@ -14,7 +15,10 @@ CreateThread(function()
 	else
 		ATH.Banlist = json.decode(bans)
 	end
-	Debug('Bann\'s geladen! Dauer: ^1'..os.difftime(start, os.time())..'s^0') 
+	Debug('Bann\'s geladen! Dauer: ^1'..os.difftime(start, os.time())..'s^0')
+	for team, _ in pairs(Teams) do
+		ATH.Teams[team] = 0
+	end
 end)
 
 ATH.GetPlayer = function(player)
@@ -31,20 +35,33 @@ ATH.GetPlayer = function(player)
 end
 
 ATH.SavePlayer = function(Player, reset, cb)
+	local start = os.time()
 	if Player then
-		MySQL.update('UPDATE accounts SET rank=?, money=?, loadout=? WHERE identifier=?', {
-			Player.GetRank(), Player.GetMoney(), json.encode(Player.GetLoadout()), Player.identifier
+		MySQL.update('UPDATE accounts SET rank=?, loadout=?, kills=?, deaths=?, xp=? WHERE identifier=?', {
+			Player.GetRank(), json.encode(Player.GetLoadout()), Player.GetKills(), Player.GetDeaths(), Player.GetXP(), Player.identifier
 		}, function(r)
 			if r > 0 then
-				Debug('Spieler '..Player.name..' wurde gespeichert!')
+				Debug('Spieler '..Player.name..' wurde gespeichert! Dauer: ^1'..os.difftime(start, os.time())..'s^0')
 				local s = Player.source
-				if reset and ATH.Players[s] then
-					ATH.Players[s] = nil
-				end
-				if cb then
-					cb()
-				end
+				if reset then ATH.Players[s] = nil end
+				if cb then cb() end
 			end
+		end)
+	end
+end
+
+ATH.SavePlayers = function(cb)
+	local params = {}
+	local start = os.time()
+	local c = 0
+	for id, Player in pairs(ATH.Players) do
+		c=c+1
+		params[#params+1] = {Player.GetRank(), json.encode(Player.GetLoadout()), Player.GetKills(), Player.GetDeaths(), Player.GetXP(), Player.identifier}
+	end
+	if params[1] then
+		MySQL.prepare('UPDATE accounts SET rank=?, loadout=?, kills=?, deaths=?, xp=? WHERE identifier=?', params, function()
+			Debug(c..' Spieler wurden gespeichert. Dauer: ^1'..os.difftime(start, os.time())..'s^0')
+			if cb then cb() end
 		end)
 	end
 end
@@ -141,9 +158,6 @@ ATH.AddCommand = function(cmd, perms, cb, console)
             cb(s, args)
         end
     end)
-end
-
-ATH.Log = function()
 end
 
 --[[

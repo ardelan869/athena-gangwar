@@ -18,7 +18,6 @@ local PlayerKilledByPlayer = function(killerServerId, killerClientId, deathCause
 	TriggerEvent('ath:OnPlayerDeath', data)
 	TriggerServerEvent('ath:OnPlayerDeath', data)
 end
-
 local PlayerKilled = function(deathCause)
 	local playerPed = PlayerPedId()
 	local victimCoords = GetEntityCoords(playerPed)
@@ -32,8 +31,25 @@ local PlayerKilled = function(deathCause)
 	TriggerEvent('ath:OnPlayerDeath', data)
 	TriggerServerEvent('ath:OnPlayerDeath', data)
 end
+local deathCam = nil
+local MakeDeathCam = function(ped)
+	deathCam = CreateCam('DEFAULT_SCRIPTED_CAMERA')
+	SetCamCoord(deathCam, GetOffsetFromEntityInWorldCoords(ped, 0.0, -1.6, 1.2))
+	PointCamAtEntity(deathCam, ped, 0.0, 0.0, 0.0, 0)
+	SetCamActive(deathCam, true)
+	RenderScriptCams(true, false, 500, true, true)
+	while ATH.PlayerData.isDead do
+		SetCamCoord(deathCam, GetOffsetFromEntityInWorldCoords(ped, 0.0, -1.6, 1.2))
+		PointCamAtEntity(deathCam, ped, 0.0, 0.0, 0.4, 0)
+		SetCamActive(deathCam, true)
+		Wait()
+	end
+	RenderScriptCams(0)
+	DestroyCam(deathCam, true)
+end
 
 CreateThread(function()
+	while not ATH.PlayerData.isSpawned do Wait() end
 	while true do
 		local sleep = 100
 		local player = PlayerId()
@@ -50,16 +66,17 @@ CreateThread(function()
 
 				if killerEntity ~= playerPed and killerClientId and NetworkIsPlayerActive(killerClientId) then
 					PlayerKilledByPlayer(GetPlayerServerId(killerClientId), killerClientId, deathCause)
+					CreateThread(function()
+						MakeDeathCam(killerEntity)
+					end)
 				else
 					PlayerKilled(deathCause)
 				end
 
 				ATH.LoadAnim('missarmenian2')
 
-				while IsPedRagdoll(playerPed) do Wait() end
-
 				if ATH.PlayerData.isDead then
-					Wait(10000)
+					Wait(3500)
 					if ATH.PlayerData.isDead then
 						ATH.RevivePed()
 					end	
