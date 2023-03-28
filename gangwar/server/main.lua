@@ -23,26 +23,41 @@ RegisterNetEvent('ath:PlayerReady', function()
 		if #_r > 0 then
 			local r = _r[1]
 			MySQL.update('UPDATE accounts SET username=? WHERE identifier=?', {name, identifier})
-			local Player = CreatePlayer(identifier, s, json.decode(r.loadout), name, r.rank, r.kills, r.deaths, r.xp)
+			local Player = CreatePlayer(identifier, s, json.decode(r.loadout), name, r.rank, r.kills, r.deaths, r.xp, r.id)
 			ATH.Players[s] = Player
 			TriggerEvent('ath:PlayerJoined', s, Player)
 			Player.Emit('ath:PlayerJoined', Player, ATH.Teams)
 		else
-			MySQL.insert('INSERT INTO accounts (username, identifier) VALUES (?, ?)', {name, identifier})
-			local Player = CreatePlayer(identifier, s)
-			ATH.Players[s] = Player
-			TriggerEvent('ath:PlayerJoined', s, Player)
-			TriggerEvent('ath:CreateName', s, Player)
-			Player.Emit('ath:PlayerJoined', Player, ATH.Teams)
+			MySQL.insert('INSERT INTO accounts (username, identifier) VALUES (?, ?)', {name, identifier}, function(r)
+				local Player = CreatePlayer(identifier, s, false, name, false, false, false, false, r)
+				ATH.Players[s] = Player
+				TriggerEvent('ath:PlayerJoined', s, Player)
+				Player.Emit('ath:PlayerJoined', Player, ATH.Teams)
+			end)
 		end
 	end)
 end)
 
+AddEventHandler('ath:PlayerJoined', function(source, Source)
+	local __, roles = ATH.GetDiscordData(source)
+	local identifier = Source.identifier
+	for _, id in pairs(roles) do
+		local role = ATH.Roles[id]
+		if role then
+			Source.SetRank(role.name:lower())
+			return
+		end
+	end
+	Source.SetRank('user')
+end)
+
 RegisterNetEvent('ath:OnPlayerDeath', function(data)
 	local s = source
-	if data.killerServerId then
+	local idString = ATH.IdentifierString(s)
+	local target = data.killerServerId
+	if target then
 		local Source = ATH.GetPlayer(s)
-		local Killer = ATH.GetPlayer(data.killerServerId)
+		local Killer = ATH.GetPlayer(target)
 		Source.AddDeath()
 		Killer.AddKill()
 		if Killer.Get('team') == Source.Get('team') then
@@ -54,17 +69,26 @@ RegisterNetEvent('ath:OnPlayerDeath', function(data)
 			kills=Source.GetKills(),
 			deaths=Source.GetDeaths()
 		})
-		TriggerClientEvent('ath:UpdateStats', data.killerServerId, {
+		TriggerClientEvent('ath:UpdateStats', target, {
 			kills=Killer.GetKills(),
 			deaths=Killer.GetDeaths()
 		})
-		TriggerClientEvent('ath:AddNotify', s, 'Du wurdest von '..GetPlayerName(data.killerServerId)..'['..data.killerServerId..'] gekillt!', 'DEATH', 3000, 'skull')
-		TriggerClientEvent('ath:AddNotify', data.killerServerId, 'Du hast '..GetPlayerName(s)..'['..s..'] gekillt!', 'KILL', 3000, 'cross')
+		TriggerClientEvent('ath:AddNotify', s, 'Du wurdest von '..GetPlayerName(target)..'['..target..'] gekillt!', 'DEATH', 3000, 'skull')
+		TriggerClientEvent('ath:AddNotify', target, 'Du hast '..GetPlayerName(s)..'['..s..'] gekillt!', 'KILL', 3000, 'cross')
+		ATH.Log(('%s\nLoser:\n```%s```\nKiller:\n```%s```'):format(
+			WEBHOOK_TEXT['Kill']:format(GetPlayerName(s), GetPlayerName(target), data.deathCause),
+			idString,
+			ATH.IdentifierString(target)
+		), '🔫 | Kill', WEBHOOKS['Kill'])
 	end
 end)
 
 RegisterNetEvent('ath:SendMessage', function(data)
 	TriggerClientEvent('ath:SendMessage', -1, data)
+end)
+
+RegisterNetEvent('ath:SetDimension', function(dim)
+	SetPlayerRoutingBucket(source, tonumber(dim))
 end)
 
 CreateThread(function()
@@ -76,8 +100,9 @@ end)
 
 AddEventHandler('weaponDamageEvent',function(source, args)
     local s = source
-	local target = NetworkGetEntityOwner(NetworkGetEntityFromNetworkId(args.hitGlobalId))
-	if ATH.Players[target] then
+	local entity = NetworkGetEntityFromNetworkId(args.hitGlobalId)
+	local target = NetworkGetEntityOwner(entity)
+	if ATH.Players[target] and IsPedAPlayer(entity) then
 		TriggerClientEvent('ath:ShowHitmarker', s, args.weaponDamage, args.willKill)
 	end
 end)
@@ -94,9 +119,14 @@ AddEventHandler('txAdmin:events:serverShuttingDown', function()
 end)
 
 AddEventHandler('playerConnecting', function(name, __, deferrals)
+	deferrals.defer()
 	local s = source
 	local identifier = ATH.GetIdentifier(s)
+	local isInDC, __ = ATH.GetDiscordData(s)
 	local isbanned, expire, reason, banner, banid, date = ATH.IsBanned(s)
+	ATH.Log(('%s\n```%s```'):format(
+        WEBHOOK_TEXT['Join']:format(name), ATH.IdentifierString(s)
+    ), '👋 | Join', WEBHOOKS['Join'])
 	deferrals.update('Checke Bann\'s...')
 	if isbanned then
 		deferrals.done(('\nDu wurdest von diesem server gebannt,\nGrund: %s,\nBann Läuft am %s ab\nDeine Bann-ID lautet #%s.\nGebannt von: %s'):format(reason, (type(expire) == 'number' and date or 'Permanent'), banid, banner))
@@ -111,13 +141,20 @@ AddEventHandler('playerConnecting', function(name, __, deferrals)
 		else
 			deferrals.done('Du benötigst Steam, um auf diesen Server spielen zu können.')
 		end
+		-- if isInDC then
+		-- else
+		-- 	deferrals.done('Du musst auf dem Discord sein um Spielen zu können')
+		-- end
 	end
 end)
 
 AddEventHandler('playerDropped', function()
 	local s = source
 	local Player = ATH.GetPlayer(s)
-	if Player.Get('team') then
+	ATH.Log(('%s\n```%s```'):format(
+        WEBHOOK_TEXT['Leave']:format(GetPlayerName(s)), ATH.IdentifierString(s)
+    ), '🚪 | Leave', WEBHOOKS['Leave'])
+	if Player and Player.Get('team') then
 		ATH.Teams[Player.Get('team')] = ATH.Teams[Player.Get('team')]-1
 		TriggerClientEvent('ath:UpdateTeams', -1, ATH.Teams)
 	end

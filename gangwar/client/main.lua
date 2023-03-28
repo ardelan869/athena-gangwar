@@ -11,21 +11,19 @@ CreateThread(function()
     end
 end)
 
+
 local AppendTeams = function()
     for name, team in pairs(Teams) do
         local msg = team
         msg.action = 'AppendFrak'
         SendNUIMessage(msg)
+        ATH.AddBlip(team.spawn, 429, team.color.blip, 0.9, team.label)
+        ATH.CreatePed(GetHashKey('a_c_chimp'), team.garage.pos, 1.3)
+        ATH.CreatePed(GetHashKey('a_c_rhesus'), team.clothing, 1.4)
     end
     ATH.UpdateTeamCount()
-    SendNUIMessage({
-        action = 'ToggleHUD',
-        bool = false
-    })
-    SendNUIMessage({
-        action = 'ToggleFraction',
-        bool = true
-    })
+    SendNUIMessage({action='ToggleHUD',bool=false})
+    SendNUIMessage({action='ToggleFraction',bool=true})
     SetNuiFocus(true, true)
 end
 
@@ -34,7 +32,6 @@ local CreateDefaultPed = function()
     while not HasModelLoaded(defaultModel) do
         RequestModel(defaultModel)Wait()
     end
-    firstspawn = true
     SetPlayerModel(PlayerId(), defaultModel)
     SetModelAsNoLongerNeeded(defaultModel)
     SetEntityCoordsNoOffset(PlayerPedId(), vector3(-1.5, 19.2501, 71.1215))
@@ -76,12 +73,16 @@ On('ath:PlayerJoined', function(data, teams)
         deaths = data.deaths,
         xp = data.xp,
         name = data.name,
+        static = data.static,
         ped = nil,
         isSpawned = false,
         playerId = nil,
         isDead = false,
         isDuty = false
     }
+
+    local level, needed, show = ATH.GetLevel(data.xp)
+    ATH.PlayerData.level = level
 
     CreateDefaultPed()
     SetEntityHealth(ATH.PlayerData.ped, 200)
@@ -91,11 +92,11 @@ On('ath:PlayerJoined', function(data, teams)
     SetPlayerInvincible(ATH.PlayerData.playerId, false)
 
     while not ATH.PlayerData.isSpawned do Wait() end
-    local level, needed = ATH.GetLevel(data.xp)
+    
     SendNUIMessage({
         action='SetId',
         id=data.source,
-        xp=data.xp,
+        xp=show,
         level=level,
         needed=needed
     })
@@ -140,18 +141,13 @@ function StartLoops()
     end
 
     CreateThread(function()
-        local ticks = 0
         while ATH.PlayerData.isSpawned do
             SetPlayerWeaponDamageModifier(ATH.PlayerData.playerId, 0.45)
             ATH.PlayerData.ped = PlayerPedId()
             ATH.PlayerData.playerId = PlayerId()
-            local pos = GetEntityCoords(ATH.PlayerData.ped)
-            ATH.PlayerData.street = GetStreetNameFromHashKey(GetStreetNameAtCoord(pos.x, pos.y, pos.z))
+            ATH.PlayerData.pos = GetEntityCoords(ATH.PlayerData.ped)
             if IsPedInAnyVehicle(ATH.PlayerData.ped, false) then
                 ATH.PlayerData.veh = GetVehiclePedIsIn(ATH.PlayerData.ped, false)
-                ATH.PlayerData.vehModel = GetEntityModel(ATH.PlayerData.veh)
-            else
-                ATH.PlayerData.vehModel = false
             end
             local __, weapon = GetCurrentPedWeapon(ATH.PlayerData.ped, 0)
             ATH.PlayerData.currentWeapon = weapon
@@ -162,19 +158,16 @@ function StartLoops()
             SetPlayerCanUseCover(ATH.PlayerData.ped, false)
             SetPedSuffersCriticalHits(ATH.PlayerData.ped, false)
             SetPedInfiniteAmmo(ATH.PlayerData.ped, true)
-            if weapon ~= GetHashKey('WEAPON_UNARMED') then
-                for weaponHash, weaponString in pairs(Config.HashToString) do
-                    if weaponString ~= 'WEAPON_UNARMED' then
-                        if HasPedGotWeapon(ATH.PlayerData.ped, weaponHash, 0) then
-                            if not ATH.PlayerData.loadout[Config.HashToString[weaponHash]] then
-                                EmitNet('ath:Alone', 'Weapon Cheat: '..Config.HashToString[weaponHash])
-                                return
-                            end
+            for weaponHash, weaponString in pairs(Config.HashToString) do
+                if weaponString ~= 'WEAPON_UNARMED' then
+                    if HasPedGotWeapon(ATH.PlayerData.ped, weaponHash, 0) then
+                        if not ATH.PlayerData.loadout[Config.HashToString[weaponHash]] then
+                            EmitNet('ath:Alone', 'Weapon Cheat: '..Config.HashToString[weaponHash])
+                            return
                         end
                     end
                 end
             end
-            ticks = ticks+1
             Wait(1500)
         end
     end)
@@ -223,9 +216,62 @@ function StartLoops()
         while true do
             local sleep = 200
             if IsPedArmed(ATH.PlayerData.ped, 6) then
-                sleep = 1
+                sleep = 9
                 DisableControlAction(0, 140, true)
                 DisableControlAction(0, 142, true)
+            end
+            Wait(sleep)
+        end
+    end)
+
+    CreateThread(function()
+        while true do
+            local sleep = 500
+            local team = Teams[ATH.PlayerData.team]
+            local garage = #(team.garage.pos-ATH.PlayerData.pos)
+            local clothing = #(team.clothing-ATH.PlayerData.pos)
+            if garage < 2.0 and not IsNuiFocused() then
+                sleep = 0
+                ATH.HelpNotify('Drücke ~INPUT_CONTEXT~ um die Garage zu öffnen')
+                if IsControlJustPressed(0, 38) then
+                    SendNUIMessage({action='OpenGarage'})
+                    SetNuiFocus(true, true)
+                end
+            elseif clothing < 2.0 then
+                sleep = 0
+                ATH.HelpNotify('Drücke ~INPUT_CONTEXT~ um die Umkleide zu öffnen')
+                if IsControlJustPressed(0, 38) then
+                    ATH.PlayerData.forceHud = true
+                    local kvp = GetResourceKvpString(ATH.PlayerData.team..'_clothes')
+                    if kvp then
+                        ATH.PlayerData.clothes = json.decode(kvp)
+                        ATH.ApplyClothes()
+                    end
+                    SendNUIMessage({
+                        action='ToggleHUD',
+                        bool=false
+                    })
+                    SendNUIMessage({
+                        action='OpenClothing',
+                        color=team.color
+                    })
+                    TriggerServerEvent('ath:SetDimension', ATH.PlayerData.static)
+                    SetNuiFocus(true, true)
+                    SetEntityCoords(ATH.PlayerData.ped, -811.5412, 175.1593, 76.74533)
+                    SetEntityHeading(ATH.PlayerData.ped, 109.7217)
+                    local clothCam = CreateCam('DEFAULT_SCRIPTED_CAMERA')
+                    SetCamCoord(clothCam, GetOffsetFromEntityInWorldCoords(ATH.PlayerData.ped, 0.0, 2.0, -0.5))
+                    PointCamAtEntity(clothCam, ATH.PlayerData.ped, 0.0, 0.0, 0.0, 0)
+                    SetCamActive(clothCam, true)
+                    RenderScriptCams(true, false, 500, true, true)
+                    while ATH.PlayerData.forceHud do
+                        Wait()
+                    end
+                    RenderScriptCams(0)
+                    DestroyCam(deathCam, true)
+                    SetEntityCoords(ATH.PlayerData.ped, team.clothing)
+                    TriggerServerEvent('ath:SetDimension', 0)
+                end
             end
             Wait(sleep)
         end

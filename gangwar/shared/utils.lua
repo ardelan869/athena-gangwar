@@ -6,6 +6,18 @@ toPlus = function(int)
 	return tonumber(str:sub(2))
 end
 
+isLongSleeve = function(draw)
+	for _, i in pairs({
+		96, 107, 108, 111, 117, 134, 141, 154, 171,
+		172, 182, 237, 257, 273, 305, 308, 332,
+	}) do
+		if draw == i then
+			return true
+		end
+	end
+    return false
+end
+
 table.merge = function(t1, t2)
 	local t = t1
 	for i, v in pairs(t2) do

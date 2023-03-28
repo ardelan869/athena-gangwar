@@ -9,7 +9,7 @@ window.onload = () => {
         switch (e.keyCode) {
             case 27:
                 if (!firstTime) {
-                    $('.faction_container').fadeOut(300)
+                    $('.faction_container, .garage_container, .clothing_container').fadeOut(300)
                     $.post(`https://${GetParentResourceName()}/close`)
                     setTimeout(() => {
                         $('.factions').show()
@@ -36,6 +36,7 @@ window.onload = () => {
                     }))
                     messages.push(message)
                 }
+                $.post(`https://${GetParentResourceName()}/close`)
                 $('.chat').val('').hide()
                 setTimeout(() => {
                     if ($('.chat').css('display') == 'none') $('.messages').hide();
@@ -277,8 +278,8 @@ window.onload = () => {
                 }, 1700)
             break
             case 'ToggleHUD':
-                if (i.bool) $('.hud').show()
-                else $('.hud').hide()
+                if (i.bool) $('.hud').show();
+                else $('.hud').hide();
             break
             case 'ToggleFraction':
                 if (i.bool) {
@@ -300,6 +301,9 @@ window.onload = () => {
                 const message = $(`<div class="message akr_semi font_20">
                     [<font style="color: ${i.color};">${_U(i.rank)}</font>] [${i.id}] ${i.name}: ${i.text}
                 </div>`).appendTo('.messages')
+                var objDiv = document.querySelector('.messages');
+				objDiv.scrollTop = objDiv.scrollHeight;
+                $('.messages').show()
                 setTimeout(() => {
                     if ($('.chat').css('display') == 'none') $('.messages').hide();
                 }, 3500)
@@ -307,6 +311,57 @@ window.onload = () => {
             case 'OpenChat':
                 $('.chat, .messages').show()
                 $('.chat').focus()
+                var objDiv = document.querySelector('.messages');
+				objDiv.scrollTop = objDiv.scrollHeight;
+            break
+            case 'AppendVehicle':
+                var e = ''
+                if (!i.allowed) e = 'disabled';
+                const vehicle = $(`<div class="vehicle flex_row_align">
+                    <div b class="flex_centered">
+                        <button class="button_border_1 akr_xbold font_10" style="
+                        --bg: ${i.color.bg};
+                        --border: ${i.color.border};
+                        --border-hover: ${i.color.border_hover};
+                        --hover: ${i.color.hover};
+                        " onclick="SpawnCar('${i.name}')" ${e}>
+                            AUSPARKEN
+                        </button>
+                    </div>
+                    <div style="--img-border: ${i.color.img_border};">
+                        <img src="assets/img/vehicles/${i.name}.png">
+                        <div class="flex_row_align">
+                            <div class="label akr_bold" style="
+                            --label-bg: ${i.color.label_bg};
+                            --label-color: ${i.color.label_color};
+                            ">${i.label}</div>
+                            <div class="circle flex_centered radius_50" style="
+                            --circle-bg: ${i.color.circle_bg};
+                            --circle-border: ${i.color.circle_border};
+                            --circle-fill: ${i.color.circle_fill};
+                            ">
+                                <div class="inner radius_50"></div>
+                            </div>
+                            <div class="flex_row_align_bottom">
+                                <div class="font_15 akr_bold">LVL ${i.lvl}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`).appendTo('#vehicles')
+            break
+            case 'ClearGarage':
+                $('#vehicles').empty()
+            break
+            case 'OpenGarage':
+                $('.garage_container').fadeIn()
+            break
+            case 'OpenClothing':
+                $('.clothing_container [main], .clothing_container .category').css('--bg', i.color.bg)
+                $('.clothing_container [main], .clothing_container .category').css('--border', i.color.border)
+                $('.clothing_container [main]').css('--border-hover', i.color.border_hover)
+                $('.clothing_container [main], .clothing_container .category').css('--hover', i.color.hover)
+                $('.clothing_container').fadeIn()
+                $('.clothing_container .category:nth-of-type(1)').click()
             break
         }
     })
@@ -315,6 +370,30 @@ window.onload = () => {
         $('#time').text(`${addZero(date.getHours())}:${addZero(date.getMinutes())}`)
         $('#date').text(`${addZero(date.getDate())}.${addZero(date.getMonth()+1)}.${date.getFullYear()}`)
     }, 500)
+    $('.clothing_container [main]').click(() => {
+        $('.clothing_container').fadeOut(300)
+        $.post(`https://${GetParentResourceName()}/SaveClothes`)
+    })
+    $('.clothing_container .category').click(e => {
+        $('#pieces').empty()
+        $('.clothing_container .category').removeClass('active')
+        $.post(`https://${GetParentResourceName()}/FetchPieces`).then(cb => {
+            $(e.currentTarget).addClass('active')
+            const category = $(e.currentTarget).data('cat')
+            for (var v = 0; v < cb.clothes.categories[category].length; v++) {
+                const clothing = cb.clothes.categories[category][v]
+                const element = $(`<button class="button_border_1 akr_xbold font_15 clothing" style="
+                --bg: ${cb.color.bg};
+                --border: ${cb.color.border};
+                --border-hover: ${cb.color.border_hover};
+                --hover: ${cb.color.hover};
+                " onclick="SelectPiece('${category}', ${clothing.texture}, ${clothing.drawable})">
+                    ${clothing.label}
+                </button>`).appendTo('#pieces')
+            }
+        })
+
+    })
 }
 
 const _U = s => {
@@ -333,6 +412,25 @@ const addSpeed = (speed) => {
     return speed;
 }
 
+const SelectPiece = (cat, texture, drawable) => {
+    $.post(`https://${GetParentResourceName()}/SelectPiece`, JSON.stringify({
+        drawable: drawable,
+        texture: texture,
+        cat: cat
+    }))
+}
+
+const SelectClothCat = () => {
+    $.post(`https://${GetParentResourceName()}/FetchCategories`).then(cb => {})
+}
+
+const SpawnCar = name => {
+    $('.garage_container').fadeOut(300)
+    $.post(`https://${GetParentResourceName()}/SpawnCar`, JSON.stringify({
+        name: name
+    }))
+}
+
 const SelectFaction = name => {
     team = name
     $('.factions').hide()
@@ -340,7 +438,11 @@ const SelectFaction = name => {
     $.post(`https://${GetParentResourceName()}/FetchClothing`, JSON.stringify({
         team: name
     })).then(cb => {
-        for (var i = 0; i < cb.clothes.length; i++) {
+        $(':root').css(
+            '--faction-bg',
+            `linear-gradient(107.56deg, ${cb.color.faction_bg} 0%, #000000 100%)`
+        )
+        for (var i = 0; i < cb.clothes.outfits.length; i++) {
             window.postMessage({
                 action: 'AppendClothing',
                 label: `OUTFIT ${i+1}`,

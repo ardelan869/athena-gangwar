@@ -5,6 +5,7 @@
     background: url(../img/bg_pattern_faction.png), var(--faction-bg);
     background-size: 100vw;
     gap: 4.9vh;
+    transition: .3s ease-out;
 }
 
 .faction_container .title {
@@ -86,19 +87,6 @@
 .faction_container .factions .faction .faction_info .flex_row_align_bottom {
     line-height: .5vh;
     gap: .4vh;
-}
-
-.faction_container .factions .faction>div>div .circle {
-    width: 1.8vh;
-    height: 1.8vh;
-    background: var(--circle-bg);
-    border: .1vh solid var(--circle-border);
-}
-
-.faction_container .factions .faction>div>div .circle .inner {
-    width: 1.1vh;
-    height: 1.1vh;
-    background: var(--circle-fill);
 }
 
 .faction_container .faction_clothing .clothing {

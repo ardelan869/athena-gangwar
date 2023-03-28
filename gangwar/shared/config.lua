@@ -1,20 +1,39 @@
 Config = {
     Debug = true,
+    Component = {
+        ['mask'] = 1,
+        ['pants'] = 4,
+        ['shirt'] = 11,
+        ['shoes'] = 6,
+        ['hat'] = 0,
+        ['glasses'] = 1,
+        ['earrings'] = 2,
+        ['chain'] = 7
+    },
     ChatColors = {
+        ['projektleitung'] = '#000',
+        ['manager'] = '#201e1e',
+        ['entwickler'] = '#494949',
+        ['superadmin'] = '#615e5e',
         ['admin'] = '#908b8b',
+        ['moderator'] = '#a7a1a1',
+        ['supporter'] = '#ccc6c6',
         ['user'] = '#FFF'
     },
     Perms = {
         ['ban'] = {
-            ['admin'] = true,
-        },
-        ['money'] = {
+            ['projektleitung'] = true,
+            ['manager'] = true,
             ['admin'] = true,
         },
         ['all'] = {
+            ['projektleitung'] = true,
+            ['manager'] = true,
             ['admin'] = true,
         },
         ['weapon'] = {
+            ['projektleitung'] = true,
+            ['manager'] = true,
             ['admin'] = true,
         },
     },
@@ -704,4 +723,27 @@ Config = {
     }
 }
 
-Debug = Config.Debug and print or (function() end)
+Debug = function(...)
+    if Config.Debug then
+        return print('^7[^4DEBUG^7] | '.. (...))
+    end
+end
+
+Error = function(...)
+    return print('^0[^8ERROR^0] | '.. (...))
+end
+
+Warning = function( ... )
+    return print('^0[^3WARNING^0] | '.. (...))
+end
+
+ADUTY_VARIANT = {
+    ['projektleitung'] = 0,
+    ['manager'] = 1,
+    ['entwickler'] = 6,
+    ['superadmin'] = 7,
+    ['admin'] = 8,
+    ['moderator'] = 4,
+    ['supporter'] = 5,
+    ['user'] = 7
+}

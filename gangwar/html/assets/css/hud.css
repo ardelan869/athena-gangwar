@@ -245,14 +245,17 @@
 
 .hud .chat_wrapper .messages {
     width: 41.667vh;
+    max-height: 25vh;
     align-items: flex-start;
     gap: .7vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .hud .chat_wrapper .chat {
     width: 38.669vh;
     height: 4.63vh;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.25);
     background-image: url(../img/icons/send.svg);
     background-repeat: no-repeat;
     background-size: 2.5vh;

@@ -14,10 +14,6 @@ html {
     overflow: hidden;
 }
 
-html {
-    /* background: rgb(145, 60, 60); */
-}
-
 input,
 button {
     outline: none;
@@ -114,7 +110,11 @@ button {
     transition: .3s color;
 }
 
-.button_border_1:hover {
+.button_border_1[disabled] {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.button_border_1:not([disabled]):hover {
     background: var(--hover);
     border: .1vh solid var(--border-hover);
     cursor: pointer;
@@ -238,4 +238,18 @@ button {
     fill: none;
     transform: rotate(-90deg);
     transform-origin: center;
+    transition: .4s stroke-dasharray ease-out, .4s stroke-dashoffset ease-out;
+}
+
+.circle {
+    width: 1.8vh;
+    height: 1.8vh;
+    background: var(--circle-bg);
+    border: .1vh solid var(--circle-border);
+}
+
+.circle .inner {
+    width: 1.1vh;
+    height: 1.1vh;
+    background: var(--circle-fill);
 }

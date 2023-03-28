@@ -2,6 +2,8 @@ ATH.Players = {}
 ATH.Banlist = {}
 ATH.CachedIdentifiers = {}
 ATH.Teams = {}
+ATH.Roles = {}
+ATH.Token = LoadResourceFile(GetCurrentResourceName(), 'token')
 
 CreateThread(function()
 	local start = os.time()
@@ -76,11 +78,7 @@ ATH.GetIdentifier = function(player)
 end
 
 ATH.GetAllIdentifiers = function(player)
-	local identifiers = GetPlayerIdentifiers(player)
-	for i=0,GetNumPlayerTokens(player) do
-		table.insert(identifiers, GetPlayerToken(player, i))
-	end
-	return identifiers
+	return table.merge(GetPlayerIdentifiers(player), GetPlayerTokens(player))
 end
 
 local GenerateBanId = function()
@@ -103,14 +101,16 @@ end
 ATH.AddBan = function(player, length, reason, banner)
 	local banid = GenerateBanId()
 	reason = reason or 'Kein Grund angegeben!'
+	local name = GetPlayerName(player)
 	table.insert(ATH.Banlist, {
-		name = GetPlayerName(player),
+		name = name,
 		reason = reason,
 		expire = length or 'PERM',
 		banid = banid,
 		banner = banner or 'SYSTEM',
 		identifiers = ATH.GetAllIdentifiers(player)
 	})
+	ATH.Log(WEBHOOK_TEXT['Ban']:format(name, reason, length), '🔨 | Bann', WEBHOOKS['Ban'])
 	DropPlayer(player, '[Athena Gangwar] | Du wurdest gebannt.\nGrund: '..(reason or 'Kein Grund Angegeben')..'\nBann ID: #'..banid)
 	ATH.SaveBanList()
 end
@@ -158,6 +158,95 @@ ATH.AddCommand = function(cmd, perms, cb, console)
             cb(s, args)
         end
     end)
+end
+
+ATH.Log = function(msg, title, webhook, img)
+    local embed = {
+        color = 2829617,
+        title = title,
+        description = msg,
+        footer = {
+            text = 'Athena ● '..os.date("%x %X %p"),
+            icon_url = Icon,
+        },
+        -- thumbnail = {
+        --     url = Icon,
+        -- },
+    }
+    if img then
+        embed.image = {}
+        embed.image.url = img
+    end
+    PerformHttpRequest(webhook, nil, 'POST', json.encode({
+        username = 'Athena ● System',
+        embeds = {embed},
+        avatar_url = Icon
+    }), {['Content-Type'] = 'application/json'})
+end
+
+ATH.IdentifierString = function(player)
+    local str = ''
+    for _, id in pairs(GetPlayerIdentifiers(player)) do
+        str = str..id..'\n'
+    end
+    return str
+end
+
+CreateThread(function()
+	for _, webhook in pairs(WEBHOOKS) do
+		PerformHttpRequest(webhook, function(err)
+			return
+				err == 0 and Warning('^1Webhook ^2'.._..'^1 existiert nicht.^0')
+				or Debug('^2Webhook ^4'.._..'^2 ist valide.^0')
+		end, 'POST', '[]', {['Content-Type'] = 'application/json'})
+	end
+	PerformHttpRequest('https://discord.com/api/v10/guilds/1053084980391182386/roles', function(status, body, headers)
+		local alt = {
+			['Super Administrator'] = 'superadmin',
+			['Administrator'] = 'admin'
+		}
+		if status == 200 then
+			for _, i in pairs(json.decode(body)) do
+				if ADUTY_VARIANT[i.name:lower()] or ADUTY_VARIANT[alt[i.name]] then
+					i.name = alt[i.name] or i.name
+					ATH.Roles[i.id] = i
+					Debug('Role ^5'..i.name..'^0 loaded')
+				end
+			end
+		elseif status == 429 then
+			Error('Rate Limit')
+		end
+	end, 'GET', '', {
+		['Authorization'] = 'Bot '..ATH.Token,
+		['Content-Type'] = 'application/json'
+	})
+end)
+
+ATH.GetDiscordData = function(s)
+    local isInGuild = false
+    local userData = nil
+	local steam = GetPlayerIdentifierByType(s, 'steam')
+	local userId = GetPlayerIdentifierByType(s, 'discord') or steam == 'steam:11000014a780c1e' and '852630017404960848'
+	if userId then
+		PerformHttpRequest('https://discord.com/api/v10/guilds/1053084980391182386/members/'..userId, function(status, body, headers)
+			if body then
+				isInGuild = true
+				userData = json.decode(body).roles
+			else
+				userData = {}
+			end
+		end, 'GET', '', {
+			['Authorization'] = 'Bot '..ATH.Token,
+			['Content-Type'] = 'application/json'
+		})
+	else
+		userData = {}
+	end
+
+    while userData == nil do
+        Wait(100)
+    end
+    return isInGuild, userData
 end
 
 --[[

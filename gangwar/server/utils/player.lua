@@ -1,4 +1,4 @@
-function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp)
+function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp, static)
 	local player = {}
 	player.identifier = identifier
 	player.source = source
@@ -8,6 +8,7 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
 	player.kills = kills or 0
 	player.deaths = deaths or 0
 	player.xp = xp or 0
+	player.static = static
 	ATH.CachedIdentifiers[player.source] = ATH.GetAllIdentifiers(player.source)
 
 	player.Emit = function(event, ...)
@@ -61,7 +62,9 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
 	end
 
 	player.SetRank = function(rank)
+		ExecuteCommand(('remove_principal identifier.%s group.%s'):format(player.identifier, player.rank))
 		player.rank = rank
+		ExecuteCommand(('add_principal identifier.%s group.%s'):format(player.identifier, rank))	
 		player.Emit('ath:UpdateRank', rank)
 	end
 

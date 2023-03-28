@@ -260,10 +260,10 @@ ATH.GetLevel = function(xp)
     for i=1, table.length(Levels.List) do
         local needed = Levels.List[i]
         if xp >= needed and (Levels.List[i+1] ~= nil and (Levels.List[i+1] > xp)) then
-            return i, Levels.List[i+1]
+            return i, Levels.List[i+1]-needed, xp-needed
         end
     end
-    return 0, Levels.List[1]
+    return 0, Levels.List[1], xp
 end
 
 ATH.UpdateTeamCount = function()
@@ -274,4 +274,77 @@ ATH.UpdateTeamCount = function()
             count = count
         })
     end
+end
+
+ATH.CreatePed = function(model, pos, offset)
+    local modelHash = (type(model) == 'string' and GetHashKey(model)) or model;
+    ATH.LoadModel(modelHash)
+    local ped = CreatePed(0, modelHash, pos.x, pos.y, pos.z-offset, 10.0, false, false)
+    CreateThread(function()
+        while not DoesEntityExist(ped) do Wait() end
+        FreezeEntityPosition(ped, true)
+        SetEntityInvincible(ped, true)
+        SetBlockingOfNonTemporaryEvents(ped, true)
+    end)
+    return ped
+end
+
+ATH.SpawnCar = function(model, plate, pos, heading)
+    local model = type(model) == 'string' and GetHashKey(model) or model
+    ATH.LoadModel(model)
+    local heading = heading or GetEntityHeading(ATH.PlayerData.ped)
+    local pos = pos or GetEntityCoords(ATH.PlayerData.ped)
+    local vehicle = CreateVehicle(model, pos.x, pos.y, pos.z, heading, true, true)
+    RequestCollisionAtCoord(pos)
+    while not HasCollisionLoadedAroundEntity(vehicle) do
+        Wait(0)
+    end
+    TaskWarpPedIntoVehicle(ATH.PlayerData.ped, vehicle, -1)
+    SetVehicleDirtLevel(vehicle, 0)
+    SetVehicleFuelLevel(vehicle, 100.0)
+    SetEntityAsMissionEntity(vehicle, true, true)
+    SetVehicleModKit(vehicle, 0)
+    SetVehicleMod(vehicle, 11, 3, false)
+    SetVehicleMod(vehicle, 12, 2, false)
+    SetVehicleMod(vehicle, 13, 2, false)
+    SetVehicleMod(vehicle, 15, 3, false)
+    SetVehicleMod(vehicle, 16, 4, false)
+    ToggleVehicleMod(vehicle, 18, true)
+    local rgb = {r=55,g=140,b=191}
+    if plate ~= 'ATHENA' then
+        rgb = Teams[ATH.PlayerData.team].color.rgb
+    end
+    SetVehicleCustomPrimaryColour(vehicle, rgb.r, rgb.g, rgb.b)
+    SetVehicleCustomSecondaryColour(vehicle, rgb.r, rgb.g, rgb.b)
+    SetVehicleNumberPlateText(vehicle, tostring(plate))
+    SetVehicleNumberPlateTextIndex(vehicle, 1)
+    return vehicle
+end
+
+ATH.ApplyClothes = function(skin)
+    local skin = skin or ATH.PlayerData.clothes
+    for _, cloth in pairs(skin) do
+        if cloth.isDrop then
+			SetPedPropIndex(
+                ATH.PlayerData.ped,
+                cloth.componentId,
+                cloth.drawableId,
+                cloth.textureId,
+                2
+            )
+        else
+            if isLongSleeve(cloth.drawableId) then
+                SetPedComponentVariation(ATH.PlayerData.ped, 3, 4, 0, 2)
+            else
+                SetPedComponentVariation(ATH.PlayerData.ped, 3, 2, 0, 2)
+            end
+            SetPedComponentVariation(
+                ATH.PlayerData.ped,
+                cloth.componentId,
+                cloth.drawableId,
+                cloth.textureId,
+                2
+            )
+        end
+	end
 end

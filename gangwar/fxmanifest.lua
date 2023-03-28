@@ -17,6 +17,7 @@ server_scripts {
     '@oxmysql/lib/MySQL.lua',
     'jsons/cachedidentifier.json',
     'jsons/bans.json',
+    'server/webhooks.lua',
     'server/utils/functions.lua',
     'server/utils/player.lua',
     'server/utils/commands.lua',
@@ -24,7 +25,6 @@ server_scripts {
 }
 
 client_scripts {
-    'client/config.lua',
     'client/utils/ipl.lua',
     'client/utils/functions.lua',
     'client/utils/death.lua',

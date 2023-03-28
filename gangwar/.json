@@ -1,0 +1,39 @@
+[
+    {
+        "paletteId": 0,
+        "componentId": 8,
+        "textureId": 0,
+        "drawableId": 15
+    },
+    {
+        "isDrop": false,
+        "drawableId": 134,
+        "textureId": 1,
+        "paletteId": 0,
+        "componentId": 11
+    },
+    {
+        "paletteId": 0,
+        "componentId": 4,
+        "textureId": 3,
+        "drawableId": 5
+    },
+    {
+        "paletteId": 0,
+        "componentId": 6,
+        "textureId": 0,
+        "drawableId": 112
+    },
+    {
+        "componentId": 1,
+        "isDrop": false,
+        "textureId": 7,
+        "drawableId": 115
+    },
+    {
+        "paletteId": 0,
+        "componentId": 9,
+        "textureId": 2,
+        "drawableId": 16
+    }
+]

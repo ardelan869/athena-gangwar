@@ -54,6 +54,13 @@ ATH.AddCommand('clearcars', Config.Perms['all'], function(s, args)
     end
 end)
 
+ATH.AddCommand('clearpeds', Config.Perms['all'], function(s, args)
+    local vehs = GetAllPeds()
+    for i=1, #vehs do
+        DeleteEntity(vehs[i])
+    end
+end)
+
 ATH.AddCommand('dv', Config.Perms['all'], function(s, args)
     local radius = tonumber(args[1]) or 4.0
     local vehs = GetAllVehicles()
