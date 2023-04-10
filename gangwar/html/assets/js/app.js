@@ -17,6 +17,42 @@ window.onload = () => {
                     }, 300)
                 }
             break
+            case 37: //left
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOn`, '{"l":true}');
+            break
+            case 65: //left
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOn`, '{"l":true}')
+            break
+            case 39: //right
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOn`, '{"l":false}')
+            break
+            case 68: //right
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOn`, '{"l":false}')
+            break
+        }
+    })
+    window.addEventListener('keyup', e => {
+        switch (e.keyCode) {
+            case 37:
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOff`)
+            break
+            case 39:
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOff`)
+            break
+            case 65:
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOff`)
+            break
+            case 68:
+                if (($('.l_r').css('display') != 'none'))
+                $.post(`https://${GetParentResourceName()}/TurnOff`)
+            break
         }
     })
     document.getElementById('chat').addEventListener('keydown', e => {
@@ -299,7 +335,7 @@ window.onload = () => {
             break
             case 'AddMessage':
                 const message = $(`<div class="message akr_semi font_20">
-                    [<font style="color: ${i.color};">${_U(i.rank)}</font>] [${i.id}] ${i.name}: ${i.text}
+                    ${i.text}
                 </div>`).appendTo('.messages')
                 var objDiv = document.querySelector('.messages');
 				objDiv.scrollTop = objDiv.scrollHeight;
@@ -362,6 +398,15 @@ window.onload = () => {
                 $('.clothing_container [main], .clothing_container .category').css('--hover', i.color.hover)
                 $('.clothing_container').fadeIn()
                 $('.clothing_container .category:nth-of-type(1)').click()
+            break
+            case 'ToggleKillfeed':
+                if (i.bool) {
+                    $('.killcam').show()
+                    $('.enemy>[name]').text(i.enemy)
+                    $('.enemy>[points]').text(i.enemyp)
+                    $('.you>[name]').text(i.you)
+                    $('.you>[points]').text(i.youp)
+                } else $('.killcam').hide();
             break
         }
     })

@@ -93,6 +93,10 @@
     font-size: 2.315vh;
 }
 
+.font_30 {
+    font-size: 2.781vh;
+}
+
 .font_36 {
     font-size: 3.334vh;
 }
@@ -103,6 +107,14 @@
 
 .font_50 {
     font-size: 4.63vh;
+}
+
+.font_60 {
+    font-size: 5.556vh;
+}
+
+.font_100 {
+    font-size: 9.26vh;
 }
 
 .font_white_15 {

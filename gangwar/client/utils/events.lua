@@ -1,4 +1,12 @@
-On('__cfx_internal:serverPrint', print)
+On('__cfx_internal:serverPrint', function(msg)
+    if #msg > 0 then
+        print(msg)
+        SendNUIMessage({
+            action='AddMessage',
+            text='[<font style="color: #000;">SYSTEM<font/>] | '..msg
+        })
+    end
+end)
 
 On('ath:UpdateLoadout', function(loadout)
     ATH.PlayerData.loadout = loadout
@@ -10,9 +18,9 @@ end)
 
 On('ath:ShowHitmarker', function(damage, deadly)
     SendNUIMessage({
-        action='ShowHitmarker',
-        damage=damage,
-        deadly=deadly
+        action = 'ShowHitmarker',
+        damage = damage,
+        deadly = deadly
     })
 end)
 
@@ -21,15 +29,23 @@ On('ath:UpdatePlayers', function(players)
         action = 'UpdatePlayers',
         players = players
     })
+    SetDiscordAppId('1088789715295158354')
+    local kd = ATH.PlayerData.kills and (ATH.PlayerData.kills / ATH.PlayerData.deaths)
+    SetRichPresence('KD: '..(kd and ('%02.2f'):format(kd) or '0.0')..'\nSpieler: '..players)
+    SetDiscordRichPresenceAction(0, 'Discord', 'https://discord.gg/athenagw')
+    SetDiscordRichPresenceAsset('logo')
+    SetDiscordRichPresenceAssetText('Athena Gangwar')
+    SetDiscordRichPresenceAssetSmall('discord')
+    SetDiscordRichPresenceAssetSmallText('discord.gg/athenagw')
 end)
 
 On('ath:UpdateStats', function(data)
     ATH.PlayerData.kills = data.kills
     ATH.PlayerData.deaths = data.deaths
     SendNUIMessage({
-        action='SetStats',
-        kills=data.kills,
-        deaths=data.deaths,
+        action = 'SetStats',
+        kills = data.kills,
+        deaths = data.deaths,
     })
 end)
 
@@ -72,11 +88,18 @@ end)
 
 On('ath:SendMessage', function(data)
     SendNUIMessage({
-        action='AddMessage',
-        color=data.color,
-        rank=data.rank,
-        id=data.id,
-        name=data.name,
-        text=data.msg
+        action = 'AddMessage',
+        text = ('[<font style="color: '..data.color..';">'.._U(data.rank)..'</font>] ['..data.id..'] '..data.name..': '..data.msg)
     })
+end)
+
+On('ath:AddKill', function(id, name)
+    if not KillFeed[id] then
+        KillFeed[id] = {
+            name=name,
+            enemy=0,
+            you=0
+        }
+    end
+    KillFeed[id].you = KillFeed[id].you + 1
 end)

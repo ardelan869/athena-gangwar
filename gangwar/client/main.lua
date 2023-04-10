@@ -11,7 +11,6 @@ CreateThread(function()
     end
 end)
 
-
 local AppendTeams = function()
     for name, team in pairs(Teams) do
         local msg = team
@@ -112,6 +111,8 @@ function StartLoops()
         while not IsControlJustPressed(0, 32) and
             not IsControlJustPressed(0, 33) and
             not IsControlJustPressed(0, 34) and
+            not IsControlJustPressed(0, 22) and
+            not IsControlJustPressed(0, 37) and
             not IsControlJustPressed(0, 35)
         do
             SetLocalPlayerAsGhost(true)
@@ -123,7 +124,6 @@ function StartLoops()
         SetLocalPlayerAsGhost(false)
     end)
     FreezeEntityPosition(ATH.PlayerData.ped, false)
-    ATH.LoadAnim('missarmenian2')
     SetPedConfigFlag(ATH.PlayerData.ped, 35, false) -- PutOnMotorcycleHelmet
     SetCanAttackFriendly(ATH.PlayerData.ped, true, false)
     SetPlayerCanUseCover(ATH.PlayerData.ped, false)
@@ -137,7 +137,7 @@ function StartLoops()
     SetPedSuffersCriticalHits(ATH.PlayerData.ped, false)
     StartAudioScene('CHARACTER_CHANGE_IN_SKY_SCENE')
     for k=1,9 do
-        SetHudComponentPosition(k,999999.0,999999.0)
+        -- SetHudComponentPosition(k,999999.0,999999.0)
     end
 
     CreateThread(function()
@@ -146,6 +146,7 @@ function StartLoops()
             ATH.PlayerData.ped = PlayerPedId()
             ATH.PlayerData.playerId = PlayerId()
             ATH.PlayerData.pos = GetEntityCoords(ATH.PlayerData.ped)
+            SetRunSprintMultiplierForPlayer(ATH.PlayerData.playerId, 1.1)
             if IsPedInAnyVehicle(ATH.PlayerData.ped, false) then
                 ATH.PlayerData.veh = GetVehiclePedIsIn(ATH.PlayerData.ped, false)
             end
@@ -225,6 +226,11 @@ function StartLoops()
     end)
 
     CreateThread(function()
+        local skinCoords = vector3(298.7876, -584.5391, 43.26081)
+        local AddTextEntry = AddTextEntry
+        local BeginTextCommandDisplayHelp = BeginTextCommandDisplayHelp
+        local EndTextCommandDisplayHelp = EndTextCommandDisplayHelp
+        local IsControlJustPressed = IsControlJustPressed
         while true do
             local sleep = 500
             local team = Teams[ATH.PlayerData.team]
@@ -232,14 +238,18 @@ function StartLoops()
             local clothing = #(team.clothing-ATH.PlayerData.pos)
             if garage < 2.0 and not IsNuiFocused() then
                 sleep = 0
-                ATH.HelpNotify('Drücke ~INPUT_CONTEXT~ um die Garage zu öffnen')
+                AddTextEntry('I_LOVE_CATS', 'Drücke ~INPUT_CONTEXT~ um die Garage zu öffnen')
+                BeginTextCommandDisplayHelp('I_LOVE_CATS')
+                EndTextCommandDisplayHelp(0, false, true, -1)
                 if IsControlJustPressed(0, 38) then
                     SendNUIMessage({action='OpenGarage'})
                     SetNuiFocus(true, true)
                 end
             elseif clothing < 2.0 then
                 sleep = 0
-                ATH.HelpNotify('Drücke ~INPUT_CONTEXT~ um die Umkleide zu öffnen')
+                AddTextEntry('I_LOVE_CATS', 'Drücke ~INPUT_CONTEXT~ um die Umkleide zu öffnen')
+                BeginTextCommandDisplayHelp('I_LOVE_CATS')
+                EndTextCommandDisplayHelp(0, false, true, -1)
                 if IsControlJustPressed(0, 38) then
                     ATH.PlayerData.forceHud = true
                     local kvp = GetResourceKvpString(ATH.PlayerData.team..'_clothes')
@@ -268,7 +278,7 @@ function StartLoops()
                         Wait()
                     end
                     RenderScriptCams(0)
-                    DestroyCam(deathCam, true)
+                    DestroyCam(clothCam, true)
                     SetEntityCoords(ATH.PlayerData.ped, team.clothing)
                     TriggerServerEvent('ath:SetDimension', 0)
                 end
@@ -277,3 +287,4 @@ function StartLoops()
         end
     end)
 end
+

@@ -17,6 +17,7 @@ local PlayerKilledByPlayer = function(killerServerId, killerClientId, deathCause
 
 	TriggerEvent('ath:OnPlayerDeath', data)
 	TriggerServerEvent('ath:OnPlayerDeath', data)
+	return data
 end
 local PlayerKilled = function(deathCause)
 	local playerPed = PlayerPedId()
@@ -32,7 +33,15 @@ local PlayerKilled = function(deathCause)
 	TriggerServerEvent('ath:OnPlayerDeath', data)
 end
 local deathCam = nil
-local MakeDeathCam = function(ped)
+local MakeDeathCam = function(ped, id)
+	SendNUIMessage({
+		action='ToggleKillfeed',
+		bool=true,
+		enemy=KillFeed[id].name,
+		enemyp=KillFeed[id].enemy,
+		you=ATH.PlayerData.name,
+		youp=KillFeed[id].you
+	})
 	deathCam = CreateCam('DEFAULT_SCRIPTED_CAMERA')
 	SetCamCoord(deathCam, GetOffsetFromEntityInWorldCoords(ped, 0.0, -1.6, 1.2))
 	PointCamAtEntity(deathCam, ped, 0.0, 0.0, 0.0, 0)
@@ -46,7 +55,15 @@ local MakeDeathCam = function(ped)
 	end
 	RenderScriptCams(0)
 	DestroyCam(deathCam, true)
+	SendNUIMessage({
+		action='ToggleKillfeed',
+		bool=false
+	})
 end
+local std = {
+	enemy = 0,
+	you = 0
+}
 
 CreateThread(function()
 	while not ATH.PlayerData.isSpawned do Wait() end
@@ -65,29 +82,25 @@ CreateThread(function()
 				local killerClientId = NetworkGetPlayerIndexFromPed(killerEntity)
 
 				if killerEntity ~= playerPed and killerClientId and NetworkIsPlayerActive(killerClientId) then
-					PlayerKilledByPlayer(GetPlayerServerId(killerClientId), killerClientId, deathCause)
+					local data = PlayerKilledByPlayer(GetPlayerServerId(killerClientId), killerClientId, deathCause)
+					if not KillFeed[data.killerServerId] then
+						local s = std
+						std.name = GetPlayerName(data.killerClientId)
+						KillFeed[data.killerServerId] = s
+					end
+					KillFeed[data.killerServerId].enemy = KillFeed[data.killerServerId].enemy + 1
 					CreateThread(function()
-						MakeDeathCam(killerEntity)
+						MakeDeathCam(killerEntity, data.killerServerId)
 					end)
 				else
 					PlayerKilled(deathCause)
 				end
-
-				ATH.LoadAnim('missarmenian2')
 
 				if ATH.PlayerData.isDead then
 					Wait(3500)
 					if ATH.PlayerData.isDead then
 						ATH.RevivePed()
 					end	
-				end
-			end
-
-			if ATH.PlayerData.isDead then
-				DisableControlAction(0, 37, true)
-				DisableControlAction(0, 140, true)
-				if not IsEntityPlayingAnim(playerPed, 'missarmenian2', 'corpse_search_exit_ped', 3) then
-					TaskPlayAnim(playerPed, 'missarmenian2', 'corpse_search_exit_ped', 8.0, -8.0, -1, 0, 0, false, false, false)
 				end
 			end
 		end

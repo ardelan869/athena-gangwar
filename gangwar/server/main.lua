@@ -48,7 +48,7 @@ AddEventHandler('ath:PlayerJoined', function(source, Source)
 			return
 		end
 	end
-	Source.SetRank('user')
+	-- Source.SetRank('user')
 end)
 
 RegisterNetEvent('ath:OnPlayerDeath', function(data)
@@ -59,7 +59,7 @@ RegisterNetEvent('ath:OnPlayerDeath', function(data)
 		local Source = ATH.GetPlayer(s)
 		local Killer = ATH.GetPlayer(target)
 		Source.AddDeath()
-		Killer.AddKill()
+		Killer.AddKill(s, GetPlayerName(s))
 		if Killer.Get('team') == Source.Get('team') then
 			Killer.RemoveXP('Teamkill')
 		else

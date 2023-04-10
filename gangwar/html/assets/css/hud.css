@@ -264,6 +264,36 @@
     padding: 0 1.5vh;
 }
 
+.hud .killcam {
+    position: absolute;
+    left: 50%;
+    bottom: 4vh;
+    transform: translateX(-50%);
+    gap: 6vh;
+}
+
+.hud .killcam .flex_row_align {
+    gap: 1vh;
+    width: 25vh;
+}
+
+.hud .killcam .you {
+    justify-content: flex-end;
+}
+
+.hud .killcam .flex_row_align>div {
+    padding: 2vh;
+    border-radius: .9vh;
+}
+
+.hud .killcam .you>div {
+    background: linear-gradient(257.76deg, #0E232E 0%, #071015 100%);
+}
+
+.hud .killcam .enemy>div {
+    background: linear-gradient(257.76deg, #150707 0%, #2E0E0E 100%);
+}
+
 .hitmarker {
     position: absolute;
     top: 50%;

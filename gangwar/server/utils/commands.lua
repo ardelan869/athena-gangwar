@@ -1,7 +1,7 @@
 ATH.AddCommand('ban', Config.Perms['ban'], function(s, args)
     local target = tonumber(args[1])
     if ATH.GetPlayer(target) then
-        ATH.AddBan(target, 'PERM', (args[2] and table.concat(args, " ", 2, #args)) or false)
+        ATH.AddBan(target, 'PERM', (args[2] and table.concat(args, ' ', 2, #args)) or false)
     end
 end)
 
@@ -37,6 +37,7 @@ ATH.AddCommand('bring', Config.Perms['all'], function(s, args)
     local target = tonumber(args[1])
     if GetPlayerPing(target) > 0 then
         SetEntityCoords(GetPlayerPed(target), GetEntityCoords(GetPlayerPed(s)))
+        SetPlayerRoutingBucket(target, GetPlayerRoutingBucket(s))
     end
 end)
 
@@ -44,6 +45,7 @@ ATH.AddCommand('goto', Config.Perms['all'], function(s, args)
     local target = tonumber(args[1])
     if GetPlayerPing(target) > 0 then
         SetEntityCoords(GetPlayerPed(s), GetEntityCoords(GetPlayerPed(target)))
+        SetPlayerRoutingBucket(s, GetPlayerRoutingBucket(target))
     end
 end)
 
@@ -86,6 +88,16 @@ ATH.AddCommand('addweapon', Config.Perms['weapon'], function(s, args)
             Player.AddWeapon(args[2]:upper(), tonumber(args[3]) or false)
         else
             print('/addweapon <ID> <WEAPON>')
+        end
+    end
+end)
+
+ATH.AddCommand('clearloadout', Config.Perms['weapon'], function(s, args)
+    local target = tonumber(args[1])
+    local Player = ATH.GetPlayer(target)
+    if Player then
+        for name, data in pairs(Player.GetLoadout()) do
+            Player.RemoveWeapon(name)
         end
     end
 end)

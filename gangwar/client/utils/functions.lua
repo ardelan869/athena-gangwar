@@ -7,6 +7,7 @@ ATH.logincam = nil
 ATH.ItemsUsed = {}
 ATH.UsingItem = false
 ATH.ItemCooldown = false
+KillFeed = {}
 
 ATH.GetPlayers = function(onlyOtherPlayers, returnKeyValue, returnPeds)
     local players, myPlayer = {}, PlayerId()
@@ -83,28 +84,13 @@ ATH.AddAnnounce = function(text, title, time)
     })
 end
 
-ATH.LoginCam = function(bool)
-    SetNuiFocus(bool, bool)
-    if bool then
-        ATH.logincam = CreateCamWithParams('DEFAULT_SCRIPTED_CAMERA', 3857.06, 3713.28, -23.15, 2.31, 5.34, 155.55, 90.79, true, 0)
-        SetCamActive(ATH.logincam, true)
-        RenderScriptCams(true, true, 0, true, true, 1)
-        SetEntityCoords(ATH.PlayerData.ped, 3857.06, 3713.28, -23.15, 0,0,0, 1)
-    else
-        RenderScriptCams(false, false, 0, true, false, 0)
-        DestroyCam(ATH.logincam, false)
-        ATH.logincam = nil
-        SetLocalPlayerAsGhost(false)
-    end
-end
-
-ATH.RevivePed = function(ped)
-    local ped = ped or ATH.PlayerData.ped
+ATH.RevivePed = function()
+    local ped = ATH.PlayerData.ped
     local coords = Teams[ATH.PlayerData.team].spawn
     local heading = GetEntityHeading(ped)
     NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z, heading, true, false)
     SetPlayerInvincible(PlayerId(), false)
-    SetEntityInvincible(playerPed, false)
+    SetEntityInvincible(ped, false)
     ClearPedBloodDamage(ped)
     ResurrectPed(ped)
     SetEntityHealth(ped, 200)
@@ -116,14 +102,16 @@ ATH.RevivePed = function(ped)
         while not IsControlJustPressed(0, 32) and
             not IsControlJustPressed(0, 33) and
             not IsControlJustPressed(0, 34) and
+            not IsControlJustPressed(0, 22) and
+            not IsControlJustPressed(0, 37) and
             not IsControlJustPressed(0, 35)
         do
             SetLocalPlayerAsGhost(true)
             SetGhostedEntityAlpha(128)
-            SetEntityAlpha(PlayerPedId(), 128, false)
+            SetEntityAlpha(ped, 128, false)
             Wait()
         end
-        ResetEntityAlpha(PlayerPedId())
+        ResetEntityAlpha(ped)
         SetLocalPlayerAsGhost(false)
     end)
 end
@@ -333,10 +321,12 @@ ATH.ApplyClothes = function(skin)
                 2
             )
         else
-            if isLongSleeve(cloth.drawableId) then
-                SetPedComponentVariation(ATH.PlayerData.ped, 3, 4, 0, 2)
-            else
-                SetPedComponentVariation(ATH.PlayerData.ped, 3, 2, 0, 2)
+            if cloth.componentId == 11 then
+                if isLongSleeve(cloth.drawableId) then
+                    SetPedComponentVariation(ATH.PlayerData.ped, 3, 4, 0, 2)
+                else
+                    SetPedComponentVariation(ATH.PlayerData.ped, 3, 2, 0, 2)
+                end
             end
             SetPedComponentVariation(
                 ATH.PlayerData.ped,
@@ -347,4 +337,11 @@ ATH.ApplyClothes = function(skin)
             )
         end
 	end
+end
+
+ATH.IsVehicleNearPoint = function(coords, radius)
+    if type(coords) == 'table' then
+        coords = vector3(coords.x, coords.y, coords.z)
+    end
+    return IsAnyVehicleNearPoint(coords, radius or 3.0) == 0
 end

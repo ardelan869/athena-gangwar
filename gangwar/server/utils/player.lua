@@ -33,8 +33,9 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
 		return player.xp
 	end
 
-	player.AddKill = function()
+	player.AddKill = function(id, name)
 		player.kills = player.kills + 1
+		player.Emit('ath:AddKill', id, name)
 	end
 
 	player.GetKills = function()
@@ -50,7 +51,7 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
 	end
 
 	player.AddNotify = function(text, title, time, icon)
-		player.Emit("ath:AddNotify", text, title, time, icon)
+		player.Emit('ath:AddNotify', text, title, time, icon)
 	end
 
 	player.Set = function(key, value)
@@ -87,7 +88,7 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
 			components = comps or {}
 		}
 		GiveWeaponToPed(GetPlayerPed(player.source), GetHashKey(weapon), 9999, false, false)
-		player.Emit("ath:UpdateLoadout", player.loadout)
+		player.Emit('ath:UpdateLoadout', player.loadout)
 	end
 
 	player.RemoveWeapon = function(w)
@@ -100,7 +101,7 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
 			end
 		end
 		player.loadout = newTable
-		player.Emit("ath:UpdateLoadout", player.loadout)
+		player.Emit('ath:UpdateLoadout', player.loadout)
 	end
 
 	player.AddComponent = function(w, component)
@@ -114,21 +115,21 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
 			}
 		)
 		GiveWeaponComponentToPed(GetPlayerPed(player.source), GetHashKey(weapon), hash)
-		player.Emit("ath:UpdateLoadout", player.loadout)
+		player.Emit('ath:UpdateLoadout', player.loadout)
 	end
 
 	player.RemoveComponent = function(w, component)
 		local weapon = w:upper()
 		for index, data in pairs(player.loadout[weapon].components) do
-			if type(component) == "number" and data.hash == component then
+			if type(component) == 'number' and data.hash == component then
 				RemoveWeaponComponentFromPed(GetPlayerPed(player.source), GetHashKey(weapon), hash)
 				table.remove(player.loadout[weapon].components, index)
-			elseif type(component) == "string" and data.name == component then
+			elseif type(component) == 'string' and data.name == component then
 				RemoveWeaponComponentFromPed(GetPlayerPed(player.source), GetHashKey(weapon), hash)
 				table.remove(player.loadout[weapon].components, index)
 			end
 		end
-		player.Emit("ath:UpdateLoadout", player.loadout)
+		player.Emit('ath:UpdateLoadout', player.loadout)
 	end
 
 	player.GetComponents = function(w)

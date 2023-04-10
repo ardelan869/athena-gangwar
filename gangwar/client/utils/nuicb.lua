@@ -111,3 +111,21 @@ RegisterNUICallback('chat', function(data, cb)
 		})
 	end
 end)
+
+local isTurning = false
+RegisterNUICallback('TurnOn', function(data, cb)
+	isTurning = true
+	while isTurning do
+		local h = GetEntityHeading(ATH.PlayerData.ped)
+		if data.l then
+			SetEntityHeading(ATH.PlayerData.ped, h-0.3)
+		else
+			SetEntityHeading(ATH.PlayerData.ped, h+0.3)
+		end
+		Wait(1)
+	end
+end)
+
+RegisterNUICallback('TurnOff', function(data, cb)
+	isTurning = false
+end)

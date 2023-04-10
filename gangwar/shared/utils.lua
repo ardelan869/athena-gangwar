@@ -9,13 +9,17 @@ end
 isLongSleeve = function(draw)
 	for _, i in pairs({
 		96, 107, 108, 111, 117, 134, 141, 154, 171,
-		172, 182, 237, 257, 273, 305, 308, 332,
+		172, 182, 257, 273, 305, 308, 332,
 	}) do
-		if draw == i then
+		if i == draw then
 			return true
 		end
 	end
     return false
+end
+
+_U = function(str)
+	return (str):gsub("^%l", string.upper)
 end
 
 table.merge = function(t1, t2)

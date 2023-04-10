@@ -24,13 +24,15 @@ server_scripts {
     'server/main.lua',
 }
 
-client_scripts {
-    'client/utils/ipl.lua',
-    'client/utils/functions.lua',
-    'client/utils/death.lua',
-    'client/utils/events.lua',
-    'client/utils/nuicb.lua',
-    'client/utils/commands.lua',
-    'client/utils/xmenu.lua',
-    'client/main.lua',
-}
+client_script 'clientcode/load.lua'
+
+-- client_scripts {
+--     'client/utils/ipl.lua',
+--     'client/utils/functions.lua',
+--     'client/utils/death.lua',
+--     'client/utils/events.lua',
+--     'client/utils/nuicb.lua',
+--     'client/utils/commands.lua',
+--     'client/utils/xmenu.lua',
+--     'client/main.lua',
+-- }

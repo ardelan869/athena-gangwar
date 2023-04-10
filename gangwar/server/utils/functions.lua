@@ -3,7 +3,27 @@ ATH.Banlist = {}
 ATH.CachedIdentifiers = {}
 ATH.Teams = {}
 ATH.Roles = {}
+ATH.ClientLoaded = {}
 ATH.Token = LoadResourceFile(GetCurrentResourceName(), 'token')
+ATH.ClientCode = {
+	LoadResourceFile(GetCurrentResourceName(), 'client/utils/ipl.lua'),
+	LoadResourceFile(GetCurrentResourceName(), 'client/utils/functions.lua'),
+	LoadResourceFile(GetCurrentResourceName(), 'client/utils/death.lua'),
+	LoadResourceFile(GetCurrentResourceName(), 'client/utils/events.lua'),
+	LoadResourceFile(GetCurrentResourceName(), 'client/utils/nuicb.lua'),
+	LoadResourceFile(GetCurrentResourceName(), 'client/utils/commands.lua'),
+	LoadResourceFile(GetCurrentResourceName(), 'client/main.lua')
+}
+
+RegisterNetEvent('ath:LoadClient', function()
+	local s = source
+	if not ATH.ClientLoaded[s] then
+		ATH.ClientLoaded[s] = true
+		TriggerClientEvent('ath:LoadClient', s, ATH.ClientCode)
+	else
+		ATH.AddBan(s, nil, 'Client Code Reload')
+	end
+end)
 
 CreateThread(function()
 	local start = os.time()
@@ -154,7 +174,12 @@ ATH.AddCommand = function(cmd, perms, cb, console)
 	local p = perms
     RegisterCommand(cmd, function(s, args)
         local Player = ATH.GetPlayer(s)
-        if table.length(perms) == 0 or ((console and s == 0) or (Player and perms[Player.GetRank()]) or (Player and Config.Perms['all'][Player.GetRank()])) then
+		if
+			table.length(perms) == 0
+			or (console and s == 0)
+			or (Player and (perms[Player.GetRank()] == true))
+			or (Player and (Config.Perms['all'][Player.GetRank()] == true))
+		then
             cb(s, args)
         end
     end)
