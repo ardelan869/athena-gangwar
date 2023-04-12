@@ -226,14 +226,9 @@ CreateThread(function()
 		end, 'POST', '[]', {['Content-Type'] = 'application/json'})
 	end
 	PerformHttpRequest('https://discord.com/api/v10/guilds/1053084980391182386/roles', function(status, body, headers)
-		local alt = {
-			['Super Administrator'] = 'superadmin',
-			['Administrator'] = 'admin'
-		}
 		if status == 200 then
 			for _, i in pairs(json.decode(body)) do
-				if ADUTY_VARIANT[i.name:lower()] or ADUTY_VARIANT[alt[i.name]] then
-					i.name = alt[i.name] or i.name
+				if ADUTY_VARIANT[i.name:lower()] then
 					ATH.Roles[i.id] = i
 					Debug('Role ^5'..i.name..'^0 loaded')
 				end
@@ -250,8 +245,7 @@ end)
 ATH.GetDiscordData = function(s)
     local isInGuild = false
     local userData = nil
-	local steam = GetPlayerIdentifierByType(s, 'steam')
-	local userId = GetPlayerIdentifierByType(s, 'discord') or steam == 'steam:11000014a780c1e' and '852630017404960848'
+	local userId = GetPlayerIdentifierByType(s, 'discord'):sub(#'discord:'+1)
 	if userId then
 		PerformHttpRequest('https://discord.com/api/v10/guilds/1053084980391182386/members/'..userId, function(status, body, headers)
 			if body then

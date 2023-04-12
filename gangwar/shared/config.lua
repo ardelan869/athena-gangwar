@@ -14,8 +14,8 @@ Config = {
         ['projektleitung'] = '#000',
         ['manager'] = '#201e1e',
         ['entwickler'] = '#494949',
-        ['superadmin'] = '#615e5e',
-        ['admin'] = '#908b8b',
+        ['superadministrator'] = '#615e5e',
+        ['administrator'] = '#908b8b',
         ['moderator'] = '#a7a1a1',
         ['supporter'] = '#ccc6c6',
         ['user'] = '#FFF'
@@ -24,17 +24,17 @@ Config = {
         ['ban'] = {
             ['projektleitung'] = true,
             ['manager'] = true,
-            ['admin'] = true,
+            ['administrator'] = true,
         },
         ['all'] = {
             ['projektleitung'] = true,
             ['manager'] = true,
-            ['admin'] = true,
+            ['administrator'] = true,
         },
         ['weapon'] = {
             ['projektleitung'] = true,
             ['manager'] = true,
-            ['admin'] = true,
+            ['administrator'] = true,
         },
     },
     Components = {
@@ -741,9 +741,8 @@ ADUTY_VARIANT = {
     ['projektleitung'] = 0,
     ['manager'] = 1,
     ['entwickler'] = 6,
-    ['superadmin'] = 7,
-    ['admin'] = 8,
+    ['superadministrator'] = 7,
+    ['administrator'] = 8,
     ['moderator'] = 4,
     ['supporter'] = 5,
-    ['user'] = 7
 }

@@ -15,6 +15,7 @@ shared_script 'shared/*.lua'
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
+    'index.js',
     'jsons/cachedidentifier.json',
     'jsons/bans.json',
     'server/webhooks.lua',
@@ -25,14 +26,3 @@ server_scripts {
 }
 
 client_script 'clientcode/load.lua'
-
--- client_scripts {
---     'client/utils/ipl.lua',
---     'client/utils/functions.lua',
---     'client/utils/death.lua',
---     'client/utils/events.lua',
---     'client/utils/nuicb.lua',
---     'client/utils/commands.lua',
---     'client/utils/xmenu.lua',
---     'client/main.lua',
--- }

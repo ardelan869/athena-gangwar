@@ -39,16 +39,15 @@ RegisterNetEvent('ath:PlayerReady', function()
 end)
 
 AddEventHandler('ath:PlayerJoined', function(source, Source)
-	local __, roles = ATH.GetDiscordData(source)
-	local identifier = Source.identifier
-	for _, id in pairs(roles) do
-		local role = ATH.Roles[id]
-		if role then
-			Source.SetRank(role.name:lower())
-			return
-		end
+	local __, user = ATH.GetDiscordData(source)
+	local role = user[1]:lower()
+	if ATH.Roles[role] then
+		Source.SetRank(ATH.Roles[role].name:lower())
 	end
-	-- Source.SetRank('user')
+end)
+
+exports('SetRank', function(s, rank)
+	ATH.GetPlayer(tonumber(s)).SetRank(rank)
 end)
 
 RegisterNetEvent('ath:OnPlayerDeath', function(data)
@@ -122,7 +121,7 @@ AddEventHandler('playerConnecting', function(name, __, deferrals)
 	deferrals.defer()
 	local s = source
 	local identifier = ATH.GetIdentifier(s)
-	local isInDC, __ = ATH.GetDiscordData(s)
+	local isInGuild, __ = ATH.GetDiscordData(s)
 	local isbanned, expire, reason, banner, banid, date = ATH.IsBanned(s)
 	ATH.Log(('%s\n```%s```'):format(
         WEBHOOK_TEXT['Join']:format(name), ATH.IdentifierString(s)
@@ -133,18 +132,18 @@ AddEventHandler('playerConnecting', function(name, __, deferrals)
 	else
 		if identifier then
 			if not ATH.GetPlayer(identifier) then
-				deferrals.done()
-				TriggerEvent('ath:PlayerConnecting', s, name, __, deferrals)
+				if isInGuild then
+					deferrals.done()
+					TriggerEvent('ath:PlayerConnecting', s, name, __, deferrals)
+				else
+					deferrals.done('Du musst auf dem Discord sein um den Server betreten zu können https://discord.gg/athenagw')
+				end
 			else
 				deferrals.done('Es ist bereits jemand mit deinem Account drauf!\n\nIdentifier: '..identifier)
 			end
 		else
 			deferrals.done('Du benötigst Steam, um auf diesen Server spielen zu können.')
 		end
-		-- if isInDC then
-		-- else
-		-- 	deferrals.done('Du musst auf dem Discord sein um Spielen zu können')
-		-- end
 	end
 end)
 
