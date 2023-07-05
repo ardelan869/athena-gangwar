@@ -85,8 +85,12 @@
     font-size: 1.39vh;
 }
 
+.font_18 {
+    font-size: 1.669vh;
+}
+
 .font_20 {
-    font-size: 1.853vh;
+    font-size: 1.855vh;
 }
 
 .font_25 {
@@ -131,15 +135,15 @@
 }
 
 .font_glow_10 {
-    text-shadow: 0 0 1vh rgba(255,255,255,.5);
+    text-shadow: 0 0 1vh rgba(255, 255, 255, .5);
 }
 
 .font_glow_5 {
-    text-shadow: 0 0 .5vh rgba(255,255,255,.5);
+    text-shadow: 0 0 .5vh rgba(255, 255, 255, .5);
 }
 
 .font_glow_15 {
-    text-shadow: 0 0 1.334vh rgba(255,255,255,.5);
+    text-shadow: 0 0 1.334vh rgba(255, 255, 255, .5);
 }
 
 .double_font>[class*="akr_"] {

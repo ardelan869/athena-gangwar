@@ -1,5 +1,18 @@
 Config = {
     Debug = true,
+    StartWeapons = {
+        ['WEAPON_PISTOL'] = {
+            components = {}
+        },
+        ['WEAPON_SPECIALCARBINE_MK2'] = {
+            components = {
+                {
+                    name = 'suppressor',
+                    hash = GetHashKey('COMPONENT_AT_AR_SUPP_02')
+                }
+            }
+        },
+    },
     Component = {
         ['mask'] = 1,
         ['pants'] = 4,

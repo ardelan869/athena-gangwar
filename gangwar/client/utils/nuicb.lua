@@ -95,6 +95,24 @@ RegisterNUICallback('SpawnCar', function(data, cb)
 	local spawns = Teams[ATH.PlayerData.team].garage.spawns
 	local c = spawns[math.random(1, #spawns)]
 	ATH.PlayerData.playerVeh = ATH.SpawnCar(data.name, ATH.PlayerData.static, vector3(c.x,c.y,c.z), c.w)
+	while not DoesEntityExist(ATH.PlayerData.playerVeh) do Wait() end
+	SetVehicleMod(ATH.PlayerData.playerVeh, 0, GetNumVehicleMods(ATH.PlayerData.playerVeh, 0)-1, false) -- Spoiler
+    SetVehicleMod(ATH.PlayerData.playerVeh, 1, GetNumVehicleMods(ATH.PlayerData.playerVeh, 1)-1, false) -- Stoßstange
+    SetVehicleMod(ATH.PlayerData.playerVeh, 2, GetNumVehicleMods(ATH.PlayerData.playerVeh, 2)-1, false) -- Rück Stoßstange
+    SetVehicleMod(ATH.PlayerData.playerVeh, 3, GetNumVehicleMods(ATH.PlayerData.playerVeh, 3)-1, false) -- Skirts
+    SetVehicleMod(ATH.PlayerData.playerVeh, 4, GetNumVehicleMods(ATH.PlayerData.playerVeh, 4)-1, false) -- Auspuff
+    SetVehicleMod(ATH.PlayerData.playerVeh, 11, GetNumVehicleMods(ATH.PlayerData.playerVeh, 11)-1, false)-- modEngine
+    SetVehicleMod(ATH.PlayerData.playerVeh, 12, GetNumVehicleMods(ATH.PlayerData.playerVeh, 12)-1, false)-- modBrakes
+    SetVehicleMod(ATH.PlayerData.playerVeh, 13, GetNumVehicleMods(ATH.PlayerData.playerVeh, 13)-1, false)-- modTransmission
+    SetVehicleMod(ATH.PlayerData.playerVeh, 15, GetNumVehicleMods(ATH.PlayerData.playerVeh, 15)-1, false)-- modSuspension
+    SetVehicleMod(ATH.PlayerData.playerVeh, 16, GetNumVehicleMods(ATH.PlayerData.playerVeh, 16)-1, false)-- modArmor
+    ToggleVehicleMod(ATH.PlayerData.playerVeh, 18, true)-- modTurbo
+    SetVehicleMod(ATH.PlayerData.playerVeh, 23, GetNumVehicleMods(ATH.PlayerData.playerVeh, 23)-1, false) -- Front Wheels
+    SetVehicleMod(ATH.PlayerData.playerVeh, 48, GetNumVehicleMods(ATH.PlayerData.playerVeh, 48)-1, false)
+    SetVehicleWheelType(ATH.PlayerData.playerVeh, 11)
+    local pearlescentColor, wheelColor = GetVehicleExtraColours(ATH.PlayerData.playerVeh)
+    SetVehicleExtraColours(ATH.PlayerData.playerVeh, pearlescentColor, 12)
+    SetVehicleLivery(ATH.PlayerData.playerVeh, 1)
 end)
 
 RegisterNUICallback('chat', function(data, cb)

@@ -244,16 +244,6 @@ ATH.HelpNotify = function(msg)
     EndTextCommandDisplayHelp(0, false, true, -1)
 end
 
-ATH.GetLevel = function(xp)
-    for i=1, table.length(Levels.List) do
-        local needed = Levels.List[i]
-        if xp >= needed and (Levels.List[i+1] ~= nil and (Levels.List[i+1] > xp)) then
-            return i, Levels.List[i+1]-needed, xp-needed
-        end
-    end
-    return 0, Levels.List[1], xp
-end
-
 ATH.UpdateTeamCount = function()
     for team, count in pairs(ATH.Teams) do
         SendNUIMessage({

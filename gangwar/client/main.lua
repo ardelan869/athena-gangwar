@@ -35,8 +35,9 @@ local CreateDefaultPed = function()
     SetModelAsNoLongerNeeded(defaultModel)
     SetEntityCoordsNoOffset(PlayerPedId(), vector3(-1.5, 19.2501, 71.1215))
     SetEntityHeading(PlayerPedId(), 0.0)
-    ShutdownLoadingScreen()
     FreezeEntityPosition(PlayerPedId(), true)
+    ShutdownLoadingScreen()
+    ShutdownLoadingScreenNui()
     AppendTeams()
     DoScreenFadeIn(1000)
     ResurrectPed(PlayerPedId())
@@ -209,6 +210,18 @@ function StartLoops()
                     action = 'ToggleHUD',
                     bool = not IsPauseMenuActive()
                 })
+            end
+            local team = Teams[ATH.PlayerData.team]
+            if IsPedInAnyVehicle(ATH.PlayerData.ped) then
+                local veh = ATH.PlayerData.veh
+                if GetPedInVehicleSeat(veh, -1) == ATH.PlayerData.ped then
+                    local r, g, b = GetVehicleCustomPrimaryColour(veh)
+                    if r ~= team.color.rgb.r then
+                        SetVehicleNumberPlateText(veh, ATH.PlayerData.static)
+                        SetVehicleCustomPrimaryColour(veh, team.color.rgb.r, team.color.rgb.g, team.color.rgb.b)
+                        SetVehicleCustomSecondaryColour(veh, team.color.rgb.r, team.color.rgb.g, team.color.rgb.b)
+                    end
+                end
             end
         end
     end)

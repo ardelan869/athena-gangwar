@@ -230,7 +230,7 @@ window.onload = () => {
                 const prog = $('#progress')
                 if (i.time == 0) {
                     prog.stop()
-                    $('#percent').text('ABBGEBROCHEN')
+                    $('#percent').text('ABGEBROCHEN')
                     prog.css({
                         background: '#FF3030',
                         boxShadow: '0 0 1vh #FF3030'

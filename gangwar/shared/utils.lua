@@ -1,6 +1,17 @@
 ATH = {}
 ATH.Resource = GetCurrentResourceName()
 
+ATH.GetLevel = function(xp)
+    for i=1, table.length(Levels.List) do
+        local needed = Levels.List[i]
+        if xp >= needed and (Levels.List[i+1] ~= nil and (Levels.List[i+1] > xp)) then
+            return i, Levels.List[i+1]-needed, xp-needed
+        end
+    end
+    return 0, Levels.List[1], xp
+end
+exports('CalcLevel', ATH.GetLevel)
+
 toPlus = function(int)
 	local str = tostring(int)
 	return tonumber(str:sub(2))
