@@ -1,81 +1,81 @@
 .clothing_container {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100vw;
-    height: 100vh;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100vw;
+	height: 100vh;
 }
 
-.clothing_container .left>div[b] {
-    position: relative;
-    width: 4.075vh;
-    height: 61.945vh;
+.clothing_container .left > div[b] {
+	position: relative;
+	width: 4.075vh;
+	height: 61.945vh;
 }
 
-.clothing_container .left>div[b]>button {
-    position: absolute;
-    width: 61.945vh;
-    height: 4.075vh;
-    border-radius: .5vh;
-    rotate: -90deg;
+.clothing_container .left > div[b] > button {
+	position: absolute;
+	width: 61.945vh;
+	height: 4.075vh;
+	border-radius: 0.5vh;
+	rotate: -90deg;
 }
 
 .clothing_container .left,
 .clothing_container .right {
-    margin: 0 4vh;
-    gap: 2vh;
+	margin: 0 4vh;
+	gap: 2vh;
 }
 
 .clothing_container .left .categories,
 .clothing_container .right {
-    background: url(../img/bg_pattern_faction.png), var(--faction-bg);
-    background-size: cover;
-    width: 34.723vh;
-    height: 61.945vh;
-    border-radius: 1.5vh;
+	background: url(../img/bg_pattern_faction.png), var(--faction-bg);
+	background-size: cover;
+	width: 34.723vh;
+	height: 61.945vh;
+	border-radius: 1.5vh;
 }
 
 .clothing_container .left .categories {
-    display: grid;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    grid-template-columns: 11.39vh 11.39vh;
-    grid-template-rows: repeat(4, 11.39vh);
-    gap: 2vh;
+	display: grid;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	grid-template-columns: 11.39vh 11.39vh;
+	grid-template-rows: repeat(4, 11.39vh);
+	gap: 2vh;
 }
 
 .clothing_container .left .categories .category {
-    width: 11.39vh;
-    height: 11.39vh;
-    background: var(--bg);
-    border: .1vh solid var(--border);
-    border-radius: .5vh;
-    transition: .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	width: 11.39vh;
+	height: 11.39vh;
+	background: var(--bg);
+	border: 0.1vh solid var(--border);
+	border-radius: 0.5vh;
+	transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.clothing_container .left .categories .category>svg {
-    width: 5.3vh;
-    height: 5.3vh;
-    object-fit: contain;
+.clothing_container .left .categories .category > svg {
+	width: 5.3vh;
+	height: 5.3vh;
+	object-fit: contain;
 }
 
-.clothing_container .left .categories .category>svg>path {
-    transition: .3s fill-opacity cubic-bezier(0.165, 0.84, 0.44, 1);
+.clothing_container .left .categories .category > svg > path {
+	transition: 0.3s fill-opacity cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .clothing_container .left .categories .category:hover,
 .clothing_container .left .categories .category.active {
-    background: var(--hover);
+	background: var(--hover);
 }
 
-.clothing_container .left .categories .category:hover>svg>path,
-.clothing_container .left .categories .category.active>svg>path {
-    fill-opacity: 1;
+.clothing_container .left .categories .category:hover > svg > path,
+.clothing_container .left .categories .category.active > svg > path {
+	fill-opacity: 1;
 }
 
 .clothing_container .right .clothing {
-    border-radius: .5vh;
-    width: 30vh;
+	border-radius: 0.5vh;
+	width: 30vh;
 }

@@ -1,39 +1,40 @@
-[
-    {
-        "paletteId": 0,
-        "componentId": 8,
-        "textureId": 0,
-        "drawableId": 15
+{
+    "WEAPON_REVOLVER": {
+        "components": [
+            {
+                "name": "body",
+                "hash": -1802258419
+            },
+            {
+                "name": "vip",
+                "hash": 384708672
+            },
+            {
+                "name": "body",
+                "hash": -1802258419
+            }
+        ]
     },
-    {
-        "isDrop": false,
-        "drawableId": 134,
-        "textureId": 1,
-        "paletteId": 0,
-        "componentId": 11
+    "WEAPON_SPECIALCARBINE_MK2": {
+        "components": [
+            {
+                "name": "fire",
+                "hash": -570355066
+            }
+        ]
     },
-    {
-        "paletteId": 0,
-        "componentId": 4,
-        "textureId": 3,
-        "drawableId": 5
+    "WEAPON_MARKSMANRIFLE": {
+        "components": []
     },
-    {
-        "paletteId": 0,
-        "componentId": 6,
-        "textureId": 0,
-        "drawableId": 112
+    "WEAPON_GUSENBERG": {
+        "components": []
     },
-    {
-        "componentId": 1,
-        "isDrop": false,
-        "textureId": 7,
-        "drawableId": 115
-    },
-    {
-        "paletteId": 0,
-        "componentId": 9,
-        "textureId": 2,
-        "drawableId": 16
+    "WEAPON_REVOLVER_MK2": {
+        "components": [
+            {
+                "name": "fire",
+                "hash": 15712037
+            }
+        ]
     }
-]
+}

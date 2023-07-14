@@ -1,0 +1,88 @@
+.weapons {
+	padding: 2.779vh 1.855vh !important;
+}
+
+.weapons .grid_wrapper {
+	overflow-y: scroll;
+	margin-top: 2.315vh;
+	height: 58.704vh;
+}
+
+.weapons .grid_wrapper .grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	column-gap: auto;
+	row-gap: 1.39vh;
+}
+
+.weapons .grid_wrapper .grid .item {
+	position: relative;
+	width: 30.649vh;
+	height: 15.464vh;
+	border-radius: 0.5vh;
+	background: radial-gradient(
+		155.87% 121.66% at 50% 50%,
+		rgba(255, 255, 255, 0.1) 0%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	box-sizing: border-box;
+	padding: 1.112vh;
+	display: flex;
+	flex-direction: column;
+	transition: 0.3s box-shadow cubic-bezier(0.215, 0.61, 0.355, 1);
+	z-index: 0;
+}
+
+.weapons .grid_wrapper .grid .item::before {
+	position: absolute;
+	content: '';
+	left: 0;
+	top: 0;
+	width: inherit;
+	height: inherit;
+	background: radial-gradient(
+		155.87% 121.66% at 50% 50%,
+		rgba(173, 255, 71, 0.25) 0%,
+		rgba(173, 255, 71, 0) 100%
+	);
+	border-radius: inherit;
+	opacity: 0;
+	z-index: 1;
+	transition: 0.2s opacity cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.weapons .grid_wrapper .grid .item:has(input:checked) {
+	box-shadow: inset 0 0 0 0.1vh rgba(173, 255, 71, 0.25);
+}
+
+.weapons .grid_wrapper .grid .item:has(input:checked)::before {
+	opacity: 1;
+}
+
+.weapons .grid_wrapper .grid .item > * {
+	z-index: 2;
+}
+
+.weapons .grid_wrapper .grid .item .title h2 {
+	color: #fff;
+	font-family: Akrobat-Regular;
+	font-size: 1.39vh;
+}
+
+.weapons .grid_wrapper .grid .item .title h1 {
+	color: #fff;
+	font-family: Akrobat-Regular;
+	font-size: 2.315vh;
+}
+
+.weapons .grid_wrapper .grid .item img {
+	height: 6.297vh;
+	width: 20.926vh;
+	object-fit: contain;
+	margin: auto;
+}
+
+
+.weapons .grid_wrapper .grid .item label.checkbox {
+	margin-left: 88%;
+}

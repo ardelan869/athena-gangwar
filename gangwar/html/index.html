@@ -11,8 +11,12 @@
 	<link rel="stylesheet" href="assets/css/faction.css">
 	<link rel="stylesheet" href="assets/css/garage.css">
 	<link rel="stylesheet" href="assets/css/clothing.css">
+	<link rel="stylesheet" href="assets/css/pausemenu.css">
+	<link rel="stylesheet" href="assets/css/pausemenu-weather.css">
+	<link rel="stylesheet" href="assets/css/pausemenu-weapons.css">
+	<link rel="stylesheet" href="assets/css/pausemenu-hitmarker.css">
+	<link rel="stylesheet" href="assets/css/pausemenu-battlepass.css">
 	<script async defer="defer" src="https://code.jquery.com/jquery-3.6.1.js"></script>
-	<script async defer="defer" src="assets/js/app.js"></script>
 </head>
 
 <body>
@@ -30,19 +34,19 @@
 		</div>
 	</div>
 
-	<div class="hud">
-		<div class="top-left flex_row_align_top">
+	<div class="hud" style="display: none;">
+		<div class="top-left level-wrapper flex_row_align_top">
 			<svg class="svg_circle" viewBox="0 0 60 60">
-				<text id="level" x="30" y="38" style="font-size: 22;" class="akr_xbold">0</text>
-				<circle bar id="level-bar" cx="30" cy="30" r="25"></circle>
-				<circle prog id="level-progress" cx="30" cy="30" r="25"></circle>
+				<text x="30" y="38" style="font-size: 22;" class="akr_xbold level">0</text>
+				<circle bar class="level-bar" cx="30" cy="30" r="25"></circle>
+				<circle prog class="level-progress" cx="30" cy="30" r="25"></circle>
 			</svg>
 			<div>
 				<div class="flex_row_align_bottom double_font">
 					<h1 class="shl font_36 font_white_15">LEVEL</h1>
 					<h2 class="akr_xbold font_25">LEVEL</h2>
 				</div>
-				<h1 class="akr_xbold font_25" id="xp">
+				<h1 class="akr_xbold font_25 xp">
 					0<font class="font_white_5 font_15 akr_xbold">/1500XP</font>
 				</h1>
 				<div id="xp-list" class="flex_column_centered_v">
@@ -75,8 +79,7 @@
 								d="M4.50675 0.0330733C3.58775 0.257375 2.88724 0.936509 2.61571 1.86644C2.33018 2.84433 2.56831 3.88733 3.24158 4.60776C3.56618 4.9551 3.93836 5.18124 4.39905 5.31099C4.73822 5.40655 5.22043 5.41168 5.55646 5.32334C6.03575 5.19733 6.4383 4.95739 6.76472 4.60319C7.9651 3.30079 7.6544 1.12851 6.1475 0.287875C5.77438 0.0797264 5.5245 0.0137636 5.0653 0.00223425C4.78868 -0.00472848 4.62454 0.0043203 4.50675 0.0330733ZM2.44063 6.61897C1.8403 6.69311 1.23182 7.01548 0.796463 7.49007C0.451261 7.8664 0.202557 8.33722 0.0702005 8.86497C0.00261199 9.13449 0.00156736 9.15287 0.000183206 10.097C-0.00140988 11.1884 0.00279472 11.2171 0.209295 11.5199C0.338987 11.7101 0.530784 11.8603 0.749977 11.9435C0.896018 11.9989 0.966506 11.9998 4.99463 11.9998C9.54928 11.9998 9.21107 12.0144 9.51279 11.804C9.69947 11.6737 9.88181 11.4252 9.95345 11.2034C9.99625 11.0709 10.0011 10.9555 9.99983 10.097C9.99845 9.15287 9.9974 9.13449 9.92981 8.86497C9.62039 7.63116 8.68509 6.75727 7.52455 6.61759C7.22272 6.58125 2.73608 6.58247 2.44063 6.61897Z"
 								fill="url(#paint0_linear_48_72)" />
 							<defs>
-								<linearGradient id="paint0_linear_48_72" x1="5" y1="0" x2="5" y2="12"
-									gradientUnits="userSpaceOnUse">
+								<linearGradient id="paint0_linear_48_72" x1="5" y1="0" x2="5" y2="12" gradientUnits="userSpaceOnUse">
 									<stop stop-color="white" stop-opacity="0.5" />
 									<stop offset="0.510417" stop-color="white" />
 									<stop offset="1" stop-color="white" stop-opacity="0.5" />
@@ -114,7 +117,7 @@
 		<div class="right flex_column_centered">
 			<div class="blur"></div>
 			<div class="flex_row_align">
-				<h1 class="akr_bold font_15" id="kills">250</h1>
+				<h1 class="akr_bold font_15 kills_counter" id="kills">250</h1>
 				<div class="gradient_circle flex_row_centered">
 					<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path
@@ -124,7 +127,7 @@
 				</div>
 			</div>
 			<div class="flex_row_align">
-				<h1 class="akr_bold font_15" id="deaths">250</h1>
+				<h1 class="akr_bold font_15 deaths_counter" id="deaths">250</h1>
 				<div class="gradient_circle flex_row_centered">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 						<path
@@ -134,7 +137,7 @@
 				</div>
 			</div>
 			<div class="flex_row_align">
-				<h1 class="akr_bold font_15" id="kd">250</h1>
+				<h1 class="akr_bold font_15 kd_counter" id="kd">250</h1>
 				<div class="gradient_circle flex_row_centered">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
 						<path
@@ -206,7 +209,7 @@
 		</div>
 	</div>
 
-	<div class="hitmarker">
+	<div id="hitmarker">
 		<svg style="display: none;" id="crosshair" version="1.1" xmlns="http://www.w3.org/2000/svg"
 			xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000"
 			xml:space="preserve">
@@ -307,6 +310,444 @@
 		<div class="right flex_column_centered" id="pieces">
 		</div>
 	</div>
+
+	<div class="pausemenu_container" style="display: none;">
+		<div class="top flex_row_spaced">
+			<div class="flex_row_align">
+				<div class="title flex_row_align">
+					<img src="./assets/img/logo.png">
+					<div>
+						<h1>ATHENA GANGWAR</h1>
+						<h2>PAUSEMENU</h2>
+					</div>
+				</div>
+
+				<div class="level-wrapper flex_centered">
+					<svg class="svg_circle" viewBox="0 0 60 60">
+						<text x="30" y="38" style="font-size: 22;" class="akr_xbold level">0</text>
+						<circle bar class="level-bar" cx="30" cy="30" r="25"></circle>
+						<circle prog class="level-progress" cx="30" cy="30" r="25"></circle>
+					</svg>
+					<div>
+						<div class="flex_row_align_bottom double_font">
+							<h1 class="shl font_36 font_white_15">LEVEL</h1>
+							<h2 class="akr_xbold font_25">LEVEL</h2>
+						</div>
+						<h1 class="akr_xbold font_25 xp">
+							0<font class="font_white_5 font_15 akr_xbold">/1500XP</font>
+						</h1>
+					</div>
+				</div>
+
+				<div class="stats-wrapper flex_centered">
+					<div class="stat flex_column_centered">
+						<div class="icon">
+							<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M19.4287 9H18.3587C18.1355 7.23998 17.3336 5.60408 16.0791 4.34959C14.8246 3.0951 13.1887 2.29319 11.4287 2.07V1C11.4287 0.734784 11.3234 0.48043 11.1358 0.292893C10.9483 0.105357 10.6939 0 10.4287 0C10.1635 0 9.90914 0.105357 9.7216 0.292893C9.53407 0.48043 9.42871 0.734784 9.42871 1V2.07C7.66869 2.29319 6.03279 3.0951 4.7783 4.34959C3.52381 5.60408 2.7219 7.23998 2.49871 9H1.42871C1.16349 9 0.90914 9.10536 0.721604 9.29289C0.534068 9.48043 0.428711 9.73478 0.428711 10C0.428711 10.2652 0.534068 10.5196 0.721604 10.7071C0.90914 10.8946 1.16349 11 1.42871 11H2.49871C2.7219 12.76 3.52381 14.3959 4.7783 15.6504C6.03279 16.9049 7.66869 17.7068 9.42871 17.93V19C9.42871 19.2652 9.53407 19.5196 9.7216 19.7071C9.90914 19.8946 10.1635 20 10.4287 20C10.6939 20 10.9483 19.8946 11.1358 19.7071C11.3234 19.5196 11.4287 19.2652 11.4287 19V17.93C13.1887 17.7068 14.8246 16.9049 16.0791 15.6504C17.3336 14.3959 18.1355 12.76 18.3587 11H19.4287C19.6939 11 19.9483 10.8946 20.1358 10.7071C20.3234 10.5196 20.4287 10.2652 20.4287 10C20.4287 9.73478 20.3234 9.48043 20.1358 9.29289C19.9483 9.10536 19.6939 9 19.4287 9ZM15.4287 11H16.3387C16.1303 12.2264 15.5458 13.3578 14.6662 14.2374C13.7865 15.1171 12.6552 15.7016 11.4287 15.91V15C11.4287 14.7348 11.3234 14.4804 11.1358 14.2929C10.9483 14.1054 10.6939 14 10.4287 14C10.1635 14 9.90914 14.1054 9.7216 14.2929C9.53407 14.4804 9.42871 14.7348 9.42871 15V15.91C8.20227 15.7016 7.07093 15.1171 6.19127 14.2374C5.31161 13.3578 4.72713 12.2264 4.51871 11H5.42871C5.69393 11 5.94828 10.8946 6.13582 10.7071C6.32335 10.5196 6.42871 10.2652 6.42871 10C6.42871 9.73478 6.32335 9.48043 6.13582 9.29289C5.94828 9.10536 5.69393 9 5.42871 9H4.51871C4.72713 7.77356 5.31161 6.64222 6.19127 5.76256C7.07093 4.8829 8.20227 4.29842 9.42871 4.09V5C9.42871 5.26522 9.53407 5.51957 9.7216 5.70711C9.90914 5.89464 10.1635 6 10.4287 6C10.6939 6 10.9483 5.89464 11.1358 5.70711C11.3234 5.51957 11.4287 5.26522 11.4287 5V4.09C12.6552 4.29842 13.7865 4.8829 14.6662 5.76256C15.5458 6.64222 16.1303 7.77356 16.3387 9H15.4287C15.1635 9 14.9091 9.10536 14.7216 9.29289C14.5341 9.48043 14.4287 9.73478 14.4287 10C14.4287 10.2652 14.5341 10.5196 14.7216 10.7071C14.9091 10.8946 15.1635 11 15.4287 11ZM10.4287 9C10.2309 9 10.0376 9.05865 9.87314 9.16853C9.70869 9.27841 9.58052 9.43459 9.50483 9.61732C9.42914 9.80004 9.40934 10.0011 9.44793 10.1951C9.48651 10.3891 9.58175 10.5673 9.7216 10.7071C9.86146 10.847 10.0396 10.9422 10.2336 10.9808C10.4276 11.0194 10.6287 10.9996 10.8114 10.9239C10.9941 10.8482 11.1503 10.72 11.2602 10.5556C11.3701 10.3911 11.4287 10.1978 11.4287 10C11.4287 9.73478 11.3234 9.48043 11.1358 9.29289C10.9483 9.10536 10.6939 9 10.4287 9Z"
+									fill="white" />
+							</svg>
+						</div>
+						<h1 class="kills_counter">-1</h1>
+					</div>
+					<div class="stat flex_column_centered">
+						<div class="icon">
+							<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" clip-rule="evenodd"
+									d="M8.02914 0.0248256C6.51056 0.187269 5.04203 0.741907 3.8434 1.60567C1.96943 2.95609 0.788942 4.9001 0.477434 7.1487C0.441121 7.41103 0.428711 8.09581 0.428711 9.84026V12.18L0.514812 12.3127C0.575469 12.4062 1.15281 12.8466 2.47 13.8041L4.33908 15.1628V16.3254C4.33908 17.4383 4.34242 17.4947 4.41695 17.6423C4.46388 17.7352 4.55406 17.834 4.64376 17.8909C4.78706 17.9818 4.81159 17.9853 5.29372 17.9853C5.77585 17.9853 5.80038 17.9818 5.94369 17.8909C6.20052 17.728 6.24836 17.5803 6.24836 16.9504C6.24836 16.5256 6.26096 16.3872 6.3084 16.2915C6.41084 16.0846 6.65438 16.0125 6.87725 16.1229C7.05735 16.2122 7.09286 16.3488 7.09286 16.9527C7.09286 17.4264 7.10185 17.5059 7.17073 17.6423C7.39405 18.0843 8.06759 18.1251 8.36466 17.7145C8.46839 17.5712 8.47 17.5612 8.48811 16.9505C8.50022 16.5422 8.52244 16.3049 8.55346 16.2529C8.65583 16.0812 8.94373 16.0189 9.15371 16.1229C9.33381 16.2122 9.36932 16.3488 9.36932 16.9527C9.36932 17.4264 9.37831 17.5059 9.44719 17.6423C9.67051 18.0843 10.344 18.1251 10.6411 17.7145C10.7448 17.5712 10.7465 17.5612 10.7646 16.9505C10.7844 16.2823 10.8034 16.2105 10.9841 16.1209C11.1826 16.0226 11.4071 16.0721 11.5254 16.2403C11.5782 16.3155 11.593 16.4407 11.6091 16.9474C11.6302 17.6134 11.6564 17.7117 11.8519 17.8591C12.0109 17.9788 12.1894 18.0101 12.641 17.9973C13.0286 17.9863 13.0779 17.9772 13.2138 17.8909C13.3033 17.8341 13.3936 17.735 13.4405 17.6423C13.515 17.4947 13.5183 17.4383 13.5183 16.3251V15.162L15.389 13.8012C16.6852 12.8584 17.2857 12.4004 17.3442 12.3102L17.4287 12.18V9.80508C17.4287 7.28856 17.4254 7.22818 17.2439 6.40819C16.5274 3.17212 13.7627 0.654721 10.3056 0.090549C9.80324 0.00857073 8.52581 -0.0283019 8.02914 0.0248256ZM6.10113 7.68138C7.42232 8.10517 8.06891 9.5229 7.49061 10.7279C7.19699 11.3397 6.61979 11.8007 5.93627 11.9694C5.65377 12.0391 5.08275 12.0391 4.79804 11.9694C3.9975 11.7734 3.31302 11.1175 3.10847 10.3504C3.03573 10.0776 3.03573 9.53043 3.10851 9.25973C3.38954 8.21417 4.39874 7.50708 5.51402 7.57432C5.70135 7.58561 5.93609 7.62843 6.10113 7.68138ZM13.09 7.64409C13.4734 7.73884 13.8003 7.92591 14.1276 8.23775C14.5983 8.68616 14.8034 9.16178 14.8034 9.80438C14.8034 10.4319 14.5878 10.9322 14.1272 11.3736C13.6734 11.8085 13.142 12.022 12.5086 12.0241C12.0797 12.0255 11.8409 11.9757 11.4805 11.8095C10.8609 11.5237 10.4334 11.0378 10.228 10.3856C10.1232 10.0532 10.1391 9.48054 10.2631 9.11625C10.4309 8.62343 10.741 8.23057 11.1888 7.94361C11.7479 7.58523 12.4222 7.47901 13.09 7.64409ZM9.18467 11.8624C9.28652 11.9507 9.96031 13.1411 9.98245 13.2718C10.0058 13.4095 9.91258 13.5809 9.78378 13.6371C9.72944 13.6608 9.39303 13.6753 8.89526 13.6753H8.09424L7.99668 13.5818C7.88312 13.473 7.84611 13.3611 7.8804 13.2302C7.90776 13.1256 8.54252 12.0054 8.63233 11.9032C8.66409 11.867 8.72309 11.8237 8.76348 11.8068C8.86842 11.7631 9.10635 11.7945 9.18467 11.8624Z"
+									fill="white" />
+							</svg>
+						</div>
+						<h1 class="deaths_counter">-1</h1>
+					</div>
+					<div class="stat flex_column_centered">
+						<div class="icon">
+							<svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M2.02871 4.8H2.25728C3.13728 4.8 3.85728 5.52 3.85728 6.4V14.4C3.85728 15.28 3.13728 16 2.25728 16H2.02871C1.14871 16 0.428711 15.28 0.428711 14.4V6.4C0.428711 5.52 1.14871 4.8 2.02871 4.8ZM8.42871 0C9.30871 0 10.0287 0.72 10.0287 1.6V14.4C10.0287 15.28 9.30871 16 8.42871 16C7.54871 16 6.82871 15.28 6.82871 14.4V1.6C6.82871 0.72 7.54871 0 8.42871 0ZM14.8287 9.14286C15.7087 9.14286 16.4287 9.86286 16.4287 10.7429V14.4C16.4287 15.28 15.7087 16 14.8287 16C13.9487 16 13.2287 15.28 13.2287 14.4V10.7429C13.2287 9.86286 13.9487 9.14286 14.8287 9.14286Z"
+									fill="white" />
+							</svg>
+						</div>
+						<h1 class="kd_counter">-1</h1>
+					</div>
+				</div>
+			</div>
+			<div class="booster flex_centered">
+				<div>
+					<h1 id="discord">Bajram#0001</h1>
+					<h2>BOOST ACTIVATED</h2>
+				</div>
+				<div class="profile">
+					<img src="./assets/img/bg_faction_faction.png">
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="left">
+				<div class="options">
+					<div class="option flex_row_spaced" cat="weather" onclick="SelectPauseFrame('weather')">
+						<div class="line"></div>
+						<div class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+								<path
+									d="M11 37.9086C11 39.198 11.311 40.3871 11.933 41.4759C12.5551 42.5647 13.4033 43.4243 14.4777 44.0547C15.5521 44.6851 16.7113 45.0002 17.9695 45.0002H33.2798C34.5379 45.0002 35.7113 44.6851 36.7857 44.0547C37.8601 43.4243 38.7225 42.5647 39.3445 41.4759C39.9665 40.3871 40.2917 39.198 40.2917 37.9086C40.2917 36.963 40.0938 36.0031 39.6979 35.0432C40.7723 33.7252 41.3095 32.1349 41.3095 30.3154C41.3095 29.2982 41.1116 28.324 40.7299 27.3928C40.3482 26.4616 39.811 25.6736 39.1466 25.0002C38.4821 24.3269 37.7046 23.7825 36.7857 23.3957C35.8668 22.9945 34.9055 22.8083 33.9018 22.8083C31.8095 22.8083 29.9859 23.6392 28.4167 25.3011C27.3281 24.6707 26.0558 24.3555 24.5997 24.3555C22.6064 24.3555 20.8534 24.9859 19.3266 26.2323C17.7999 27.4788 16.8103 29.0833 16.3862 31.0318C14.8028 31.4043 13.5164 32.2209 12.5126 33.5103C11.5089 34.7997 11 36.261 11 37.9086ZM13.4174 37.9086C13.4174 36.7051 13.8132 35.6736 14.6049 34.7997C15.3966 33.9257 16.3862 33.4243 17.5737 33.281L18.2805 33.2381C18.4501 33.2381 18.5491 33.1521 18.5491 32.9802L18.6481 32.2065C18.846 30.6593 19.5104 29.3555 20.6414 28.324C21.7723 27.2782 23.1012 26.7624 24.6138 26.7624C26.1689 26.7624 27.526 27.2925 28.6711 28.3384C29.8304 29.3842 30.4665 30.6736 30.6079 32.2209L30.7068 33.0518C30.7351 33.2094 30.8341 33.2954 31.0037 33.2954H33.2798C34.5238 33.2954 35.5982 33.7538 36.503 34.6707C37.4077 35.5876 37.8601 36.6621 37.8601 37.9229C37.8601 39.2266 37.4077 40.3298 36.5171 41.2467C35.6265 42.1636 34.5379 42.622 33.2939 42.622H17.9695C16.7254 42.622 15.6652 42.1636 14.7604 41.2323C13.8698 40.3011 13.4174 39.198 13.4174 37.9086ZM22.8891 20.3298C22.8891 20.6736 23.0022 20.9745 23.2284 21.2323L24.1615 22.1492C24.5149 22.4214 24.8118 22.5361 25.0662 22.5074C25.3631 22.5074 25.6176 22.3785 25.8438 22.1349C26.0699 21.8914 26.183 21.5905 26.183 21.2467C26.183 20.9028 26.0558 20.6163 25.8155 20.4014L24.9814 19.4558C24.7269 19.2266 24.4442 19.112 24.119 19.112C23.7798 19.112 23.4829 19.2266 23.2426 19.4702C23.0022 19.6994 22.8891 19.9859 22.8891 20.3298ZM30.4382 26.6765C31.4137 25.7166 32.5729 25.2438 33.9018 25.2438C35.3013 25.2438 36.4888 25.7309 37.4643 26.7194C38.4397 27.708 38.9345 28.8971 38.9345 30.3154C38.9345 31.2037 38.6942 32.0919 38.2135 32.9515C36.8423 31.5762 35.2024 30.8885 33.2798 30.8885H32.8274C32.474 29.3269 31.6823 27.9229 30.4382 26.6765ZM32.7426 19.112C32.7426 19.4845 32.8557 19.771 33.0677 20.0002C33.2798 20.2295 33.5625 20.3298 33.9018 20.3298C34.2693 20.3298 34.5521 20.2151 34.7783 20.0002C35.0045 19.771 35.1034 19.4845 35.1034 19.112V16.175C35.1034 15.8312 34.9903 15.559 34.7641 15.3298C34.5379 15.1005 34.2552 15.0002 33.9018 15.0002C33.5625 15.0002 33.2939 15.1149 33.0677 15.3298C32.8415 15.5447 32.7426 15.8312 32.7426 16.175V19.112ZM40.5461 22.3928C40.5461 22.7653 40.6451 23.0518 40.8571 23.281C41.154 23.5103 41.4509 23.6249 41.7336 23.6249C41.9881 23.6249 42.2708 23.5103 42.5677 23.281L44.5893 21.2323C44.8155 20.9745 44.9286 20.6736 44.9286 20.3154C44.9286 19.9716 44.8155 19.6851 44.5893 19.4558C44.3631 19.2266 44.0804 19.112 43.7552 19.112C43.4159 19.112 43.1473 19.2266 42.9353 19.4558L40.8571 21.5045C40.6451 21.7767 40.5461 22.0633 40.5461 22.3928ZM41.6629 39.3555C41.6629 39.6994 41.776 40.0002 42.0164 40.2581L42.9353 41.1607C43.1473 41.3899 43.4159 41.5045 43.7552 41.5045C44.0945 41.5045 44.3772 41.3899 44.6034 41.1464C44.8296 40.9028 44.9427 40.6163 44.9427 40.2581C44.9427 39.9429 44.8296 39.6564 44.6034 39.4272L43.6845 38.4959C43.4583 38.2667 43.1897 38.1521 42.8787 38.1521C42.5394 38.1521 42.2567 38.2667 42.0305 38.4959C41.7902 38.7252 41.6629 39.0117 41.6629 39.3555ZM43.7411 30.3154C43.7411 30.6449 43.8683 30.9172 44.1086 31.1464C44.3348 31.3756 44.6317 31.4902 44.971 31.4902H47.8549C48.1801 31.4902 48.4487 31.3756 48.6749 31.1607C48.901 30.9458 49 30.6593 49 30.3154C49 29.9716 48.8869 29.6851 48.6749 29.4558C48.4628 29.2266 48.1801 29.0977 47.8549 29.0977H44.971C44.6317 29.0977 44.349 29.2123 44.1086 29.4558C43.8542 29.6994 43.7411 29.9859 43.7411 30.3154Z"
+									fill="white" />
+							</svg>
+						</div>
+						<div>
+							<h1>WETTER</h1>
+							<span>Hier kannst du dein eigenes Wetter, Uhrzeit, Wolkenklarheit beinflussen. </span>
+						</div>
+					</div>
+
+					<div class="option flex_row_spaced" cat="battlepass" onclick="SelectPauseFrame('battlepass')">
+						<div class="line"></div>
+						<div class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+								<path
+									d="M28.3907 16.0088L24.729 23.5071L16.5365 24.7134C15.0673 24.9286 14.4785 26.7579 15.544 27.8056L21.471 33.6388L20.0692 41.879C19.8168 43.3685 21.3701 44.4842 22.671 43.7876L30 39.8969L37.329 43.7876C38.6299 44.4785 40.1832 43.3685 39.9308 41.879L38.529 33.6388L44.4561 27.8056C45.5215 26.7579 44.9327 24.9286 43.4635 24.7134L35.271 23.5071L31.6093 16.0088C30.9533 14.6722 29.0523 14.6553 28.3907 16.0088Z"
+									fill="white" />
+							</svg>
+						</div>
+						<div>
+							<h1>BATTLEPASS</h1>
+							<span>Hier kannst auf deinen Battlepass zugreifen und schauen welches Levle du hast.</span>
+						</div>
+					</div>
+
+					<div class="option flex_row_spaced" cat="weapons" onclick="SelectPauseFrame('weapons')">
+						<div class="line"></div>
+						<div class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+								<path fill-rule="evenodd" clip-rule="evenodd"
+									d="M40.8072 15.1732C40.6625 15.3111 40.6288 15.3896 40.6288 15.589C40.6288 15.812 40.6635 15.8715 41.0004 16.2277L41.3721 16.6205L40.8886 17.1112L40.4052 17.6019L40.1533 17.365C39.8542 17.0837 39.5545 16.9688 39.2613 17.0229C39.0763 17.0571 38.6334 17.4862 35.7335 20.4413C33.3699 22.8499 32.3992 23.8766 32.3543 24.0154C32.3196 24.1226 32.3068 24.295 32.3259 24.3986C32.3571 24.5683 32.3299 24.618 32.0528 24.8972C31.7686 25.1836 31.7298 25.2043 31.5451 25.169C31.2326 25.1092 30.9784 25.2576 30.3773 25.851L29.8285 26.3927L29.2712 25.8274C28.9646 25.5165 28.6177 25.2214 28.5003 25.1718C28.194 25.0424 27.6406 25.055 27.3666 25.1976C27.1587 25.3058 24.3794 27.5756 23.5966 28.2764C23.1872 28.643 23.0001 28.9964 23.0006 29.4023C23.0012 29.9699 23.0726 30.0938 23.8769 30.924L24.6267 31.698L24.0779 32.2815C23.5015 32.8943 23.3649 33.1447 23.4196 33.4886C23.4467 33.6588 23.4177 33.7116 23.1533 33.9744C22.8949 34.2313 22.8332 34.2654 22.6744 34.2398C22.5741 34.2236 22.4059 34.2395 22.3005 34.2749C22.1639 34.3209 21.2403 35.2272 19.0845 37.4304C16.4071 40.1667 16.0555 40.5469 16.0205 40.7437C15.9369 41.2146 16.0255 41.3274 17.9192 43.1594C18.8823 44.0913 19.7284 44.8865 19.7993 44.9267C19.9965 45.0385 20.4184 45.02 20.6267 44.8904C20.9049 44.7174 25.6178 37.9609 25.6905 37.6311C25.7697 37.2711 25.6884 37.0491 25.3289 36.6437L25.0161 36.2909L25.2439 36.064L25.4716 35.8371L25.8661 36.2456L26.2607 36.6541L26.9345 38.7343C27.733 41.1994 27.7779 41.3145 28.01 41.4895C28.3499 41.746 28.546 41.7201 30.6087 41.1462C31.6509 40.8563 32.5682 40.5931 32.6472 40.5615C33.0028 40.4189 33.2368 39.9756 33.1768 39.5583C33.1497 39.3701 32.8419 39.0002 32.5401 38.7928C32.4342 38.7202 32.3183 38.3552 31.8702 36.6834C31.5722 35.5716 31.328 34.6215 31.3274 34.5721C31.3269 34.5227 31.547 34.2931 31.8165 34.0618L32.3065 33.6414L32.6922 33.8952C34.2696 34.9335 36.3043 35.4669 38.2025 35.3398C39.1131 35.2788 39.1208 35.2699 39.833 33.4292C40.3879 31.9949 40.4459 31.7199 40.2671 31.3716C40.2149 31.2699 40.076 31.1261 39.9583 31.0519C39.7584 30.9258 39.6929 30.9179 38.9565 30.9324C37.7129 30.9568 36.723 30.7734 35.6762 30.3245L35.1737 30.109L35.1724 29.7487C35.1693 28.9788 34.8982 28.3413 34.2923 27.6793L33.8916 27.2413L34.1305 26.9975L34.3695 26.7536L34.8721 27.2622C35.1485 27.542 35.4475 27.7986 35.5364 27.8325C35.7834 27.9267 36.1017 27.9059 36.2999 27.7825C36.4499 27.6891 41.8831 20.6421 42.1054 20.2525C42.2009 20.0851 42.1968 19.6021 42.0982 19.4095C42.0537 19.3225 41.937 19.1735 41.8389 19.0784L41.6606 18.9054L42.7759 17.76C43.6932 16.8177 43.9038 16.5704 43.963 16.3655C44.0592 16.0323 43.9663 15.7175 43.7014 15.4803C43.3312 15.1485 42.8638 15.1761 42.4297 15.5553L42.1973 15.7583L41.9155 15.464C41.4294 14.9563 41.1199 14.8751 40.8072 15.1732ZM28.284 27.3384L28.5968 27.6616L27.2342 29.052L25.8717 30.4424L25.4026 29.9638L24.9335 29.4851L25.1009 29.342C25.8303 28.7187 27.9046 27.0152 27.9342 27.0152C27.9545 27.0152 28.112 27.1606 28.284 27.3384ZM28.1756 32.2048C28.3758 32.3105 28.5154 32.6 28.4736 32.8232C28.4577 32.908 28.2828 33.1405 28.0824 33.3432C27.7634 33.6658 27.6922 33.7105 27.4882 33.716C27.0664 33.7273 26.7867 33.2751 26.9813 32.8965C27.1462 32.5755 27.7031 32.1145 27.9271 32.1133C27.9681 32.1132 28.0799 32.1543 28.1756 32.2048Z"
+									fill="white" />
+							</svg>
+						</div>
+						<div>
+							<h1>WAFFEN</h1>
+							<span>Hier kannst du einstellen welche Waffen du ingame haben möchtest.</span>
+						</div>
+					</div>
+
+					<div class="option flex_row_spaced" cat="hitmarker" onclick="SelectPauseFrame('hitmarker')">
+						<div class="line"></div>
+						<div class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+								<path
+									d="M43.5 28.5002H41.895C41.5602 25.8602 40.3574 23.4064 38.4756 21.5246C36.5939 19.6429 34.14 18.44 31.5 18.1052V16.5002C31.5 16.1024 31.342 15.7209 31.0607 15.4396C30.7794 15.1583 30.3978 15.0002 30 15.0002C29.6022 15.0002 29.2206 15.1583 28.9393 15.4396C28.658 15.7209 28.5 16.1024 28.5 16.5002V18.1052C25.86 18.44 23.4061 19.6429 21.5244 21.5246C19.6426 23.4064 18.4398 25.8602 18.105 28.5002H16.5C16.1022 28.5002 15.7206 28.6583 15.4393 28.9396C15.158 29.2209 15 29.6024 15 30.0002C15 30.3981 15.158 30.7796 15.4393 31.0609C15.7206 31.3422 16.1022 31.5002 16.5 31.5002H18.105C18.4398 34.1403 19.6426 36.5941 21.5244 38.4759C23.4061 40.3576 25.86 41.5605 28.5 41.8952V43.5002C28.5 43.8981 28.658 44.2796 28.9393 44.5609C29.2206 44.8422 29.6022 45.0002 30 45.0002C30.3978 45.0002 30.7794 44.8422 31.0607 44.5609C31.342 44.2796 31.5 43.8981 31.5 43.5002V41.8952C34.14 41.5605 36.5939 40.3576 38.4756 38.4759C40.3574 36.5941 41.5602 34.1403 41.895 31.5002H43.5C43.8978 31.5002 44.2794 31.3422 44.5607 31.0609C44.842 30.7796 45 30.3981 45 30.0002C45 29.6024 44.842 29.2209 44.5607 28.9396C44.2794 28.6583 43.8978 28.5002 43.5 28.5002ZM37.5 31.5002H38.865C38.5524 33.3399 37.6757 35.0369 36.3562 36.3564C35.0367 37.6759 33.3397 38.5526 31.5 38.8652V37.5002C31.5 37.1024 31.342 36.7209 31.0607 36.4396C30.7794 36.1583 30.3978 36.0002 30 36.0002C29.6022 36.0002 29.2206 36.1583 28.9393 36.4396C28.658 36.7209 28.5 37.1024 28.5 37.5002V38.8652C26.6603 38.5526 24.9633 37.6759 23.6438 36.3564C22.3243 35.0369 21.4476 33.3399 21.135 31.5002H22.5C22.8978 31.5002 23.2794 31.3422 23.5607 31.0609C23.842 30.7796 24 30.3981 24 30.0002C24 29.6024 23.842 29.2209 23.5607 28.9396C23.2794 28.6583 22.8978 28.5002 22.5 28.5002H21.135C21.4476 26.6606 22.3243 24.9636 23.6438 23.6441C24.9633 22.3246 26.6603 21.4479 28.5 21.1352V22.5002C28.5 22.8981 28.658 23.2796 28.9393 23.5609C29.2206 23.8422 29.6022 24.0002 30 24.0002C30.3978 24.0002 30.7794 23.8422 31.0607 23.5609C31.342 23.2796 31.5 22.8981 31.5 22.5002V21.1352C33.3397 21.4479 35.0367 22.3246 36.3562 23.6441C37.6757 24.9636 38.5524 26.6606 38.865 28.5002H37.5C37.1022 28.5002 36.7206 28.6583 36.4393 28.9396C36.158 29.2209 36 29.6024 36 30.0002C36 30.3981 36.158 30.7796 36.4393 31.0609C36.7206 31.3422 37.1022 31.5002 37.5 31.5002ZM30 28.5002C29.7033 28.5002 29.4133 28.5882 29.1666 28.753C28.92 28.9179 28.7277 29.1521 28.6142 29.4262C28.5006 29.7003 28.4709 30.0019 28.5288 30.2929C28.5867 30.5839 28.7296 30.8511 28.9393 31.0609C29.1491 31.2707 29.4164 31.4135 29.7074 31.4714C29.9983 31.5293 30.2999 31.4996 30.574 31.3861C30.8481 31.2725 31.0824 31.0803 31.2472 30.8336C31.412 30.5869 31.5 30.2969 31.5 30.0002C31.5 29.6024 31.342 29.2209 31.0607 28.9396C30.7794 28.6583 30.3978 28.5002 30 28.5002Z"
+									fill="white" />
+							</svg>
+						</div>
+						<div>
+							<h1>HITMARKER</h1>
+							<span>Hier kannst du einstellen welchen
+								Hitmarker und Hit/Kill Sound du haben möchtest.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="weather" style="display: none;">
+					<div class="title">Wetter</div>
+					<div class="items">
+						<div class="item" onclick="ChangeWeather('sun')">
+							<img src="assets/img/pausemenu/sun.png">
+							<div class="title">
+								<h1>SONNE</h1>
+								<h2>GEILES WETTER WÜRD ICH SAGEN</h2>
+							</div>
+							<div class="checkbox checked" data-weather="sun" onclick="ChangeWeather('sun')"></div>
+						</div>
+
+						<div class="item" onclick="ChangeWeather('rain')">
+							<img src="assets/img/pausemenu/rain.png">
+							<div class="title">
+								<h1>REGEN</h1>
+								<h2>💧💧💧</h2>
+							</div>
+							<div class="checkbox" data-weather="rain" onclick="ChangeWeather('rain')"></div>
+						</div>
+
+						<div class="item" onclick="ChangeWeather('fog')">
+							<img src="assets/img/pausemenu/fog.png">
+							<div class="title">
+								<h1>NEBEL</h1>
+								<h2>😶‍🌫️😶‍🌫️😶‍🌫️</h2>
+							</div>
+							<div class="checkbox" data-weather="fog" onclick="ChangeWeather('fog')"></div>
+						</div>
+
+						<div class="item" onclick="ChangeWeather('snow')">
+							<img src="assets/img/pausemenu/snow.png">
+							<div class="title">
+								<h1>SCHNEE</h1>
+								<h2>🥶🥶🧊🧊⛄⛄ BRRR!!!</h2>
+							</div>
+							<div class="checkbox" data-weather="snow" onclick="ChangeWeather('snow')"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="battlepass" style="display: none;">
+					<div class="title">BATTLEPASS</div>
+
+					<div class="rows">
+						<div class="bp-row free">
+							<h1>FREE</h1>
+							<div class="rewards-wrapper slider">
+								<div class="rewards">
+									<div class="reward">
+										<h1 class="title">LEVEL ${reward.level}</h1>
+										<div class="info">
+											<img src="assets/img/items/${reward.name}.png">
+											<h1>${reward.label}</h1>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="bp-row premium">
+							<h1>PREMIUM</h1>
+							<div class="rewards-wrapper slider">
+								<div class="rewards">
+									<div class="reward">
+										<h1 class="title">LEVEL ${reward.level}</h1>
+										<div class="info">
+											<img src="assets/img/items/${reward.name}.png">
+											<h1>${reward.label}</h1>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="overlay">BOOST TO UNLOCK</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="weapons" style="display: none;">
+					<div class="title">WAFFEN</div>
+					<div class="grid_wrapper">
+						<div class="grid">
+						</div>
+					</div>
+				</div>
+
+				<div class="hitmarker" style="display: none;">
+					<div class="title">
+						HITMARKER
+						<label class="checkbox">
+							<input type="checkbox" id="inputh" oninput="SETTINGS.Hitmarker.Enabled = inputh.checked; SaveSettings();">
+							<div class="input"></div>
+						</label>
+					</div>
+
+					<div class="columns">
+						<div class="column">
+							<div class="title">
+								<h1>FORM</h1>
+							</div>
+
+							<div class="form-grid">
+								<div class="form item" onclick="ChangeForm('+')" data-form="+">
+									<svg xmlns="http://www.w3.org/2000/svg" width="173" height="173" viewBox="0 0 173 173" fill="none">
+										<rect x="84" y="61" width="6" height="23" fill="white" />
+										<rect x="84" y="90" width="6" height="23" fill="white" />
+										<rect x="87" y="84" width="26" height="6" fill="white" />
+										<rect x="61" y="84" width="26" height="6" fill="white" />
+									</svg>
+								</div>
+
+								<div class="form item" onclick="ChangeForm('x')" data-form="x">
+									<svg xmlns="http://www.w3.org/2000/svg" width="173" height="173" viewBox="0 0 173 173" fill="none">
+										<rect x="66.2637" y="70.5059" width="6" height="23" transform="rotate(-45 66.2637 70.5059)"
+											fill="white" fill-opacity="1" />
+										<rect x="86.7695" y="91.0122" width="6" height="23" transform="rotate(-45 86.7695 91.0122)"
+											fill="white" fill-opacity="1" />
+										<rect x="84.6484" y="84.6484" width="26" height="6" transform="rotate(-45 84.6484 84.6484)"
+											fill="white" fill-opacity="1" />
+										<rect x="66.2637" y="103.033" width="26" height="6" transform="rotate(-45 66.2637 103.033)"
+											fill="white" fill-opacity="1" />
+									</svg>
+								</div>
+
+								<div class="form item" onclick="ChangeForm('o')" data-form="o">
+									<svg xmlns="http://www.w3.org/2000/svg" width="173" height="173" viewBox="0 0 173 173" fill="none">
+										<path
+											d="M113 87C113 101.359 101.359 113 87 113C72.6406 113 61 101.359 61 87C61 72.6406 72.6406 61 87 61C101.359 61 113 72.6406 113 87ZM67.5 87C67.5 97.7696 76.2304 106.5 87 106.5C97.7696 106.5 106.5 97.7696 106.5 87C106.5 76.2304 97.7696 67.5 87 67.5C76.2304 67.5 67.5 76.2304 67.5 87Z"
+											fill="white" fill-opacity="1" />
+									</svg>
+								</div>
+
+								<div class="form item" onclick="ChangeForm('.')" data-form=".">
+									<svg xmlns="http://www.w3.org/2000/svg" width="173" height="173" viewBox="0 0 173 173" fill="none">
+										<circle cx="87" cy="87" r="5" fill="white" fill-opacity="1" />
+									</svg>
+								</div>
+							</div>
+
+							<div class="form-input">
+								<h1>CUSTOM <strong>URL</strong></h1>
+								<input type="text" id="inputurl" placeholder="EINGABE ..." oninput="ChangeForm(inputurl.value)">
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="title">
+								<h1>FARBE</h1>
+							</div>
+
+							<div class="color-grid grid">
+								<div class="color item" data-color="#FFFFFF" onclick="HitColor('#FFFFFF')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#FFFFFF" />
+										<rect x="58" y="64" width="6" height="23" fill="#FFFFFF" />
+										<rect x="61" y="58" width="26" height="6" fill="#FFFFFF" />
+										<rect x="35" y="58" width="26" height="6" fill="#FFFFFF" />
+									</svg>
+								</div>
+
+								<div class="color item" data-color="#FF3F3F" onclick="HitColor('#FF3F3F')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#FF3F3F" />
+										<rect x="58" y="64" width="6" height="23" fill="#FF3F3F" />
+										<rect x="61" y="58" width="26" height="6" fill="#FF3F3F" />
+										<rect x="35" y="58" width="26" height="6" fill="#FF3F3F" />
+									</svg>
+								</div>
+
+								<div class="color item" data-color="#FFA73F" onclick="HitColor('#FFA73F')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#FFA73F" />
+										<rect x="58" y="64" width="6" height="23" fill="#FFA73F" />
+										<rect x="61" y="58" width="26" height="6" fill="#FFA73F" />
+										<rect x="35" y="58" width="26" height="6" fill="#FFA73F" />
+									</svg>
+								</div>
+
+								<div class="color item" data-color="#E4FF3F" onclick="HitColor('#E4FF3F')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#E4FF3F" />
+										<rect x="58" y="64" width="6" height="23" fill="#E4FF3F" />
+										<rect x="61" y="58" width="26" height="6" fill="#E4FF3F" />
+										<rect x="35" y="58" width="26" height="6" fill="#E4FF3F" />
+									</svg>
+								</div>
+
+								<div class="color item" data-color="#71FF3F" onclick="HitColor('#71FF3F')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#71FF3F" />
+										<rect x="58" y="64" width="6" height="23" fill="#71FF3F" />
+										<rect x="61" y="58" width="26" height="6" fill="#71FF3F" />
+										<rect x="35" y="58" width="26" height="6" fill="#71FF3F" />
+									</svg>
+								</div>
+
+								<div class="color item" data-color="#3FFFBA" onclick="HitColor('#3FFFBA')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#3FFFBA" />
+										<rect x="58" y="64" width="6" height="23" fill="#3FFFBA" />
+										<rect x="61" y="58" width="26" height="6" fill="#3FFFBA" />
+										<rect x="35" y="58" width="26" height="6" fill="#3FFFBA" />
+									</svg>
+								</div>
+
+								<div class="color item" data-color="#3FA3FF" onclick="HitColor('#3FA3FF')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#3FA3FF" />
+										<rect x="58" y="64" width="6" height="23" fill="#3FA3FF" />
+										<rect x="61" y="58" width="26" height="6" fill="#3FA3FF" />
+										<rect x="35" y="58" width="26" height="6" fill="#3FA3FF" />
+									</svg>
+								</div>
+
+								<div class="color item" data-color="#B63FFF" onclick="HitColor('#B63FFF')">
+									<svg xmlns="http://www.w3.org/2000/svg" width="122" height="122" viewBox="0 0 122 122" fill="none">
+										<rect x="58" y="35" width="6" height="23" fill="#B63FFF" />
+										<rect x="58" y="64" width="6" height="23" fill="#B63FFF" />
+										<rect x="61" y="58" width="26" height="6" fill="#B63FFF" />
+										<rect x="35" y="58" width="26" height="6" fill="#B63FFF" />
+									</svg>
+								</div>
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="title">
+								<h1>SOUND</h1>
+							</div>
+
+							<div class="sound-grid grid">
+								<div class="sound item" data-sound="minecraft" onclick="SetSound('minecraft')">
+									<img src="assets/img/pausemenu/minecraft.png">
+									<svg onclick="playSound('minecraft')" xmlns="http://www.w3.org/2000/svg" width="8" height="10"
+										viewBox="0 0 8 10" fill="none">
+										<path
+											d="M0 1.69951C0 0.93703 0.819112 0.455062 1.48564 0.825357L7.42652 4.12584C8.11233 4.50685 8.11233 5.49315 7.42652 5.87416L1.48564 9.17464C0.819113 9.54494 0 9.06297 0 8.30049V1.69951Z"
+											fill="#FF3030" />
+									</svg>
+								</div>
+
+								<div class="sound item" data-sound="cod" onclick="SetSound('cod')">
+									<img src="assets/img/pausemenu/cod.png">
+									<svg onclick="playSound('cod')" xmlns="http://www.w3.org/2000/svg" width="8" height="10"
+										viewBox="0 0 8 10" fill="none">
+										<path
+											d="M0 1.69951C0 0.93703 0.819112 0.455062 1.48564 0.825357L7.42652 4.12584C8.11233 4.50685 8.11233 5.49315 7.42652 5.87416L1.48564 9.17464C0.819113 9.54494 0 9.06297 0 8.30049V1.69951Z"
+											fill="#FF3030" />
+									</svg>
+								</div>
+
+								<div class="sound item" data-sound="fortnite" onclick="SetSound('fortnite')">
+									<img src="assets/img/pausemenu/fortnite.png">
+									<svg onclick="playSound('fortnite')" xmlns="http://www.w3.org/2000/svg" width="8" height="10"
+										viewBox="0 0 8 10" fill="none">
+										<path
+											d="M0 1.69951C0 0.93703 0.819112 0.455062 1.48564 0.825357L7.42652 4.12584C8.11233 4.50685 8.11233 5.49315 7.42652 5.87416L1.48564 9.17464C0.819113 9.54494 0 9.06297 0 8.30049V1.69951Z"
+											fill="#FF3030" />
+									</svg>
+								</div>
+
+								<div class="sound item" data-sound="rust" onclick="SetSound('rust')">
+									<img src="assets/img/pausemenu/rust.png">
+									<svg onclick="playSound('rust')" xmlns="http://www.w3.org/2000/svg" width="8" height="10"
+										viewBox="0 0 8 10" fill="none">
+										<path
+											d="M0 1.69951C0 0.93703 0.819112 0.455062 1.48564 0.825357L7.42652 4.12584C8.11233 4.50685 8.11233 5.49315 7.42652 5.87416L1.48564 9.17464C0.819113 9.54494 0 9.06297 0 8.30049V1.69951Z"
+											fill="#FF3030" />
+									</svg>
+								</div>
+
+								<div class="sound item" data-sound="csgo" onclick="SetSound('csgo')">
+									<img src="assets/img/pausemenu/csgo.png">
+									<svg onclick="playSound('csgo')" xmlns="http://www.w3.org/2000/svg" width="8" height="10"
+										viewBox="0 0 8 10" fill="none">
+										<path
+											d="M0 1.69951C0 0.93703 0.819112 0.455062 1.48564 0.825357L7.42652 4.12584C8.11233 4.50685 8.11233 5.49315 7.42652 5.87416L1.48564 9.17464C0.819113 9.54494 0 9.06297 0 8.30049V1.69951Z"
+											fill="#FF3030" />
+									</svg>
+								</div>
+
+								<div class="sound item" data-sound="roblox" onclick="SetSound('roblox')">
+									<img src="assets/img/pausemenu/roblox.png">
+									<svg onclick="playSound('roblox')" xmlns="http://www.w3.org/2000/svg" width="8" height="10"
+										viewBox="0 0 8 10" fill="none">
+										<path
+											d="M0 1.69951C0 0.93703 0.819112 0.455062 1.48564 0.825357L7.42652 4.12584C8.11233 4.50685 8.11233 5.49315 7.42652 5.87416L1.48564 9.17464C0.819113 9.54494 0 9.06297 0 8.30049V1.69951Z"
+											fill="#FF3030" />
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script async defer="defer" src="assets/js/app.js"></script>
+	<script async defer="defer" src="assets/js/functions.js"></script>
 </body>
 
 </html>

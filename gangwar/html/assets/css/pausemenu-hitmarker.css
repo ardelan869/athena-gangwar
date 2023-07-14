@@ -1,0 +1,228 @@
+.hitmarker {
+	padding-top: 2vh !important;
+}
+
+.hitmarker .columns {
+	margin-top: 2.779vh;
+	display: flex;
+	align-items: flex-start;
+	gap: 4.26vh;
+}
+
+.hitmarker .columns .column {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.hitmarker .columns .column .title {
+	position: relative;
+	box-sizing: border-box;
+	width: 37.038vh;
+	height: 6.297vh;
+	border-radius: 0.8vh;
+	border: 0.1vh solid rgba(255, 255, 255, 0.15);
+	background: radial-gradient(
+		999.11% 221.5% at 50% 50%,
+		rgba(255, 255, 255, 0.15) 0%,
+		rgba(255, 255, 255, 0) 91.09%
+	);
+	display: grid;
+	place-items: center;
+	transition: 0.25s border-color cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	z-index: 0;
+	--hover-border-hit: #ff3030;
+	--hover-bg-hit: radial-gradient(
+		999.11% 221.5% at 50% 50%,
+		rgba(255, 48, 48, 0.5) 0%,
+		rgba(255, 48, 48, 0) 91.09%
+	);
+}
+
+.hitmarker .columns .column .title h1 {
+	font-family: Akrobat-SemiBold;
+	transition: 0.4s color cubic-bezier(0.19, 1, 0.22, 1);
+	color: #ffffff26;
+	z-index: 2;
+	font-size: 2.315vh;
+}
+
+.hitmarker .columns .column .title::before {
+	position: absolute;
+	content: '';
+	background: var(--hover-bg-hit);
+	left: 0;
+	top: 0;
+	width: inherit;
+	height: inherit;
+	border-radius: inherit;
+	opacity: 0;
+	transition: 0.3s opacity cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	z-index: 1;
+}
+
+.hitmarker .columns .column:hover .title {
+	border-color: var(--hover-border-hit);
+}
+
+.hitmarker .columns .column:hover .title h1 {
+	color: #fff;
+}
+
+.hitmarker .columns .column:hover .title::before {
+	opacity: 1;
+}
+
+.hitmarker .columns .column .form-grid {
+	margin-top: 2.315vh;
+	margin-bottom: 1.39vh;
+	display: grid;
+	grid-template-columns: auto auto;
+	justify-items: center;
+	justify-content: center;
+	gap: 1.39vh;
+}
+
+.hitmarker .columns .column .form-grid .form {
+	box-sizing: border-box;
+	background-color: rgb(255, 255, 255, 0.05);
+	border: 0.1vh solid rgb(255, 255, 255, 0.1);
+	border-radius: 1vh;
+	display: grid;
+	place-items: center;
+	width: 16.019vh;
+	height: 16.019vh;
+	transition: 0.2s border-color cubic-bezier(0.215, 0.61, 0.355, 1),
+		0.3s background-color cubic-bezier(0.175, 0.885, 0.32, 1);
+}
+
+.hitmarker .columns .column .form-grid .form:hover,
+.hitmarker .columns .column .form-grid .form.active {
+	border-color: var(--hover-border-item);
+	background-color: var(--hover-bg-item);
+	cursor: pointer;
+}
+
+.hitmarker .columns .column .form-grid .form svg {
+	width: 16.019vh;
+	height: 16.019vh;
+}
+
+.hitmarker .columns .column .form-grid .form * {
+	fill-opacity: 0.25;
+	transition: 0.2s fill-opacity cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.hitmarker .columns .column .form-grid .form:hover *,
+.hitmarker .columns .column .form-grid .form.active * {
+	fill-opacity: 1;
+}
+
+.hitmarker .columns .column .form-input {
+	box-sizing: border-box;
+	border-radius: 1vh;
+	border: 0.1vh solid rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.05);
+	display: flex;
+	flex-direction: column;
+	gap: 1vh;
+	padding: 0.8vh 2vh 2.315vh;
+}
+
+.hitmarker .columns .column .form-input h1 {
+	color: #fff;
+	text-align: center;
+	font-family: Akrobat-ExtraLight;
+	font-size: 2.315vh;
+}
+
+.hitmarker .columns .column .form-input h1 strong {
+	font-family: Akrobat-Bold;
+}
+
+.hitmarker .columns .column .form-input input[type='text'] {
+	border-radius: 0.5vh;
+	border: 0.1vh solid rgba(255, 255, 255, 0.15);
+	background: radial-gradient(
+		879.84% 144.82% at 50% 50%,
+		rgba(217, 217, 217, 0.15) 0%,
+		rgba(217, 217, 217, 0) 100%
+	);
+	padding: 1.669vh 1.39vh;
+	box-sizing: border-box;
+	height: 5vh;
+	width: 29.352vh;
+	font-family: Akrobat-Bold;
+	font-size: 1.39vh;
+}
+
+.hitmarker .columns .column .form-input input[type='text']::placeholder {
+	color: rgba(255, 255, 255, 0.15);
+}
+
+.hitmarker .columns .column .grid {
+	margin-top: 1vh;
+	display: grid;
+	grid-template-columns: auto auto;
+	justify-items: center;
+	justify-content: center;
+	gap: 1vh;
+}
+
+.hitmarker .columns .column .grid .item {
+	width: 11.297vh;
+	height: 11.297vh;
+	box-sizing: border-box;
+	border-radius: 1vh;
+	border: 0.1vh solid rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.05);
+	transition: 0.2s border-color cubic-bezier(0.215, 0.61, 0.355, 1),
+		0.3s background-color cubic-bezier(0.175, 0.885, 0.32, 1);
+	--hover-bg-item: rgba(255, 48, 48, 0.251);
+	--hover-border-item: #ff3030;
+}
+
+.hitmarker .columns .column .grid .item svg {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.hitmarker .columns .column .grid .item:hover,
+.hitmarker .columns .column .grid .item.active {
+	border-color: var(--hover-border-item);
+	background-color: var(--hover-bg-item);
+}
+
+.hitmarker .columns .column .grid .item:not(.sound):hover {
+	cursor: pointer;
+}
+
+.hitmarker .columns .column .sound-grid .sound {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1.112vh;
+}
+
+.hitmarker .columns .column .sound-grid .sound img {
+	height: 5vh;
+	object-fit: contain;
+}
+
+img[src*='fortnite'],
+img[src*='cod'] {
+	width: 5vh;
+	height: auto;
+}
+
+.hitmarker .columns .column .sound-grid .sound svg {
+	width: 1vh;
+	height: 1vh;
+	object-fit: contain;
+}
+
+.hitmarker .columns .column .sound-grid .sound svg:hover {
+	cursor: pointer;
+}

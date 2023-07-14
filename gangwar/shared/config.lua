@@ -1,4 +1,5 @@
 Config = {
+    BoosterRole = 'ROLE_ID', -- auch in index.js
     Debug = true,
     StartWeapons = {
         ['WEAPON_PISTOL'] = {
@@ -733,21 +734,78 @@ Config = {
         [GetHashKey('WEAPON_PETROLCAN')] = 'WEAPON_PETROLCAN',
         [GetHashKey('GADGET_PARACHUTE')] = 'GADGET_PARACHUTE',
         [GetHashKey('WEAPON_FIREEXTINGUISHER')] = 'WEAPON_FIREEXTINGUISHER',
+    },
+    MetaData = {
+        ['WEAPON_KNUCKLE'] = {label = 'SCHLAGRING', type = 'NAHKAMPF'},
+        ['WEAPON_SWITCHBLADE'] = {label = 'KLAPPMESSER', type = 'NAHKAMPF'},
+        ['WEAPON_PISTOL'] = {label = 'PISTOLE', type = 'KURZWAFFE'},
+        ['WEAPON_APPISTOL'] = {label = 'AP PISTOLE', type = 'KURZWAFFE'},
+        ['WEAPON_PISTOL50'] = {label = 'PISTOLE .50', type = 'KURZWAFFE'},
+        ['WEAPON_REVOLVER'] = {label = 'REVOLVER', type = 'KURZWAFFE'},
+        ['WEAPON_SNSPISTOL'] = {label = 'BILLIG KNARRE', type = 'KURZWAFFE'},
+        ['WEAPON_HEAVYPISTOL'] = {label = 'SCHWERE PISTOLE', type = 'KURZWAFFE'},
+        ['WEAPON_REVOLVER_MK2'] = {label = 'REVOLVER MKII', type = 'KURZWAFFE'},
+        ['WEAPON_SNSPISTOL_MK2'] = {label = 'BILLIG KNARRE MKII', type = 'KURZWAFFE'},
+        ['WEAPON_PISTOL_MK2'] = {label = 'PISTOLE MKII', type = 'KURZWAFFE'},
+        ['WEAPON_VINTAGEPISTOL'] = {label = 'KLASSISCHE PISTOLE', type = 'KURZWAFFE'},
+        ['WEAPON_RAYPISTOL'] = {label = 'STRAHLENPISTOLE', type = 'KURZWAFFE'},
+        ['WEAPON_CERAMICPISTOL'] = {label = 'KERAMIK PISTOLE', type = 'KURZWAFFE'},
+        ['WEAPON_MICROSMG'] = {label = 'MIKRO MP', type = 'MASCHINENPISTOLE'},
+        ['WEAPON_SMG'] = {label = 'MP', type = 'MASCHINENPISTOLE'},
+        ['WEAPON_ASSAULTSMG'] = {label = 'STURM-MP', type = 'MP'},
+        ['WEAPON_MINISMG'] = {label = 'MINI-MP', type = 'MP'},
+        ['WEAPON_SMG_MK2'] = {label = 'MP MKII', type = 'MP'},
+        ['WEAPON_MACHINEPISTOL'] = {label = 'REIHENFEUERPISTOLE', type = 'MP'},
+        ['WEAPON_COMBATPDW'] = {label = 'EINSATZ-PDW', type = 'MP'},
+        ['WEAPON_PUMPSHOTGUN'] = {label = 'SCHROTFLINTE', type = 'SCHROTFLINTE'},
+        ['WEAPON_SAWNOFFSHOTGUN'] = {label = 'ABG. SCHROTFLINTE', type = 'SCHROTFLINTE'},
+        ['WEAPON_ASSAULTSHOTGUN'] = {label = 'STURM-SCHROTFLINTE', type = 'SCHROTFLINTE'},
+        ['WEAPON_BULLPUPSHOTGUN'] = {label = 'BULLPUP SCHROTFLINTE', type = 'SCHROTFLINTE'},
+        ['WEAPON_PUMPSHOTGUN_MK2'] = {label = 'SCHROTFLINTE MKII', type = 'SCHROTFLINTE'},
+        ['WEAPON_HEAVYSHOTGUN'] = {label = 'SCHWERE SCHROTFLINTE', type = 'SCHROTFLINTE'},
+        ['WEAPON_COMBATSHOTGUN'] = {label = 'KAMPF SCHROTFLINTE', type = 'SCHROTFLINTE'},
+        ['WEAPON_ASSAULTRIFLE'] = {label = 'STURMGEWEHR', type = 'LANGWAFFE'},
+        ['WEAPON_CARBINERIFLE'] = {label = 'KARABINER', type = 'LANGWAFFE'},
+        ['WEAPON_SPECIALCARBINE'] = {label = 'SPEZIALKARABINER', type = 'LANGWAFFE'},
+        ['WEAPON_BULLPUPRIFLE'] = {label = 'BULLPUP-GEWEHR', type = 'LANGWAFFE'},
+        ['WEAPON_BULLPUPRIFLE_MK2'] = {label = 'BULLPUP-GEWEHR MKII', type = 'LANGWAFFE'},
+        ['WEAPON_SPECIALCARBINE_MK2'] = {label = 'SPEZIALKARABINER MKII', type = 'LANGWAFFE'},
+        ['WEAPON_ASSAULTRIFLE_MK2'] = {label = 'STURMGEWEHR MKII', type = 'LANGWAFFE'},
+        ['WEAPON_CARBINERIFLE_MK2'] = {label = 'KARABINER MKII', type = 'LANGWAFFE'},
+        ['WEAPON_COMPACTRIFLE'] = {label = 'KOMPAKTES GEWEHR', type = 'LANGWAFFE'},
+        ['WEAPON_MILITARYRIFLE'] = {label = 'MILITÄRGEWEHR', type = 'LANGWAFFE'},
+        ['WEAPON_MG'] = {label = 'MASCHINENGEWEHR', type = 'MASCHINENGEWEHR'},
+        ['WEAPON_COMBATMG'] = {label = 'GEFECHTSMG', type = 'MASCHINENGEWEHR'},
+        ['WEAPON_COMBATMG_MK2'] = {label = 'GEFECHTSMG MKII', type = 'MASCHINENGEWEHR'},
+        ['WEAPON_GUSENBERG'] = {label = 'GUSENBERG', type = 'MASCHINENGEWEHR'},
+        ['WEAPON_SNIPERRIFLE'] = {label = 'SCHARFSCHÜTZENGEWEHR', type = 'SCHARFSCHÜTZENGEWEHR'},
+        ['WEAPON_HEAVYSNIPER'] = {label = 'SCHWERES SCHARFSCHÜTZENGEWEHR', type = 'SCHARFSCHÜTZENGEWEHR'},
+        ['WEAPON_MARKSMANRIFLE_MK2'] = {label = 'PRÄZISIONSGEWEHR MKII', type = 'SCHARFSCHÜTZENGEWEHR'},
+        ['WEAPON_HEAVYSNIPER_MK2'] = {label = 'SCHWERES SCHARFSCHÜTZENGEWEHR MKII', type = 'SCHARFSCHÜTZENGEWEHR'},
+        ['WEAPON_MARKSMANRIFLE'] = {label = 'PRÄZISIONSGEWEHR', type = 'SCHARFSCHÜTZENGEWEHR'}
     }
 }
 
+StringToHash = function(name)
+    for hash, weaponName in pairs(Config.HashToString) do
+        if weaponName == name then
+            return hash
+        end
+    end
+end
+
 Debug = function(...)
     if Config.Debug then
-        return print('^7[^4DEBUG^7] | '.. (...))
+        return print('^7[^4DEBUG^7] | ' .. (...))
     end
 end
 
 Error = function(...)
-    return print('^0[^8ERROR^0] | '.. (...))
+    return print('^0[^8ERROR^0] | ' .. (...))
 end
 
-Warning = function( ... )
-    return print('^0[^3WARNING^0] | '.. (...))
+Warning = function(...)
+    return print('^0[^3WARNING^0] | ' .. (...))
 end
 
 ADUTY_VARIANT = {

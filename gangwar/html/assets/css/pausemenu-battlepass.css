@@ -1,0 +1,145 @@
+.rows {
+	margin-top: 3vh;
+	display: grid;
+	gap: 2.038vh;
+}
+
+.bp-row {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 0.9vh;
+}
+
+.bp-row > h1 {
+	font-family: Akrobat-Bold;
+	font-size: 4.63vh;
+	writing-mode: tb-rl;
+	transform: rotate(-180deg);
+}
+
+.bp-row.premium > h1 {
+	color: #f4cf4a;
+}
+
+.rewards-wrapper {
+	max-width: 66vw;
+	overflow-x: scroll;
+}
+
+.rewards {
+	display: grid;
+	grid-auto-flow: column;
+	gap: 1.855vh;
+}
+
+.rewards .reward {
+	width: 23.149vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.7vh;
+}
+
+.rewards .reward > h1.title {
+	box-sizing: border-box;
+	width: 100%;
+	border-radius: 0.5vh;
+	height: 3.334vh;
+	line-height: 3.334vh;
+	border: 0.1vh solid rgba(255, 255, 255, 0.1);
+	background: radial-gradient(
+		83.2% 83.2% at 50% 50%,
+		rgba(217, 217, 217, 0.1) 0%,
+		rgba(217, 217, 217, 0) 100%
+	);
+	text-align: center;
+	color: #fff;
+	font-family: Akrobat-Bold;
+	font-size: 1.855vh;
+}
+
+.rewards .reward .info {
+	box-sizing: border-box;
+	width: 100%;
+	height: 23.149vh;
+	border-radius: 0.5vh;
+	border: 0.1vh solid rgba(255, 255, 255, 0.1);
+	background: radial-gradient(
+		83.2% 83.2% at 50% 50%,
+		rgba(217, 217, 217, 0.1) 0%,
+		rgba(217, 217, 217, 0) 100%
+	);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5vh;
+}
+
+.rewards .reward .info img {
+	width: 12.223vh;
+	height: 12.223vh;
+	object-fit: contain;
+}
+
+.rewards .reward .info h1 {
+	font-family: Akrobat-Bold;
+	font-size: 2.779vh;
+	color: #fff;
+	text-align: center;
+}
+
+.rewards .reward.can > h1.title,
+.rewards .reward.can .info {
+	border-color: rgba(255, 255, 255, 0.25);
+	background: radial-gradient(
+		83.2% 83.2% at 50% 50%,
+		rgba(217, 217, 217, 0.25) 0%,
+		rgba(217, 217, 217, 0) 100%
+	);
+}
+
+.rewards .reward.collected > h1.title,
+.rewards .reward.collected .info {
+	border-color: #a3ff46;
+	background: radial-gradient(
+		83.2% 83.2% at 50% 50%,
+		rgba(163, 255, 70, 0.15) 0%,
+		rgba(163, 255, 70, 0) 100%
+	);
+}
+
+.bp-row.premium .reward > h1.title,
+.bp-row.premium .reward .info {
+	border-color: rgba(244, 207, 74, 0.15) !important;
+	background: radial-gradient(
+		83.2% 83.2% at 50% 50%,
+		rgba(244, 207, 74, 0.15) 0%,
+		rgba(244, 207, 74, 0) 100%
+	) !important;
+}
+
+.battlepass .overlay {
+	position: absolute;
+	z-index: 1;
+	width: 72.6042vw;
+	height: 24vh;
+	display: grid;
+	place-items: center;
+
+	color: #fff;
+	text-align: center;
+	font-family: Akrobat-Bold;
+	font-size: 2.779vh;
+}
+
+.battlepass .overlay::after {
+	position: absolute;
+	content: '';
+	width: inherit;
+	height: inherit;
+	background: #232002;
+	filter: blur(10vh);
+	z-index: -1;
+}

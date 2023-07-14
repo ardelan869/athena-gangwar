@@ -147,3 +147,34 @@ end)
 RegisterNUICallback('TurnOff', function(data, cb)
 	isTurning = false
 end)
+
+RegisterNUICallback('SaveSettings', function(data)
+	SetResourceKvp('settings', json.encode(data))
+	ATH.Weather = WEATHER_TYPES[data.Weather]
+
+    if data.Weapons then
+        for weapon, enabled in pairs(data.Weapons) do
+            local hash = StringToHash(weapon)
+            if hash then
+                if enabled == true and not HasPedGotWeapon(ATH.PlayerData.ped, hash) then
+                    GiveWeaponToPed(ATH.PlayerData.ped, hash, 100, false, false)
+                    if ATH.PlayerData.loadout[weapon] then
+                        local components = ATH.PlayerData.loadout[weapon].components
+                        if #components > 0 then
+                            for index, component in pairs(components) do
+                                GiveWeaponComponentToPed(ATH.PlayerData.ped, hash, component.hash)
+                            end
+                        end
+                    end
+                elseif enabled == false and HasPedGotWeapon(ATH.PlayerData.ped, hash) then
+                    RemoveWeaponFromPed(ATH.PlayerData.ped, hash)
+                end
+            end
+        end
+    end
+end)
+
+RegisterNUICallback('CollectReward', function(data, cb)
+    TriggerServerEvent('ath:Kobold', data)
+    cb({success=true})
+end)

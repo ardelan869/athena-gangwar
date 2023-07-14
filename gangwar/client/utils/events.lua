@@ -10,6 +10,15 @@ end)
 
 On('ath:UpdateLoadout', function(loadout)
     ATH.PlayerData.loadout = loadout
+    SendNUIMessage({
+        action = 'SetLoadout',
+        loadout = loadout,
+        meta = Config.MetaData
+    })
+end)
+
+On('ath:UpdateCollected', function(collected)
+    ATH.PlayerData.collected = collected
 end)
 
 On('ath:UpdateRank', function(rank)
@@ -102,4 +111,11 @@ On('ath:AddKill', function(id, name)
         }
     end
     KillFeed[id].you = KillFeed[id].you + 1
+end)
+
+On('ath:SetBoosted', function(boosted)
+    SendNUIMessage({
+        action = 'SetBoosted',
+        boosted = boosted
+    })
 end)

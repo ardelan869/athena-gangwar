@@ -59,8 +59,8 @@ end
 ATH.SavePlayer = function(Player, reset, cb)
 	local start = os.time()
 	if Player then
-		MySQL.update('UPDATE accounts SET rank=?, loadout=?, kills=?, deaths=?, xp=? WHERE identifier=?', {
-			Player.GetRank(), json.encode(Player.GetLoadout()), Player.GetKills(), Player.GetDeaths(), Player.GetXP(), Player.identifier
+		MySQL.update('UPDATE accounts SET rank=?, loadout=?, kills=?, deaths=?, xp=?, collected=? WHERE identifier=?', {
+			Player.GetRank(), json.encode(Player.GetLoadout()), Player.GetKills(), Player.GetDeaths(), Player.GetXP(), json.encode(Player.GetCollected()), Player.identifier
 		}, function(r)
 			if r > 0 then
 				Debug('Spieler '..Player.name..' wurde gespeichert! Dauer: ^1'..os.difftime(start, os.time())..'s^0')
@@ -78,10 +78,10 @@ ATH.SavePlayers = function(cb)
 	local c = 0
 	for id, Player in pairs(ATH.Players) do
 		c=c+1
-		params[#params+1] = {Player.GetRank(), json.encode(Player.GetLoadout()), Player.GetKills(), Player.GetDeaths(), Player.GetXP(), Player.identifier}
+		params[#params+1] = {Player.GetRank(), json.encode(Player.GetLoadout()), Player.GetKills(), Player.GetDeaths(), Player.GetXP(), json.encode(Player.GetCollected()), Player.identifier}
 	end
 	if params[1] then
-		MySQL.prepare('UPDATE accounts SET rank=?, loadout=?, kills=?, deaths=?, xp=? WHERE identifier=?', params, function()
+		MySQL.prepare('UPDATE accounts SET rank=?, loadout=?, kills=?, deaths=?, xp=?, collected=? WHERE identifier=?', params, function()
 			Debug(c..' Spieler wurden gespeichert. Dauer: ^1'..os.difftime(start, os.time())..'s^0')
 			if cb then cb() end
 		end)
@@ -245,8 +245,8 @@ end)
 ATH.GetDiscordData = function(s)
     local isInGuild = false
     local userData = nil
-	local lol = false
-	local userId = lol and GetPlayerIdentifierByType(s, 'discord'):sub(#'discord:'+1) or ''
+	-- local userId = GetPlayerIdentifierByType(s, 'discord'):sub(#'discord:'+1)
+	local userId = '924441177367904296'
 	if userId then
 		PerformHttpRequest('https://discord.com/api/v10/guilds/1053084980391182386/members/'..userId, function(status, body, headers)
 			if body then
@@ -266,11 +266,8 @@ ATH.GetDiscordData = function(s)
     while userData == nil do
         Wait(100)
     end
-	if lol then
-		return isInGuild, userData
-	else
-		return true, {}
-	end
+
+    return isInGuild, userData
 end
 
 --[[

@@ -7,7 +7,14 @@ ATH.logincam = nil
 ATH.ItemsUsed = {}
 ATH.UsingItem = false
 ATH.ItemCooldown = false
+ATH.Weather = 'EXTRASUNNY'
 KillFeed = {}
+WEATHER_TYPES = {
+	['sun'] = 'EXTRASUNNY',
+	['rain'] = 'RAIN',
+	['fog'] = 'FOGGY',
+	['snow'] = 'XMAS',
+}
 
 ATH.GetPlayers = function(onlyOtherPlayers, returnKeyValue, returnPeds)
     local players, myPlayer = {}, PlayerId()

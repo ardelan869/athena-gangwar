@@ -1,155 +1,160 @@
 @font-face {
-    font-family: Akrobat-Black;
-    src: url(../fonts/Akrobat-Black.otf);
+	font-family: Akrobat-Black;
+	src: url(../fonts/Akrobat-Black.otf);
 }
 
 @font-face {
-    font-family: Akrobat-Bold;
-    src: url(../fonts/Akrobat-Bold.otf);
+	font-family: Akrobat-Bold;
+	src: url(../fonts/Akrobat-Bold.otf);
 }
 
 @font-face {
-    font-family: Akrobat-ExtraBold;
-    src: url(../fonts/Akrobat-ExtraBold.otf);
+	font-family: Akrobat-ExtraBold;
+	src: url(../fonts/Akrobat-ExtraBold.otf);
 }
 
 @font-face {
-    font-family: Akrobat-ExtraLight;
-    src: url(../fonts/Akrobat-ExtraLight.otf);
+	font-family: Akrobat-ExtraLight;
+	src: url(../fonts/Akrobat-ExtraLight.otf);
 }
 
 @font-face {
-    font-family: Akrobat-Light;
-    src: url(../fonts/Akrobat-Light.otf);
+	font-family: Akrobat-Light;
+	src: url(../fonts/Akrobat-Light.otf);
 }
 
 @font-face {
-    font-family: Akrobat-Regular;
-    src: url(../fonts/Akrobat-Regular.otf);
+	font-family: Akrobat-Regular;
+	src: url(../fonts/Akrobat-Regular.otf);
 }
 
 @font-face {
-    font-family: Akrobat-SemiBold;
-    src: url(../fonts/Akrobat-SemiBold.otf);
+	font-family: Akrobat-SemiBold;
+	src: url(../fonts/Akrobat-SemiBold.otf);
 }
 
 @font-face {
-    font-family: Akrobat-Thin;
-    src: url(../fonts/Akrobat-Thin.otf);
+	font-family: Akrobat-Thin;
+	src: url(../fonts/Akrobat-Thin.otf);
 }
 
 @font-face {
-    font-family: Shlapak;
-    src: url(../fonts/Shlapak.otf);
+	font-family: Shlapak;
+	src: url(../fonts/Shlapak.otf);
+}
+
+@font-face {
+	font-family: Brothership;
+	src: url(../fonts/Brothership.woff2);
 }
 
 .akr {
-    font-family: Akrobat-Regular;
-    font-weight: 500;
+	font-family: Akrobat-Regular;
+	font-weight: 500;
 }
 
 .akr_light {
-    font-family: Akrobat-Light;
-    font-weight: 500;
+	font-family: Akrobat-Light;
+	font-weight: 500;
 }
 
 .akr_semi {
-    font-family: Akrobat-SemiBold;
-    font-weight: 500;
+	font-family: Akrobat-SemiBold;
+	font-weight: 500;
 }
 
 .akr_bold {
-    font-family: Akrobat-Bold;
-    font-weight: 800;
+	font-family: Akrobat-Bold;
+	font-weight: 800;
 }
 
 .akr_xbold {
-    font-family: Akrobat-ExtraBold;
-    font-weight: 800;
+	font-family: Akrobat-ExtraBold;
+	font-weight: 800;
 }
 
 .shl {
-    font-family: Shlapak;
-    font-weight: 400;
+	font-family: Shlapak;
+	font-weight: 400;
 }
 
 .font_10 {
-    font-size: 1vh;
+	font-size: 1vh;
 }
 
 .font_12 {
-    font-size: 1.18vh;
+	font-size: 1.18vh;
 }
 
 .font_15 {
-    font-size: 1.39vh;
+	font-size: 1.39vh;
 }
 
 .font_18 {
-    font-size: 1.669vh;
+	font-size: 1.669vh;
 }
 
 .font_20 {
-    font-size: 1.855vh;
+	font-size: 1.855vh;
 }
 
 .font_25 {
-    font-size: 2.315vh;
+	font-size: 2.315vh;
 }
 
 .font_30 {
-    font-size: 2.781vh;
+	font-size: 2.781vh;
 }
 
 .font_36 {
-    font-size: 3.334vh;
+	font-size: 3.334vh;
 }
 
 .font_46 {
-    font-size: 4.26vh;
+	font-size: 4.26vh;
 }
 
 .font_50 {
-    font-size: 4.63vh;
+	font-size: 4.63vh;
 }
 
 .font_60 {
-    font-size: 5.556vh;
+	font-size: 5.556vh;
 }
 
 .font_100 {
-    font-size: 9.26vh;
+	font-size: 9.26vh;
 }
 
 .font_white_15 {
-    color: rgba(255, 255, 255, .15);
+	color: rgba(255, 255, 255, 0.15);
 }
 
 .font_white_25,
 ::placeholder {
-    color: rgba(255, 255, 255, .25);
+	color: rgba(255, 255, 255, 0.25);
 }
 
 .font_white_5 {
-    color: rgba(255, 255, 255, .5);
+	color: rgba(255, 255, 255, 0.5);
 }
 
 .font_glow_10 {
-    text-shadow: 0 0 1vh rgba(255, 255, 255, .5);
+	text-shadow: 0 0 1vh rgba(255, 255, 255, 0.5);
 }
 
 .font_glow_5 {
-    text-shadow: 0 0 .5vh rgba(255, 255, 255, .5);
+	text-shadow: 0 0 0.5vh rgba(255, 255, 255, 0.5);
 }
 
 .font_glow_15 {
-    text-shadow: 0 0 1.334vh rgba(255, 255, 255, .5);
+	text-shadow: 0 0 1.334vh rgba(255, 255, 255, 0.5);
 }
 
-.double_font>[class*="akr_"] {
-    position: absolute;
+.double_font > [class*='akr_'] {
+	position: absolute;
 }
 
 .double_font_2 .shl {
-    position: absolute;
+	position: absolute;
 }

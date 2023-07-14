@@ -1,0 +1,104 @@
+/* WEATHER */
+
+.pausemenu_container .row .right .weather .items {
+	display: flex;
+	align-items: center;
+	gap: 2.315vh;
+	margin-top: 4.26vh;
+}
+
+.pausemenu_container .row .right .weather .items .item {
+	position: relative;
+	height: 51.112vh;
+	width: 28.797vh;
+	box-sizing: border-box;
+	padding: 2.779vh 2.315vh;
+	overflow: hidden;
+}
+
+.pausemenu_container .row .right .weather .items .item img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 35%;
+	transition: 0.35s transform cubic-bezier(0.23, 1, 0.32, 1),
+		0.27s opacity cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.pausemenu_container .row .right .weather .items .item .title {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	color: #fff;
+	z-index: 1;
+}
+
+.pausemenu_container .row .right .weather .items .item .title::before {
+	position: absolute;
+	content: '';
+	width: 14.353vh;
+	height: 6.297vh;
+	background: #1b280b;
+	filter: blur(2.779vh);
+	z-index: -1;
+	opacity: 0;
+	transition: 0.15s opacity cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.pausemenu_container .row .right .weather .items .item .title h1 {
+	color: currentColor;
+	font-family: Akrobat-Bold;
+	font-size: 2.779vh;
+	transition: 0.2s color cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.pausemenu_container .row .right .weather .items .item .title h2 {
+	color: currentColor;
+	font-family: Akrobat-Bold;
+	font-size: 1.39vh;
+	width: 14.353vh;
+	transition: 0.2s color cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.pausemenu_container .row .right .weather .items .item .checkbox {
+	position: absolute;
+	border-radius: 0.3vh;
+	width: 2.779vh;
+	height: 2.779vh;
+	bottom: 1.112vh;
+	right: 1.112vh;
+	background-color: rgba(255, 255, 255, 0.15);
+	transition: 0.3s background-color cubic-bezier(0.25, 0.46, 0.45, 0.94),
+		0.35s box-shadow cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.pausemenu_container .row .right .weather .items .item .checkbox:hover {
+	background-color: rgba(255, 255, 255, 0.25);
+	cursor: pointer;
+}
+
+.pausemenu_container .row .right .weather .items .item .checkbox.checked {
+	background-color: #adff47;
+	box-shadow: 0 0 1.39vh rgba(173, 255, 71, 0.55);
+}
+
+.row .right .weather .items .item:hover img {
+	transform: scale(1.1);
+}
+
+.row .right .weather .items .item:hover img,
+.row .right .weather .items .item:has(.checkbox.checked) img {
+	opacity: 1;
+}
+
+.row .right .weather .items .item:hover .title,
+.row .right .weather .items .item:has(.checkbox.checked) .title {
+	color: #adff47;
+}
+
+.row .right .weather .items .item:hover .title::before,
+.row .right .weather .items .item:has(.checkbox.checked) .title::before {
+	opacity: 1;
+}

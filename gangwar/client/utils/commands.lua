@@ -205,3 +205,20 @@ RegisterCommand('noclip', function()
     end
 end, false)
 RegisterKeyMapping('noclip', 'Toggle Noclip', 'keyboard', 'F7')
+
+RegisterCommand('pausemenu', function()
+    if not IsNuiFocused() then
+        local settings = GetResourceKvpString('settings')
+        SetNuiFocus(true, true)
+        SendNUIMessage({ action = 'OpenPauseMenu' })
+        SendNUIMessage({
+            action = 'SetSettings',
+            settings = settings and json.decode(settings) or false,
+            loadout = ATH.PlayerData.loadout,
+            meta = Config.MetaData,
+            rewards = Rewards,
+            collected = ATH.PlayerData.collected
+        })
+    end
+end, false)
+RegisterKeyMapping('pausemenu', 'Toggle Pausemenu', 'keyboard', 'P')

@@ -1,66 +1,67 @@
 .garage_container {
-    position: absolute;
-    width: 102.223vh;
-    height: 76.575vh;
-    background: url(../img/bg_pattern_faction.png), var(--faction-bg);
-    background-size: 100%;
-    gap: 4.9vh;
-    border-radius: 1.5vh;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    align-items: flex-start;
-    transition: .3s ease-out;
+	position: absolute;
+	width: 102.223vh;
+	height: 76.575vh;
+	background: url(../img/bg_pattern_faction.png), var(--faction-bg);
+	background-size: 100%;
+	gap: 4.9vh;
+	border-radius: 1.5vh;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	align-items: flex-start;
+	transition: 0.3s ease-out;
 }
 
 .garage_container .grid {
-    margin-top: 4vh;
-    display: grid;
-    overflow-y: scroll;
-    grid-template-columns: repeat(3, 29vh);
-    max-height: 68vh;
-    width: 93.2vh;
-    gap: 3.2vh;
+	margin-top: 4vh;
+	display: grid;
+	overflow-y: scroll;
+	grid-template-columns: repeat(3, 29vh);
+	max-height: 68vh;
+	width: 93.2vh;
+	gap: 3.2vh;
 }
 
 .garage_container .vehicle {
-    position: relative;
-    gap: .8vh;
-    overflow: hidden;
-    width: 29vh;
+	position: relative;
+	gap: 0.8vh;
+	overflow: hidden;
+	width: 29vh;
 }
 
-.garage_container .vehicle>div[b] {
-    width: 2.686vh;
-    height: 14.538vh;
+.garage_container .vehicle > div[b] {
+	width: 2.686vh;
+	height: 14.538vh;
 }
 
-.garage_container .vehicle>div[b]>button {
-    position: absolute;
-    width: 14.538vh;
-    height: 2.686vh;
-    border-radius: .5vh;
-    rotate: -90deg;
+.garage_container .vehicle > div[b] > button {
+	position: absolute;
+	width: 14.538vh;
+	height: 2.686vh;
+	border-radius: 0.5vh;
+	rotate: -90deg;
 }
 
-.garage_container .vehicle>div:not([b]) {
-    width: 25.186vh;
-    height: 14.352vh;
-    background: url(../img/bg_faction_vehicle.png) padding-box,
-        linear-gradient(90deg, var(--img-border) 0%, rgba(0, 0, 0, 0) 100%) border-box;
-    border-radius: 1vh;
-    background-size: contain;
-    border: .1vh solid transparent;
+.garage_container .vehicle > div:not([b]) {
+	width: 25.186vh;
+	height: 14.352vh;
+	background: url(../img/bg_faction_vehicle.png) padding-box,
+		linear-gradient(90deg, var(--img-border) 0%, rgba(0, 0, 0, 0) 100%)
+			border-box;
+	border-radius: 1vh;
+	background-size: contain;
+	border: 0.1vh solid transparent;
 }
 
-.garage_container .vehicle>div:not([b])>img {
-    position: relative;
-    width: 19.353vh;
-    height: 8.704vh;
-    object-fit: contain;
-    margin: .7vh 3vh;
+.garage_container .vehicle > div:not([b]) > img {
+	position: relative;
+	width: 19.353vh;
+	height: 8.704vh;
+	object-fit: contain;
+	margin: 0.7vh 3vh;
 }
 
-.garage_container .vehicle>div:not([b])>div {
-    gap: .5vh;
+.garage_container .vehicle > div:not([b]) > div {
+	gap: 0.5vh;
 }
