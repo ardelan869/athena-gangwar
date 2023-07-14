@@ -51,13 +51,15 @@ RegisterNetEvent('ath:PlayerReady', function()
 end)
 
 AddEventHandler('ath:PlayerJoined', function(source, Source)
-    local __, roles = ATH.GetDiscordData(source)
+    local __, roles, raw = ATH.GetDiscordData(source)
     if roles and roles[1] then
         local role = roles[1]:lower()
         if ATH.Roles[role] then
             Source.SetRank(ATH.Roles[role].name:lower())
         end
 
+        local avatar = 'https://cdn.discordapp.com/avatars/' .. userId .. '/' .. raw.user.avatar .. '.png'
+        Source.Emit('ath:SetDiscordData', avatar, user.username)
         for _, role in pairs(roles) do
             if role == Config.BoosterRole then
                 return Source.Emit('ath:SetBoosted', true)

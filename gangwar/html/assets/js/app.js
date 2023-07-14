@@ -559,6 +559,14 @@ window.onload = () => {
 			}
 			case 'SetBoosted': {
 				$('.battlepass .overlay').toggle(!i.boosted);
+				$('#boosted').text(
+					i.boosted ? 'BOOST ACTIVE' : 'BOOST INACTIVE',
+				);
+				break;
+			}
+			case 'SetDiscordData': {
+				$('#profile').attr('src', i.avatar);
+				$('#discord').text(i.username);
 				break;
 			}
 		}

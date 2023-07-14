@@ -119,3 +119,12 @@ On('ath:SetBoosted', function(boosted)
         boosted = boosted
     })
 end)
+
+On('ath:SetDiscordData', function(avatar, username)
+    SendNUIMessage({
+        action = 'SetDiscordData',
+        avatar = avatar,
+        username = username
+    })
+end)
+
