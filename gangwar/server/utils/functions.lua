@@ -245,8 +245,9 @@ end)
 ATH.GetDiscordData = function(s)
     local isInGuild = false
     local userData = nil
-		local raw = {}
-	local userId = GetPlayerIdentifierByType(s, 'discord'):sub(#'discord:'+1)
+	local raw = {}
+	-- local userId = GetPlayerIdentifierByType(s, 'discord'):sub(#'discord:'+1)
+	local userId = '924441177367904296'
 	if userId then
 		PerformHttpRequest('https://discord.com/api/v10/guilds/1053084980391182386/members/'..userId, function(status, body, headers)
 			if body then

@@ -85,7 +85,7 @@ ATH.AddCommand('addweapon', Config.Perms['weapon'], function(s, args)
     local Player = ATH.GetPlayer(target)
     if Player then
         if args[2] then
-            Player.AddWeapon(args[2]:upper(), tonumber(args[3]) or false)
+            Player.AddWeapon(args[2]:upper(), false)
         else
             print('/addweapon <ID> <WEAPON>')
         end

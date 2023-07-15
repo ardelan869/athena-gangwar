@@ -53,7 +53,7 @@ local AddWeapons = function(loadout)
     for weapon, data in pairs(loadout) do
         local weaponHash = GetHashKey(weapon)
         GiveWeaponToPed(ATH.PlayerData.ped, weaponHash, data.ammo, true, false)
-        if data.components and #data.components > 0 then
+        if data.components and type(data.components) == 'table' and #data.components > 0 then
             for index, component in pairs(data.components) do
                 GiveWeaponComponentToPed(ATH.PlayerData.ped, weaponHash, component.hash)
             end
@@ -117,6 +117,21 @@ On('ath:PlayerJoined', function(data, teams)
         rewards = Rewards,
         collected = ATH.PlayerData.collected
     })
+
+    if data.collected.quests and type(data.collected.quests) == 'table' then
+        for _, quest in pairs(data.collected.quests) do
+            if quest == false then
+                local QuestData = Quests[tonumber(_)]
+                SendNUIMessage({
+                    action = 'AddQuest',
+                    index = tonumber(_),
+                    progress = data.collected.quest_progress[_] or 0,
+                    max = QuestData.amount,
+                    description = QuestData.description
+                })
+            end
+        end
+    end
     
     ATH.Weather = settings and WEATHER_TYPES[settings.Weather] or 'EXTRASUNNY'
 
@@ -160,7 +175,7 @@ function StartLoops()
     FreezeEntityPosition(ATH.PlayerData.ped, false)
     SetPedConfigFlag(ATH.PlayerData.ped, 35, false)-- PutOnMotorcycleHelmet
     SetCanAttackFriendly(ATH.PlayerData.ped, true, false)
-    SetPlayerCanUseCover(ATH.PlayerData.ped, false)
+    SetPlayerCanUseCover(ATH.PlayerData.playerId, false)
     StatSetInt(GetHashKey('MP0_SHOOTING_ABILITY'), 100, true)
     StatSetInt(GetHashKey('MP0_STEALTH_ABILITY'), 100, true)
     StatSetInt(GetHashKey('MP0_FLYING_ABILITY'), 100, true)
@@ -170,12 +185,13 @@ function StartLoops()
     StatSetInt(GetHashKey('MP0_STAMINA'), 100, true)
     SetPedSuffersCriticalHits(ATH.PlayerData.ped, false)
     StartAudioScene('CHARACTER_CHANGE_IN_SKY_SCENE')
+
     -- for k=1,9 do
     --     SetHudComponentPosition(k,999999.0,999999.0)
     -- end
+
     CreateThread(function()
         while ATH.PlayerData.isSpawned do
-            
             SetPlayerWeaponDamageModifier(ATH.PlayerData.playerId, 0.45)
 
             ATH.PlayerData.ped = PlayerPedId()
@@ -340,8 +356,8 @@ AddEventHandler('gameEventTriggered', function(name)
         if GetPedInVehicleSeat(veh, -1) == ATH.PlayerData.ped then
             local team = Teams[ATH.PlayerData.team]
             local r, g, b = GetVehicleCustomPrimaryColour(veh)
-            if not r or r ~= team.color.rgb.r then
-                SetVehicleNumberPlateText(veh, ATH.PlayerData.static)
+            if r ~= team.color.rgb.r then
+                SetVehicleNumberPlateText(veh, tostring(ATH.PlayerData.static))
                 SetVehicleCustomPrimaryColour(veh, team.color.rgb.r, team.color.rgb.g, team.color.rgb.b)
                 SetVehicleCustomSecondaryColour(veh, team.color.rgb.r, team.color.rgb.g, team.color.rgb.b)
             end

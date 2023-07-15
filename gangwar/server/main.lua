@@ -19,11 +19,16 @@ RegisterNetEvent('ath:Kobold', function(data)
     local s = source
     local Source = ATH.GetPlayer(s)
     Source.Collect(data.type, data.index)
-    local Reward = Rewards[data.type][data.index]
-    if Reward.type == 'weapon' then
-        Source.AddWeapon(Reward.name:upper())
-    elseif Reward.type == 'xp' then
-        Source.AddXP(Reward.amount)
+
+    if data.type == 'quests' then
+        Source.AddXP(Quests[data.index].reward)
+    else
+        local Reward = Rewards[data.type][data.index]
+        if Reward.type == 'weapon' then
+            Source.AddWeapon(Reward.name:upper())
+        elseif Reward.type == 'xp' then
+            Source.AddXP(Reward.amount)
+        end
     end
 end)
 
@@ -57,9 +62,9 @@ AddEventHandler('ath:PlayerJoined', function(source, Source)
         if ATH.Roles[role] then
             Source.SetRank(ATH.Roles[role].name:lower())
         end
-
-        local avatar = 'https://cdn.discordapp.com/avatars/' .. userId .. '/' .. raw.user.avatar .. '.png'
-        Source.Emit('ath:SetDiscordData', avatar, user.username)
+        
+        local avatar = 'https://cdn.discordapp.com/avatars/' .. raw.user.id .. '/' .. raw.user.avatar .. '.png'
+        Source.Emit('ath:SetDiscordData', avatar, raw.user.username)
         for _, role in pairs(roles) do
             if role == Config.BoosterRole then
                 return Source.Emit('ath:SetBoosted', true)
@@ -121,11 +126,43 @@ CreateThread(function()
 end)
 
 AddEventHandler('weaponDamageEvent', function(source, args)
-    local s = source
+    local s = tonumber(source)
     local entity = NetworkGetEntityFromNetworkId(args.hitGlobalId)
     local target = NetworkGetEntityOwner(entity)
     if ATH.Players[target] and IsPedAPlayer(entity) then
         TriggerClientEvent('ath:ShowHitmarker', s, args.weaponDamage, args.willKill)
+        local Player = ATH.GetPlayer(s)
+        local Collected = Player.GetCollected()
+        for index, bool in pairs(Collected.quests) do
+            local Quest = Quests[tonumber(index)]
+            if Quest.type == 'kills' then
+                if
+                    args.willKill and
+                    (Collected.quest_progress[index] or 0) < Quest.amount
+                then
+                    Player.Progress(index, Quest.amount)
+                end
+            elseif Quest.type == 'headshot_kill' then
+                if
+                    args.willKill and
+                    args.hitComponent == 20 and
+                    (Collected.quest_progress[index] or 0) < Quest.amount
+                then
+                    Player.Progress(index, Quest.amount)
+                end
+            elseif Quest.type == 'headshot_hit' then
+                if
+                    args.hitComponent == 20 and
+                    (Collected.quest_progress[index] or 0) < Quest.amount
+                then
+                    Player.Progress(index, Quest.amount)
+                end
+            end
+        end
+
+        -- args.willKill
+        -- args.hitComponent == 20 -- headshot
+        -- args.damageType == 3
     end
 end)
 
@@ -154,15 +191,15 @@ AddEventHandler('playerConnecting', function(name, __, deferrals)
         deferrals.done(('\nDu wurdest von diesem server gebannt,\nGrund: %s,\nBann Läuft am %s ab\nDeine Bann-ID lautet #%s.\nGebannt von: %s'):format(reason, (type(expire) == 'number' and date or 'Permanent'), banid, banner))
     else
         if identifier then
-            if not ATH.GetPlayer(identifier) then
+            if ATH.GetPlayer(identifier) then
+                deferrals.done('Es ist bereits jemand mit deinem Account drauf!\n\nIdentifier: ' .. identifier)
+            else
                 if isInGuild then
                     deferrals.done()
                     TriggerEvent('ath:PlayerConnecting', s, name, __, deferrals)
                 else
                     deferrals.done('Du musst auf dem Discord sein um den Server betreten zu können https://discord.gg/athenagw')
                 end
-            else
-                deferrals.done('Es ist bereits jemand mit deinem Account drauf!\n\nIdentifier: ' .. identifier)
             end
         else
             deferrals.done('Du benötigst Steam, um auf diesen Server spielen zu können.')

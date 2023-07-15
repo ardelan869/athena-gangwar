@@ -168,10 +168,15 @@ const SelectClothing = (id) => {
 };
 
 const setSVG = (percent, src) => {
-	var progressCircle = document.querySelector(src);
-	const circumference = progressCircle.r.baseVal.value * 2 * Math.PI;
-	progressCircle.style.strokeDashoffset =
-		circumference - (percent / 100) * circumference;
+	const interval = setInterval(() => {
+		var progressCircle = document.querySelector(src);
+		if (progressCircle) {
+			const circumference = progressCircle.r.baseVal.value * 2 * Math.PI;
+			progressCircle.style.strokeDashoffset =
+				circumference - (percent / 100) * circumference;
+			clearInterval(interval);
+		}
+	}, 10);
 };
 
 const ToggleWeapon = (weapon, checked) => {
@@ -229,18 +234,18 @@ const SetLoadout = (loadout, meta) => {
 const SetBattlepass = (rewards, collected, prefix) => {
 	for (let index = 0; index < rewards.length; index++) {
 		const reward = rewards[index];
-		const levelString = `${reward.level}`;
+		const indexString = `${index + 1}`;
 		$(`.bp-row.${prefix} .rewards`).append(`<div class="reward ${
-			collected[prefix][levelString]
+			collected[prefix][indexString]
 				? 'collected'
 				: reward.level <= level
 				? 'can'
 				: ''
 		}" ${
-			!collected[prefix][levelString] && reward.level < level
-				? `onclick="CollectReward(${reward.level}, '${prefix}')"`
+			!collected[prefix][indexString] && reward.level < level
+				? `onclick="CollectReward(${index + 1}, '${prefix}')"`
 				: ''
-		} id="${prefix}_${reward.level}">
+		} id="${prefix}_${index + 1}">
 			<h1 class="title">LEVEL ${reward.level}</h1>
 			<div class="info">
 				<img src="assets/img/items/${reward.name}.png">

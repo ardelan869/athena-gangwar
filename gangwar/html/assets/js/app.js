@@ -244,15 +244,24 @@ window.onload = () => {
 				break;
 			}
 			case 'AddQuest': {
-				const svgID = document.querySelectorAll('.quest').length + 1;
-				$(`<div class="quest flex_row_align">
-					<svg class="svg_circle" id="svg_${svgID}" viewBox="0 0 60 60">
-						<text x="30" y="38" style="font-size: 22;" class="akr_xbold">${i.progress}/${i.max}</text>
-						<circle bar cx="30" cy="30" r="25"></circle>
-						<circle prog cx="30" cy="30" r="25"></circle>
-					</svg>
-					<h1 class="akr_semi font_15">${i.quest}</h1>
-				</div>`).appendTo('.quests');
+				const id = `quest_${i.index}`;
+				const percent = (i.progress / i.max) * 100;
+				if (percent == 100) {
+					$('#'+id).addClass('slideOut');
+					setTimeout($('#'+id).remove(), 350);
+				} else {
+					if (!document.getElementById(id)) {
+						$(`<div class="quest flex_row_align" id="${id}">
+							<svg class="svg_circle" id="svg_${i.index}" viewBox="0 0 60 60">
+								<text x="30" y="38" style="font-size: 22;" id="text_${i.index}" class="akr_xbold">${i.progress}/${i.max}</text>
+								<circle bar cx="30" cy="30" r="25"></circle>
+								<circle prog cx="30" cy="30" r="25"></circle>
+							</svg>
+							<h1 class="akr_semi font_15">${i.description}</h1>
+						</div>`).appendTo('.quests');
+					} else $(`#text_${i.index}`).text(`${i.progress}/${i.max}`);
+					setSVG(percent);
+				}
 				break;
 			}
 			case 'AddNotify': {

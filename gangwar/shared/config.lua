@@ -1,6 +1,16 @@
+ADUTY_VARIANT = {
+    ['projektleitung'] = 0,
+    ['manager'] = 1,
+    ['entwickler'] = 6,
+    ['superadministrator'] = 7,
+    ['administrator'] = 8,
+    ['moderator'] = 4,
+    ['supporter'] = 5,
+}
+
 Config = {
-    BoosterRole = 'ROLE_ID', -- auch in index.js
     Debug = true,
+    BoosterRole = 'ROLE_ID', -- auch in index.js
     StartWeapons = {
         ['WEAPON_PISTOL'] = {
             components = {}
@@ -795,9 +805,7 @@ StringToHash = function(name)
 end
 
 Debug = function(...)
-    if Config.Debug then
-        return print('^7[^4DEBUG^7] | ' .. (...))
-    end
+    return Config.Debug and print('^7[^4DEBUG^7] | ' .. (...))
 end
 
 Error = function(...)
@@ -807,13 +815,3 @@ end
 Warning = function(...)
     return print('^0[^3WARNING^0] | ' .. (...))
 end
-
-ADUTY_VARIANT = {
-    ['projektleitung'] = 0,
-    ['manager'] = 1,
-    ['entwickler'] = 6,
-    ['superadministrator'] = 7,
-    ['administrator'] = 8,
-    ['moderator'] = 4,
-    ['supporter'] = 5,
-}

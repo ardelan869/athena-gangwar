@@ -10,7 +10,26 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
     player.xp = xp or 0
     player.static = static
     player.collected = collected
-    ATH.CachedIdentifiers[player.source] = ATH.GetAllIdentifiers(player.source)
+    
+    if not player.collected['free'] then
+        player.collected['free'] = {}
+    end
+    
+    if not player.collected['premium'] then
+        player.collected['premium'] = {}
+    end
+    
+    if not player.collected['quests'] then
+        player.collected['quests'] = {
+            ['1'] = false,
+            ['2'] = false,
+            ['3'] = false,
+        }
+    end
+    
+    if not player.collected['quest_progress'] then
+        player.collected['quest_progress'] = {}
+    end
     
     player.Emit = function(event, ...)
         TriggerClientEvent(event, player.source, ...)
@@ -145,17 +164,35 @@ function CreatePlayer(identifier, source, loadout, name, rank, kills, deaths, xp
     end
     
     player.Collect = function(type, index)
-        if not player.collected[type] then
-            player.collected[type] = {}
+        player.collected[type][tostring(index)] = true
+        
+        if
+            type == 'quests' and
+            Quests[index + 1] and
+            player.collected[type][tostring(index + 1)] == nil
+        then
+            player.collected[type][tostring(index + 1)] = false
         end
         
-        player.collected[type][tostring(index)] = true
+        player.Emit('ath:UpdateCollected', player.collected)
+    end
+    
+    player.Progress = function(index, max)
+        if not player.collected.quest_progress[tostring(index)] then
+            player.collected.quest_progress[tostring(index)] = 0
+        end
+        player.collected.quest_progress[tostring(index)] = player.collected.quest_progress[tostring(index)] + 1
+        
+        if player.collected.quest_progress[tostring(index)] == max then
+            player.Collect('quests', index)
+        end
+
         player.Emit('ath:UpdateCollected', player.collected)
     end
     
     player.GetCollected = function()
         return player.collected
     end
-
+    
     return player
 end

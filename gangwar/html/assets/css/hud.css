@@ -230,6 +230,36 @@
 	gap: 1vh;
 }
 
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translateX(-10vh);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0vh);
+	}
+}
+
+@keyframes slideOut {
+	from {
+		opacity: 1;
+		transform: translateX(0vh);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(-10vh);
+	}
+}
+
+.hud .quest_wrapper .quests .quest {
+	animation: slideIn 350ms forwards;
+}
+
+.slideOut {
+	animation: slideOut 350ms forwards;
+}
+
 .hud .quest_wrapper .quests .flex_row_align .svg_circle {
 	width: 4.63vh;
 	height: 4.63vh;

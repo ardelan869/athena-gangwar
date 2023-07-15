@@ -19,6 +19,19 @@ end)
 
 On('ath:UpdateCollected', function(collected)
     ATH.PlayerData.collected = collected
+
+    if collected.quests and type(collected.quests) == 'table' then
+        for _, quest in pairs(collected.quests) do
+            local QuestData = Quests[tonumber(_)]
+            SendNUIMessage({
+                action = 'AddQuest',
+                index = tonumber(_),
+                progress = collected.quest_progress[_] or 0,
+                max = QuestData.amount,
+                description = QuestData.description
+            })
+        end
+    end
 end)
 
 On('ath:UpdateRank', function(rank)
@@ -127,4 +140,3 @@ On('ath:SetDiscordData', function(avatar, username)
         username = username
     })
 end)
-
