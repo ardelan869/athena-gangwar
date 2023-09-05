@@ -1,3 +1,29 @@
+-- MySQL.ready(function()
+--     MySQL.query([[CREATE DATABASE IF NOT EXISTS `athena`;
+-- USE `athena`;
+
+-- CREATE TABLE IF NOT EXISTS `accounts` (
+--   `id` int(255) NOT NULL AUTO_INCREMENT,
+--   `username` varchar(255) DEFAULT NULL,
+--   `identifier` varchar(255) DEFAULT NULL,
+--   `loadout` longtext DEFAULT '[]',
+--   `rank` varchar(255) DEFAULT NULL,
+--   `xp` int(255) DEFAULT NULL,
+--   `kills` int(255) DEFAULT 0,
+--   `deaths` int(255) DEFAULT 0,
+--   `collected` longtext DEFAULT '{"free":{},"premium":{}}',
+--   PRIMARY KEY (`id`),
+--   UNIQUE KEY `id` (`id`),
+--   KEY `username` (`username`),
+--   KEY `identifier` (`identifier`),
+--   KEY `loadout` (`loadout`(768)),
+--   KEY `rank` (`rank`),
+--   KEY `xp` (`xp`),
+--   KEY `kills` (`kills`),
+--   KEY `deaths` (`deaths`)
+-- ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;]])
+-- end)
+
 RegisterNetEvent('ath:UpdateTeam', function(team)
     local s = source
     local Source = ATH.GetPlayer(s)
