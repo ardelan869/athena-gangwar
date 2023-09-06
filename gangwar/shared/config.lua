@@ -1,3 +1,5 @@
+GUILD_ID = 'DISCORD_SERVER_ID'
+
 ADUTY_VARIANT = {
     ['projektleitung'] = 0,
     ['manager'] = 1,

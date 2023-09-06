@@ -225,7 +225,7 @@ CreateThread(function()
 				or Debug('^2Webhook ^4'.._..'^2 ist valide.^0')
 		end, 'POST', '[]', {['Content-Type'] = 'application/json'})
 	end
-	PerformHttpRequest('https://discord.com/api/v10/guilds/1053084980391182386/roles', function(status, body, headers)
+	PerformHttpRequest('https://discord.com/api/v10/guilds/'..GUILD_ID..'/roles', function(status, body, headers)
 		if status == 200 then
 			for _, i in pairs(json.decode(body)) do
 				if ADUTY_VARIANT[i.name:lower()] then
