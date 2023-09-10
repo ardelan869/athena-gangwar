@@ -170,8 +170,6 @@ window.onload = () => {
 			}
 			case 'SetSettings': {
 				if (i.settings) SETTINGS = i.settings;
-				if (typeof SETTINGS.Weapons == 'array')
-					SETTINGS.Weapons = { test: true };
 
 				SetLoadout(i.loadout, i.meta);
 				ChangeForm(SETTINGS.Hitmarker.Form);

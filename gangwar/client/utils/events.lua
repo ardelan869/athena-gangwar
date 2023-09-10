@@ -51,7 +51,7 @@ On('ath:UpdatePlayers', function(players)
         action = 'UpdatePlayers',
         players = players
     })
-    SetDiscordAppId('1088789715295158354')
+    SetDiscordAppId(BOT_APP_ID)
     local kd = ATH.PlayerData.kills and (ATH.PlayerData.kills / ATH.PlayerData.deaths)
     SetRichPresence('KD: '..(kd and ('%02.2f'):format(kd) or '0.0')..'\nSpieler: '..players)
     SetDiscordRichPresenceAction(0, 'Discord', 'https://discord.gg/athenagw')
