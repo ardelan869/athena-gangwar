@@ -85,9 +85,9 @@ ATH.SavePlayers = function(cb)
 	if params[1] then
 		MySQL.prepare('UPDATE accounts SET rank=?, loadout=?, kills=?, deaths=?, xp=?, collected=? WHERE identifier=?',
 			params, function()
-			Debug(c .. ' Spieler wurden gespeichert. Dauer: ^1' .. os.difftime(start, os.time()) .. 's^0')
-			if cb then cb() end
-		end)
+				Debug(c .. ' Spieler wurden gespeichert. Dauer: ^1' .. os.difftime(start, os.time()) .. 's^0')
+				if cb then cb() end
+			end)
 	end
 end
 
@@ -251,7 +251,7 @@ ATH.GetDiscordData = function(s)
 	local userData = nil
 	local raw = {}
 	local userId = GetPlayerIdentifierByType(s, 'discord'):sub(#'discord:' + 1)
-	-- local userId = '924441177367904296'
+
 	if userId then
 		PerformHttpRequest('https://discord.com/api/v10/guilds/' .. GUILD_ID .. '/members/' .. userId,
 			function(status, body, headers)
@@ -263,9 +263,9 @@ ATH.GetDiscordData = function(s)
 					userData = {}
 				end
 			end, 'GET', '', {
-			['Authorization'] = 'Bot ' .. ATH.Token,
-			['Content-Type'] = 'application/json'
-		})
+				['Authorization'] = 'Bot ' .. ATH.Token,
+				['Content-Type'] = 'application/json'
+			})
 	else
 		userData = {}
 	end

@@ -73,7 +73,7 @@ RegisterNetEvent('ath:PlayerReady', function()
             Player.Emit('ath:PlayerJoined', Player, ATH.Teams)
         else
             MySQL.insert('INSERT INTO accounts (username, identifier) VALUES (?, ?)', { name, identifier }, function(r)
-                local Player = CreatePlayer(identifier, s, false, name, false, false, false, false, r, {})
+                local Player = CreatePlayer(identifier, s, Config.StartWeapons, name, false, false, false, false, r, {})
                 ATH.Players[s] = Player
                 TriggerEvent('ath:PlayerJoined', s, Player)
                 Player.Emit('ath:PlayerJoined', Player, ATH.Teams)
