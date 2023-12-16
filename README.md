@@ -1,1 +1,1 @@
-Danke Finn und Felix <3, voll cool
+Danke Finn <3, voll cool
